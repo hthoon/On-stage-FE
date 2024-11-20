@@ -1,25 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import AppRouter from "./router/Router";
+import {BrowserRouter} from "react-router-dom";
+import {AxiosContextProvider} from "./context/AxiosContext";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <AxiosContextProvider>
+                    <div className="Content">
+                        <AppRouter/>
+                    </div>
+                </AxiosContextProvider>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
