@@ -1,5 +1,7 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
 import {useAxios} from "./AxiosContext";
+import { useLocation } from 'react-router-dom';
+
 
 
 const LinkContext = createContext();
@@ -9,6 +11,9 @@ export const useLink = () => {
 
 export const LinkProvider = ({children}) => {
     const {axiosInstance} = useAxios();
+    const whitelistPaths = ['/test', '/management'];
+    const location = useLocation();
+
     const [link, setLink] = useState();
     const [linkDetail, setLinkDetail] = useState([]);
     const [socialLink, setSocialLink] = useState();
@@ -16,6 +21,9 @@ export const LinkProvider = ({children}) => {
 
 
     useEffect(() => {
+        if (!whitelistPaths.includes(location.pathname)) {
+            return;
+        }
         const userId = localStorage.getItem("userId"); // 수정 해야함
         axiosInstance.get(`/api/link/${userId}`)
             .then((response) => {
