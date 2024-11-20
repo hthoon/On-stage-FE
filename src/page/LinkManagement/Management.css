@@ -1,0 +1,28 @@
+.management-container {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* 왼쪽 패널 */
+.management-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    border: 2px solid #000000;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* 오른쪽 패널 */
+.display-panel {
+    display: flex;
+    margin-right: 5%; /*이거 있어야 오른쪽에 고정 됨*/
+    margin-top: 5%;
+
+
+    background-color: #ffffff;
+}
