@@ -1,14 +1,13 @@
 .linktree-container {
     display: flex;
-    min-height: 100vh;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f4;
+    height: 100%;
 }
 
 .linktree-background {
-    min-width: 390px;
-    min-height: 844px;
+    width: 300px;
+    height: 700px;
     padding: 20px;
     border-radius: 15px;
     background-size: cover;
@@ -17,10 +16,11 @@
     z-index: 0;
 }
 
+
 .profile-container {
     display: flex;
     justify-content: center;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 .linktree-share{
