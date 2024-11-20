@@ -1,6 +1,6 @@
 .management-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
 
     width: 100%;
     padding: 20px;
@@ -11,8 +11,10 @@
 .management-panel {
     display: flex;
     flex-direction: column;
-    flex: 3;
-    border: 2px solid #000000;
+    align-items: center;
+    width: 40%;
+    margin-top: 5%;
+    margin-left: 25%;
     padding: 20px;
     border-radius: 8px;
 }
@@ -20,9 +22,138 @@
 /* 오른쪽 패널 */
 .display-panel {
     display: flex;
-    margin-right: 5%; /*이거 있어야 오른쪽에 고정 됨*/
+    position: fixed;
+    right: 5%; /*이거 있어야 오른쪽에 고정 됨*/
+    /*margin-right: 5%; !*이거 있어야 오른쪽에 고정 됨*!*/
     margin-top: 5%;
 
 
     background-color: #ffffff;
+}
+
+.management-add-link-button{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 5%;
+    background-color: #7d5cf8;
+    border: transparent;
+    border-radius: 10px;
+    padding: 15px;
+
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+.management-add-link-button:hover{
+    background-color: #654adc;
+}
+
+.management-link-container{
+    width: 90%;
+}
+
+/* 링크 항목 스타일 */
+.link-item {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    align-items: center;
+}
+
+.link-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.link-divide{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    margin-left: 15px ;
+    padding: 10px;
+}
+
+.link-title {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.link-url {
+    padding: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.link-title,
+.link-url {
+    padding: 5px;
+    border: 1px dashed transparent;
+    outline: none;
+}
+
+.link-title:focus,
+.link-url:focus {
+    border-color: transparent;
+}
+
+.link-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toggle-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.trash-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.thumbnail-button {
+    background-color: #7d5cf8;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.thumbnail-button:hover {
+    background-color: #654adc;
+}
+
+.thumbnail-upload {
+    display: none;
+}
+
+.thumbnail-preview {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.edit-icon{
+    font-size: 14px;
+    margin-left: 15px;
+    color: #7e7e7e;
 }
