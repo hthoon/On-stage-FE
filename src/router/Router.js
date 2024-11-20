@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import LinkDisplay from "../components/LinkDisplay/LinkDisplay";
+import Management from "../page/LinkManagement/Management";
 
 function AppRouter() {
     return (
 
         <Routes>
-            <Route path="/test" element={<LinkDisplay />} />
+            <Route path="/test" element={<Management />} />
         </Routes>
     )
 
