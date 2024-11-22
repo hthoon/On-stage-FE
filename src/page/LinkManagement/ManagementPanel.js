@@ -105,27 +105,28 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
 
     return (
         <div className="management-panel">
-            {!showForm ? (
+            {links.length < 10 && !showForm && ( // 링크 개수가 10개 미만일 때만 "add link" 버튼 표시
                 <button
                     className="management-add-link-button"
                     onClick={() => setShowForm(true)}
                 >
-                    <IoMdAdd/> add link
+                    <IoMdAdd /> add link
                 </button>
-            ) : (
+            )}
+            {showForm && (
                 <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
                     <input
                         type="text"
                         placeholder="Title"
                         value={newLink.title}
-                        onChange={(e) => setNewLink({...newLink, title: e.target.value})}
+                        onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
                         className="form-input"
                     />
                     <input
                         type="text"
                         placeholder="URL"
                         value={newLink.url}
-                        onChange={(e) => setNewLink({...newLink, url: e.target.value})}
+                        onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
                         className="form-input"
                     />
                     <button onClick={handleAddLink} className="form-add-button">
@@ -143,9 +144,7 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
                         <div className="link-left">
                             <div className="link-divide">
                                 <span
-                                    className={`link-title ${
-                                        editingId === link.id ? "editing" : ""
-                                    }`}
+                                    className={`link-title ${editingId === link.id ? "editing" : ""}`}
                                     contentEditable={editingId === link.id}
                                     suppressContentEditableWarning
                                     onBlur={(e) => {
@@ -174,7 +173,7 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
                                 onClick={() => handleDeleteLink(link)}
                                 className="trash-button"
                             >
-                                <IoMdTrash/>
+                                <IoMdTrash />
                             </button>
                         </div>
                     </div>

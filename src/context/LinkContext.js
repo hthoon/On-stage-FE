@@ -36,7 +36,7 @@ export const LinkProvider = ({children}) => {
             .catch((error) => {
                 console.log(error);
             })
-    }, [axiosInstance]);
+    }, [axiosInstance, setLinks]);
 
 
 

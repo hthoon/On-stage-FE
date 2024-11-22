@@ -32,31 +32,39 @@ const LinkDisplay = () => {
                 <h6 className="linktree-description"> 카리나는요? </h6>
 
                 {/*메인 섹션*/}
-                <div className="linktree-links">
-                    {sortedLinks.map((link, index) => (
-                        <a key={index} href={link.url} target="_blank" rel="noopener noreferrer" className="linktree-button">
-                            {link.title}
-                        </a>))}
-                </div>
+                <div className="linktree-content">
+                    <div className="linktree-links">
+                        {sortedLinks.map((link, index) => (
+                            <a key={index} href={link.url} target="_blank" rel="noopener noreferrer"
+                               className="linktree-button">
+                                {link.title}
+                            </a>))}
+                    </div>
 
+
+                </div>
                 {/*소셜 섹션*/}
                 <div className="linktree-socials">
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
+                       className="social-icon">
                         <FaInstagram/>
                     </a>
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
+                       className="social-icon">
                         <SlSocialSpotify/>
                     </a>
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
+                       className="social-icon">
                         <FaXTwitter/>
                     </a>
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
+                       className="social-icon">
                         <PiTiktokLogo/>
                     </a>
 
                 </div>
             </div>
         </div>
-    );
-};
-export default LinkDisplay;
+            );
+            };
+            export default LinkDisplay;
