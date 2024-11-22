@@ -14,8 +14,8 @@ export const LinkProvider = ({children}) => {
     const whitelistPaths = ['/test', '/management'];
     const location = useLocation();
 
-    const [link, setLink] = useState();
-    const [linkDetail, setLinkDetail] = useState([]);
+    const [links, setLinks] = useState([]);
+    const [linkDetails, setLinkDetails] = useState([]);
     const [socialLink, setSocialLink] = useState();
     const [theme, setTheme] = useState();
 
@@ -24,11 +24,12 @@ export const LinkProvider = ({children}) => {
         if (!whitelistPaths.includes(location.pathname)) {
             return;
         }
-        const userId = localStorage.getItem("userId"); // 수정 해야함
-        axiosInstance.get(`/api/link/${userId}`)
+        const userId = 1; // 수정 해야함
+        axiosInstance.get(`/api/link/${userId}`, {id: userId})
             .then((response) => {
-                setLink(response.data.link);
-                setLinkDetail(response.data.details);
+                console.log(response);
+                setLinks(response.data.link);
+                setLinkDetails(response.data.details);
                 setSocialLink(response.data.socialLink);
                 setTheme(response.data.theme);
             })
@@ -37,8 +38,10 @@ export const LinkProvider = ({children}) => {
             })
     }, [axiosInstance]);
 
+
+
     return (
-        <LinkContext.Provider value={{ link, linkDetail, socialLink, theme }}>
+        <LinkContext.Provider value={{ links, setLinks, linkDetails, socialLink, theme }}>
             {children}
         </LinkContext.Provider>
     )
