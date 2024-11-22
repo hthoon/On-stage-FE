@@ -21,10 +21,21 @@ const Management = () => {
         );
     };
 
+    const createLink = async (link) => {
+        const response = await axiosInstance.post(`/api/link`,link);
+        return response.data;
+    }
+
+    const deleteLink = async (id) => {
+        await axiosInstance.delete(`/api/link/${id}`);
+    }
+
     return (
         <div className="management-container">
             <ManagementPannel
                 updateLink={updateLink}
+                createLink={createLink}
+                deleteLink={deleteLink}
             />
 
             {/* 디스플레이 패널 */}
