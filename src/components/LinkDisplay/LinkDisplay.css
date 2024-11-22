@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    overflow: hidden; /* 배경과 다른 요소가 스크롤 되지 않도록 */
 }
 
 .linktree-background {
@@ -13,6 +14,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     z-index: 0;
 }
 
@@ -34,6 +36,27 @@
     font-size: 1.6rem;
     font-weight: bold;
 }
+
+.linktree-content {
+    position: relative;
+    max-height: 350px; /* 화면 크기에서 프로필 영역 크기 제외 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    z-index: 1; /* 배경보다 위에 표시 */
+}
+/* 스크롤바 숨기기 */
+.linktree-content::-webkit-scrollbar {
+    width: 0px; /* 가로 스크롤바 숨기기 */
+    height: 0px; /* 세로 스크롤바 숨기기 */
+}
+
+.linktree-content::-webkit-scrollbar-thumb {
+    background: transparent; /* 스크롤바 thumb의 색을 투명하게 설정 */
+}
+
+.linktree-content::-webkit-scrollbar-track {
+    background: transparent; /* 스크롤바 트랙도 투명하게 설정 */
+}
+
 
 .profile-image {
     width: 100px; /* 프로필 이미지 크기 */
