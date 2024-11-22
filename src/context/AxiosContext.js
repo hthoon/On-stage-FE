@@ -12,48 +12,8 @@ export const AxiosContextProvider = ({children}) => {
         headers: { "Content-Type": "application/json" },
     });
 
-    // 요청 인터셉터 설정
-    // axiosInstance.interceptors.request.use(
-    //     (config) => {
-    //         if (accessToken) {
-    //             config.headers["Authorization"] = `Bearer ${accessToken}`;
-    //         }
-    //         return config;
-    //     },
-    //     (error) => Promise.reject(error)
-    // );
-    //
-
-    // 응답 인터셉터 설정
-    // axiosInstance.interceptors.response.use(
-    //     (response) => response,
-    //     async (error) => {
-    //         const originalRequest = error.config;
-    //         if (error.response?.status === 401 && refreshToken && !originalRequest._retry) {
-    //             originalRequest._retry = true;
-    //             try {
-    //                 const { data } = await axiosInstance.post("/api/user/refresh", {
-    //                     refresh_token: refreshToken,
-    //                     access_token: accessToken,
-    //                     userId: null
-    //                 });
-    //                 const newAccessToken = data.access_token;
-    //                 updateTokens(newAccessToken, refreshToken);
-    //                 originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-    //                 return axiosInstance(originalRequest);
-    //             } catch (err) {
-    //                 console.error("리프레시 토큰 만료:", err);
-    //                 logout();
-    //             }
-    //         }
-    //         return Promise.reject(error);
-    //     }
-    // );
-
-
-
     return (
-        <AxiosContext.Provider value={axiosInstance}>
+        <AxiosContext.Provider value={{axiosInstance}}>
             {children}
         </AxiosContext.Provider>
     );
