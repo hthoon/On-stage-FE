@@ -1,44 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./Management.css";
 import { IoMdAdd, IoMdTrash } from "react-icons/io";
 import { SlPencil } from "react-icons/sl";
-import {useLink} from "../../context/LinkContext";
+import { useLink } from "../../context/LinkContext";
+import {sortLinksByPrevId} from "../../utils/sortLinks";
 
 const ManagementPanel = ({ updateLink }) => {
-    const { links, setLinks, linkDetails, socialLink, theme } = useLink();
+    const { links, setLinks } = useLink();
     const [editingId, setEditingId] = useState(null);
+    const [showForm, setShowForm] = useState(false);
+    const [newLink, setNewLink] = useState({ title: "", url: "" });
+    const [isClosing, setIsClosing] = useState(false);
+    const sortedLinks = sortLinksByPrevId(links);
 
     const handleEdit = async (id, field, value) => {
-        // 먼저 로컬 상태에서 링크를 업데이트
-        const updatedLinks = links.map(link =>
+        const updatedLinks = links.map((link) =>
             link.id === id ? { ...link, [field]: value } : link
         );
 
         setLinks(updatedLinks);
 
-        // 서버에 링크 업데이트 요청
-        const updatedLink = updatedLinks.find(link => link.id === id);
+        const updatedLink = updatedLinks.find((link) => link.id === id);
         if (updatedLink) {
             await updateLink(updatedLink);
         }
 
-        // 편집 모드 종료
         setEditingId(null);
     };
 
+    const handleAddLink = () => {
+        if (!newLink.title || !newLink.url) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        const newLinkData = {
+            id: Date.now(),
+            title: newLink.title,
+            url: newLink.url,
+        };
+
+        setLinks([...links, newLinkData]);
+        setNewLink({ title: "", url: "" });
+        setShowForm(false);
+    };
+
+    const handleCancel = () => {
+        setIsClosing(true);
+        setTimeout(() => {
+            setShowForm(false);
+            setIsClosing(false);
+        }, 300);
+    };
 
     return (
         <div className="management-panel">
-            <button className="management-add-link-button"><IoMdAdd /> add link</button>
+            {!showForm ? (
+                <button
+                    className="management-add-link-button"
+                    onClick={() => setShowForm(true)}
+                >
+                    <IoMdAdd /> add link
+                </button>
+            ) : (
+                <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
+                    <input
+                        type="text"
+                        placeholder="Title"
+                        value={newLink.title}
+                        onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
+                        className="form-input"
+                    />
+                    <input
+                        type="text"
+                        placeholder="URL"
+                        value={newLink.url}
+                        onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
+                        className="form-input"
+                    />
+                    <button onClick={handleAddLink} className="form-add-button">
+                        Add
+                    </button>
+                    <button onClick={handleCancel} className="form-cancel-button">
+                        Cancel
+                    </button>
+                </div>
+            )}
 
             <div className="management-link-container">
-                {links.map(link => (
+                {sortedLinks.map((link) => (
                     <div key={link.id} className="link-item">
                         <div className="link-left">
                             <div className="link-divide">
-                                {/* 링크 제목 */}
                                 <span
-                                    className={`link-title ${editingId === link.id ? "editing" : ""}`}
+                                    className={`link-title ${
+                                        editingId === link.id ? "editing" : ""
+                                    }`}
                                     contentEditable={editingId === link.id}
                                     suppressContentEditableWarning
                                     onBlur={(e) => {
@@ -60,12 +117,13 @@ const ManagementPanel = ({ updateLink }) => {
                                         />
                                     )}
                                 </span>
-
                             </div>
                         </div>
-
                         <div className="link-right">
-                            <button onClick={() => setLinks(links.filter(l => l.id !== link.id))} className="trash-button">
+                            <button
+                                onClick={() => setLinks(links.filter((l) => l.id !== link.id))}
+                                className="trash-button"
+                            >
                                 <IoMdTrash />
                             </button>
                         </div>

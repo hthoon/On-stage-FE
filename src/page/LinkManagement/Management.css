@@ -163,3 +163,96 @@
     margin-left: 15px;
     color: #7e7e7e;
 }
+
+
+/* Add link form with slide-down animation */
+.add-link-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0;
+    margin-top: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    animation: slideDown 0.3s ease-out;
+    width: 90%;
+}
+
+/* Add fade-out and slide-up animation */
+.add-link-form.hide {
+    animation: slideUp 0.3s ease-in;
+}
+
+/* Input fields in the form */
+.form-input {
+    width: 90%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+/* Input field focus effect */
+.form-input:focus {
+    border: 2px solid #090909;
+}
+
+/* Buttons in the form */
+.form-add-button, .form-cancel-button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    width: 90%;
+}
+
+/* Add button styling */
+.form-add-button {
+    background-color: #7d5cf8;
+    color: white;
+}
+
+.form-add-button:hover {
+    background-color: #654adc;
+}
+
+/* Cancel button styling */
+.form-cancel-button {
+    background-color: #ccc;
+    color: #333;
+}
+
+.form-cancel-button:hover {
+    background-color: #999;
+}
+
+/* Slide-down animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide-up animation */
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
