@@ -1,6 +1,7 @@
 .management-container {
     display: flex;
     justify-content: left;
+    min-width: 1500px;
 
     width: 100%;
     padding: 20px;
@@ -30,19 +31,21 @@
 
     background-color: #ffffff;
 }
+
 /* 화면 너비가 768px 이하일 때 패널 숨기기 */
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1800px) {
     .display-panel {
         display: none; /* 패널 숨기기 */
     }
 }
 
-.add-link-panel{
+.add-link-panel {
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.management-add-link-button{
+
+.management-add-link-button {
     width: 90%;
     display: flex;
     justify-content: center;
@@ -58,11 +61,12 @@
     font-size: 17px;
     font-weight: bold;
 }
-.management-add-link-button:hover{
+
+.management-add-link-button:hover {
     background-color: #654adc;
 }
 
-.management-link-container{
+.management-link-container {
     width: 90%;
 }
 
@@ -77,12 +81,13 @@
     border: 1px solid #ddd;
     border-radius: 15px;
     align-items: center;
-    position:relative;
+    position: relative;
 
     transition: min-height 0.7s ease, padding 0.3s ease;
     overflow: hidden;
     min-height: 90px; /* 기본 높이 */
 }
+
 .link-item.expanded {
     min-height: 400px; /* 확장된 높이 */
     padding: 15px; /* 확장된 패딩 */
@@ -94,12 +99,12 @@
     gap: 10px;
 }
 
-.link-divide{
+.link-divide {
     display: flex;
     flex-direction: column;
     align-items: start;
 
-    margin-left: 15px ;
+    margin-left: 15px;
     padding: 10px;
 }
 
@@ -147,6 +152,7 @@
     font-size: 20px;
     padding: 9px 7px 7px;
 }
+
 .trash-button:hover {
     background-color: rgba(225, 225, 225, 0.6);
     border-radius: 10px;
@@ -177,18 +183,19 @@
     border-radius: 5px;
 }
 
-.edit-icon{
-    font-size: 14px;
+.edit-icon {
+    font-size: 15px;
     margin-left: 15px;
     color: #7e7e7e;
 }
 
 
-.add-link-icon{
+.add-link-icon {
     margin-right: 7px;
     font-size: 20px;
     font-weight: bold;
 }
+
 /* Add link form with slide-down animation */
 .add-link-form {
     display: flex;
@@ -211,18 +218,18 @@
 }
 
 /* Input fields in the form */
-.form-input {
-    width: 90%;
+.add-link-form-input {
+    width: 85%;
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 20px;
     outline: none;
     transition: border-color 0.3s;
 }
 
 /* Input field focus effect */
-.form-input:focus {
+.add-link-form-input:focus {
     border: 2px solid #090909;
 }
 
@@ -328,7 +335,7 @@ input:checked + .slider:before {
     transform: translateX(14px);
 }
 
-.link-bottom-icons{
+.link-bottom-icons {
     display: flex;
     margin-top: 10px;
     padding: 8px;
@@ -357,15 +364,16 @@ input:checked + .slider:before {
 
 /* 확장된 영역: link-details */
 .link-details {
-    width: 90%;
-    margin-top: 10px;
+    border: 1px solid #d5d5d5;
+    width: 95%;
     padding: 10px;
     border-radius: 10px;
     animation: fadeIn 1.0s ease;
 }
 
-/* 애니메이션 */
+
 @keyframes fadeIn {
+    /* 애니메이션 */
     from {
         opacity: 0;
         transform: translateY(-20px);
@@ -377,7 +385,31 @@ input:checked + .slider:before {
 }
 
 
-/* 기타 버튼 및 스위치 스타일 */
 .toggle-switch {
     margin-right: 10px;
+}
+
+.link-details-message-title {
+    display: flex;
+    justify-content: start;
+    margin-left: 10px;
+    margin-bottom: 0;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+
+.link-details-message {
+    display: flex;
+    justify-content: start;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 16px;
+    color: #7e7e7e;
+}
+
+.link-details-list {
+    border: 1px solid #d5d5d5;
+    padding: 20px;
+    border-radius: 10px;
 }

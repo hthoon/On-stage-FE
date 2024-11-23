@@ -6,6 +6,7 @@ import {SlPencil} from "react-icons/sl";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
 import {IoImageOutline} from "react-icons/io5";
 import DetailManagement from "./DetailManagement";
+import {FiEdit3} from "react-icons/fi";
 
 const ManagementPanel = ({updateLink, deleteLink}) => {
     const {links, setLinks} = useLink();
@@ -91,7 +92,7 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                         >
                             {link.title}
                             {editingId !== link.id && (
-                                <SlPencil
+                                <FiEdit3
                                     className="edit-icon"
                                     onClick={() => setEditingId(link.id)}
                                 />

@@ -10,7 +10,7 @@ const AddLinkPanel = (updateLink, createLink) => {
     const [isClosing, setIsClosing] = useState(false);
 
     const handleAddLink = async () => {
-        if (!newLink.title || !newLink.url) {
+        if (!newLink.title) {
             alert("Please fill in all fields.");
             return;
         }
@@ -22,10 +22,7 @@ const AddLinkPanel = (updateLink, createLink) => {
             prevLinkId: null, // 새 링크는 맨 앞에
             layout: "CLASSIC",
             active: true,
-            details: [{
-                url: newLink.url,
-                platform: "INSTAGRAM",
-            }],
+            details: [],
         });
         const {id: newLinkId} = createdLink;
         // 2. 기존 맨 앞 링크의 id 가져오기
@@ -70,17 +67,10 @@ const AddLinkPanel = (updateLink, createLink) => {
                 <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
                     <input
                         type="text"
-                        placeholder="Title"
+                        placeholder="제목을 입력하세요"
                         value={newLink.title}
                         onChange={(e) => setNewLink({...newLink, title: e.target.value})}
-                        className="form-input"
-                    />
-                    <input
-                        type="text"
-                        placeholder="URL"
-                        value={newLink.url}
-                        onChange={(e) => setNewLink({...newLink, url: e.target.value})}
-                        className="form-input"
+                        className="add-link-form-input"
                     />
                     <button onClick={handleAddLink} className="form-add-button">
                         Add
