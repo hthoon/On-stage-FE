@@ -4,6 +4,7 @@ import "./Management.css";
 import ManagementPannel from "./ManagementPanel";
 import {useAxios} from "../../context/AxiosContext";
 import {useLink} from "../../context/LinkContext";
+import AddLinkPanel from "./AddLinkPanel";
 
 const Management = () => {
     const {axiosInstance} = useAxios();
@@ -32,19 +33,25 @@ const Management = () => {
 
     return (
         <div className="management-container">
-            <ManagementPannel
-                updateLink={updateLink}
-                createLink={createLink}
-                deleteLink={deleteLink}
-            />
-
-            {/* 디스플레이 패널 */}
-            <div className="display-panel">
-                <LinkDisplay/>
+            <div className="management-panel">
+                <AddLinkPanel
+                    updateLink={updateLink}
+                    createLink={createLink}
+                />
+                <ManagementPannel
+                    updateLink={updateLink}
+                    createLink={createLink}
+                    deleteLink={deleteLink}
+                />
             </div>
-        </div>
-    )
 
-};
-export default Management;
+                {/* 디스플레이 패널 */}
+                <div className="display-panel">
+                    <LinkDisplay/>
+                </div>
+            </div>
+            )
+
+            };
+            export default Management;
 

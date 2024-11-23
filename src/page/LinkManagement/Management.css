@@ -1,6 +1,7 @@
 .management-container {
     display: flex;
     justify-content: left;
+    min-width: 1500px;
 
     width: 100%;
     padding: 20px;
@@ -30,22 +31,29 @@
 
     background-color: #ffffff;
 }
+
 /* 화면 너비가 768px 이하일 때 패널 숨기기 */
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1800px) {
     .display-panel {
         display: none; /* 패널 숨기기 */
     }
 }
 
-.management-add-link-button{
+.add-link-panel {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.management-add-link-button {
     width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    margin-top: 5%;
     background-color: #7d5cf8;
-    border: transparent;
+    border: none;
+
     border-radius: 10px;
     padding: 15px;
 
@@ -53,27 +61,36 @@
     font-size: 17px;
     font-weight: bold;
 }
-.management-add-link-button:hover{
+
+.management-add-link-button:hover {
     background-color: #654adc;
 }
 
-.management-link-container{
+.management-link-container {
     width: 90%;
 }
 
 /* 링크 항목 스타일 */
 .link-item {
     display: flex;
-    justify-content: space-between;
-
+    flex-direction: column;
+    /*justify-content: space-between;*/
     margin-top: 15px;
     margin-bottom: 15px;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 15px;
     align-items: center;
+    position: relative;
 
-    position:relative;
+    transition: min-height 0.4s ease, padding 0.3s ease;
+    overflow: hidden;
+    min-height: 90px; /* 기본 높이 */
+}
+
+.link-item.expanded {
+    min-height: 250px; /* 확장된 높이 */
+    padding: 15px; /* 확장된 패딩 */
 }
 
 .link-left {
@@ -82,12 +99,12 @@
     gap: 10px;
 }
 
-.link-divide{
+.link-divide {
     display: flex;
     flex-direction: column;
     align-items: start;
 
-    margin-left: 15px ;
+    margin-left: 15px;
     padding: 10px;
 }
 
@@ -128,11 +145,19 @@
     font-size: 18px;
 }
 
-.trash-button {
+.detail-trash-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 23px;
+    padding: 9px 7px 7px;
+}
+
+
+.detail-trash-button:hover {
+    background-color: rgba(225, 225, 225, 0.6);
+    border-radius: 10px;
+    padding: 9px 7px 7px;
 }
 
 .thumbnail-button {
@@ -159,12 +184,18 @@
     border-radius: 5px;
 }
 
-.edit-icon{
-    font-size: 14px;
+.edit-icon {
+    font-size: 15px;
     margin-left: 15px;
     color: #7e7e7e;
 }
 
+
+.add-link-icon {
+    margin-right: 7px;
+    font-size: 20px;
+    font-weight: bold;
+}
 
 /* Add link form with slide-down animation */
 .add-link-form {
@@ -188,18 +219,18 @@
 }
 
 /* Input fields in the form */
-.form-input {
-    width: 90%;
+.add-link-form-input {
+    width: 85%;
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 20px;
     outline: none;
     transition: border-color 0.3s;
 }
 
 /* Input field focus effect */
-.form-input:focus {
+.add-link-form-input:focus {
     border: 2px solid #090909;
 }
 
@@ -217,6 +248,7 @@
 /* Add button styling */
 .form-add-button {
     background-color: #7d5cf8;
+    font-weight: bold;
     color: white;
 }
 
@@ -227,6 +259,7 @@
 /* Cancel button styling */
 .form-cancel-button {
     background-color: #ccc;
+    font-weight: bold;
     color: #333;
 }
 
@@ -256,5 +289,175 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #7d5cf8;
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px);
+}
+
+.link-bottom-icons {
+    display: flex;
+    margin-top: 10px;
+    padding: 8px;
+    gap: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* 확장 상태 */
+.link-item.expanded {
+    padding-bottom: 20px;
+}
+
+/* link-header: 좌우로 배치 */
+.link-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+
+/* 확장된 영역: link-details */
+.link-details {
+    width: 95%;
+    padding: 10px;
+    border-radius: 10px;
+    animation: fadeIn 1.0s ease;
+}
+
+
+@keyframes fadeIn {
+    /* 애니메이션 */
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.toggle-switch {
+    margin-right: 10px;
+}
+
+.link-details-message-title {
+    display: flex;
+    justify-content: start;
+    margin-left: 10px;
+    margin-bottom: 0;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+
+.link-details-message {
+    display: flex;
+    justify-content: start;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 16px;
+    color: #7e7e7e;
+}
+
+.link-details-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #d5d5d5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: scale 0.3s;
+
+}
+.link-details-list:hover {
+    scale: 1.02;
+}
+
+
+.management-add-service-button {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #737373;
+    border: none;
+    color: white;
+    border-radius: 25px;
+    padding: 15px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    transition: background-color 0.7s ease;
+}
+
+.management-add-service-button:hover {
+    background-color: #654adc;
+    color: white;
+}
+
+.link-add-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 9px 7px 7px;
+
+}
+.link-add-btn:hover {
+    background-color: rgba(225, 225, 225, 0.6);
+    border-radius: 10px;
+    padding: 9px 7px 7px;
 }
 
