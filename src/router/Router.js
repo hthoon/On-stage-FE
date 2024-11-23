@@ -6,7 +6,7 @@ function AppRouter() {
     return (
 
         <Routes>
-            <Route path="/test" element={<Management />} />
+            <Route path="/management" element={<Management />} />
         </Routes>
     )
 
