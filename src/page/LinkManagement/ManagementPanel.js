@@ -5,7 +5,7 @@ import {SlPencil} from "react-icons/sl";
 import {useLink} from "../../context/LinkContext";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
 
-const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
+const ManagementPanel = ({updateLink, createLink, deleteLink}) => {
     const {links, setLinks} = useLink();
     const [editingId, setEditingId] = useState(null);
     const [showForm, setShowForm] = useState(false);
@@ -41,8 +41,9 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
             details: [{
                 url: newLink.url,
                 platform: "INSTAGRAM",
-            }],});
-        const { id: newLinkId } = createdLink;
+            }],
+        });
+        const {id: newLinkId} = createdLink;
         // 2. 기존 맨 앞 링크의 id 가져오기
         const currentFirstLink = links.find((link) => link.prevLinkId === null);
         if (currentFirstLink) {
@@ -71,7 +72,7 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
 
             if (nextLink) {
                 // 3. 다음 링크의 prevLinkId를 null로 설정
-                const updatedNextLink = { ...nextLink, prevLinkId: null };
+                const updatedNextLink = {...nextLink, prevLinkId: null};
                 await updateLink(updatedNextLink); // 서버에서 업데이트 요청
             }
         } else {
@@ -81,7 +82,7 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
 
             if (previousLink && nextLink) {
                 // 5. 다음 링크의 prevLinkId를 이전 링크로 설정
-                const updatedNextLink = { ...nextLink, prevLinkId: previousLink.id };
+                const updatedNextLink = {...nextLink, prevLinkId: previousLink.id};
                 await updateLink(updatedNextLink); // 서버에서 업데이트 요청
             }
         }
@@ -93,6 +94,24 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
         setLinks(links.filter((link) => link.id !== linkToDelete.id));
     };
 
+    const handleToggleLink = async (link) => {
+        try {
+            link.active = !link.active;
+            await updateLink(link);
+
+            setLinks((prevLinks) =>
+                prevLinks.map((item) =>
+                    item.id === link.id ? {...item, active: link.active} : item
+                )
+            );
+        }
+        catch (error) {
+            console.error(error);
+            // 상태를 원래대로 되돌리기
+            link.active = !link.active;
+        }
+
+    }
 
 
     const handleCancel = () => {
@@ -110,7 +129,7 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
                     className="management-add-link-button"
                     onClick={() => setShowForm(true)}
                 >
-                    <IoMdAdd /> add link
+                    <IoMdAdd/> add link
                 </button>
             )}
             {showForm && (
@@ -119,14 +138,14 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
                         type="text"
                         placeholder="Title"
                         value={newLink.title}
-                        onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
+                        onChange={(e) => setNewLink({...newLink, title: e.target.value})}
                         className="form-input"
                     />
                     <input
                         type="text"
                         placeholder="URL"
                         value={newLink.url}
-                        onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
+                        onChange={(e) => setNewLink({...newLink, url: e.target.value})}
                         className="form-input"
                     />
                     <button onClick={handleAddLink} className="form-add-button">
@@ -169,11 +188,19 @@ const ManagementPanel = ({ updateLink, createLink, deleteLink }) => {
                             </div>
                         </div>
                         <div className="link-right">
+                            <label className="toggle-switch">
+                                <input
+                                    type="checkbox"
+                                    checked={link.active} // 예시로 `isActive` 속성을 사용
+                                    onChange={() => handleToggleLink(link)}
+                                />
+                                <span className="slider"></span>
+                            </label>
                             <button
                                 onClick={() => handleDeleteLink(link)}
                                 className="trash-button"
                             >
-                                <IoMdTrash />
+                                <IoMdTrash/>
                             </button>
                         </div>
                     </div>
