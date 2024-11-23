@@ -123,7 +123,7 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                             </label>
                             <button
                                 onClick={() => handleDeleteLink(link)}
-                                className="trash-button"
+                                className="detail-trash-button"
                             >
                                 <LuTrash2/>
                             </button>

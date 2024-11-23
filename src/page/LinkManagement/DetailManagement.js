@@ -3,9 +3,11 @@ import "./Management.css";
 import "./DetailModal.css";
 import {HiChevronLeft, HiPlus} from "react-icons/hi";
 import {IoMdClose} from "react-icons/io";
-import {getDomainType, mapServiceTypeToKorean} from "../../utils/AnalysisURL";
+import {getDomainType, mapServiceTypeToKorean, mapServiceTypeToIcon} from "../../utils/AnalysisURL";
 import {useAxios} from "../../context/AxiosContext";
 import {useLink} from "../../context/LinkContext";
+import {LuTrash2} from "react-icons/lu";
+import {FiEdit3} from "react-icons/fi";
 
 const DetailManagement = ({link}) => {
     const {axiosInstance} = useAxios();
@@ -72,14 +74,29 @@ const DetailManagement = ({link}) => {
         setIsValidURL(type !== "INVALID" && type !== "NULL");
     };
 
+    const handleDeleteDetail = async (detailId) => {
+        try {
+            await axiosInstance.delete(`/api/link-detail/${detailId}`)
+            setDetails((prevDetails) => prevDetails.filter((detail) => detail.id !== detailId));
+            setLinks((prevLinks) =>
+                prevLinks.map((item) =>
+                    item.id === link.id
+                        ? {...item, details: item.details.filter((detail) => detail.id !== detailId)}
+                        : item
+                )
+            );
+            setIsModalOpen(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleSave = async () => {
         if (!isValidURL || isSubmitting || !link?.id) return;
         setIsSubmitting(true);
-
         try {
             if (mode === CREATE) {
                 // 생성 모드
-                console.log(linkId)
                 const response = await axiosInstance.post(`/api/link-detail/${linkId}`, {
                     url: inputURL,
                     platform: serviceType,
@@ -122,7 +139,6 @@ const DetailManagement = ({link}) => {
             setIsSubmitting(false);
         }
     };
-
     return (
         <div className="link-details">
             <p className="link-details-message-title">Link</p>
@@ -131,9 +147,27 @@ const DetailManagement = ({link}) => {
                 <p>No details available for this link.</p>
             ) : (
                 details.map((detail, index) => (
-                    <div key={index} className="link-details-list"
-                         onClick={() => openModal(detail)}>
-                        <p>{detail.url}</p>
+                    <div key={index} className="link-details-list">
+                        <div className="link-details-platform">
+                        <span className="service-icon">
+                            {mapServiceTypeToIcon(detail.platform)}
+                        </span>
+                            <p className="service-platform">{mapServiceTypeToKorean(detail.platform)}</p>
+                        </div>
+                        <div>
+                            <button
+                                onClick={() => openModal(detail)}
+                                className="detail-trash-button "
+                            >
+                                <FiEdit3/>
+                            </button>
+                            <button
+                                onClick={() => handleDeleteDetail(detail.id)}
+                                className="detail-trash-button"
+                            >
+                                <LuTrash2/>
+                            </button>
+                        </div>
 
                     </div>
                 ))
@@ -141,8 +175,7 @@ const DetailManagement = ({link}) => {
             <div>
                 <button
                     className="management-add-service-button"
-                    onClick={() => openModal()}
-                >
+                    onClick={() => openModal()}>
                     <HiPlus className="add-link-icon"/> 서비스 추가
                 </button>
             </div>
@@ -165,8 +198,7 @@ const DetailManagement = ({link}) => {
                                 placeholder="URL"
                                 className="detail-modal-input"
                                 value={inputURL}
-                                onChange={handleInputChange}
-                            />
+                                onChange={handleInputChange}/>
                             {serviceType && (
                                 <p className="service-type-result">
                                     {translatedServiceType}
@@ -175,19 +207,10 @@ const DetailManagement = ({link}) => {
                         </div>
                         <button
                             type="submit"
-                            className={`management-detail-submit-button ${
-                                isValidURL ? "" : "disabled-button"
-                            }`}
+                            className={`management-detail-submit-button ${isValidURL ? "" : "disabled-button"}`}
                             disabled={!isValidURL || isSubmitting}
-                            onClick={handleSave}
-                        >
-                            {isSubmitting
-                                ? "저장 중..."
-                                : isValidURL
-                                    ? mode === CREATE
-                                        ? "추가"
-                                        : "수정"
-                                    : "URL을 확인하세요"}
+                            onClick={handleSave}>
+                            {isSubmitting ? "저장 중..." : isValidURL ? mode === CREATE ? "추가" : "수정" : "URL을 확인하세요"}
                         </button>
                     </div>
                 </div>

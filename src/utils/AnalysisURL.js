@@ -1,3 +1,6 @@
+// 서비스 타입을 아이콘으로 매핑하는 함수
+import { FaTiktok, FaInstagram, FaFacebook, FaTwitter, FaSpotify, FaYoutube, FaApple, FaTwitch } from "react-icons/fa";
+import {SiNotion, SiSoundcloud} from "react-icons/si";
 
 // URL 분석 함수
 export const getDomainType = (url) => {
@@ -44,4 +47,48 @@ export const mapServiceTypeToKorean = (type) => {
         INVALID: "잘못된 URL 형식"
     };
     return typeToKorean[type] || "지원하지 않는 서비스";
+};
+
+// // 서비스 타입을 이미지로 매핑하는 함수
+// export const mapServiceTypeToImage = (platform) => {
+//     const platformToImage = {
+//         TIKTOK: "/images/tiktok.png",
+//         INSTAGRAM: "/images/instagram.png",
+//         FACEBOOK: "/images/facebook.png",
+//         NOTION: "/images/notion.png",
+//         X: "/images/x.png",
+//         SPOTIFY: "/images/spotify.png",
+//         YOUTUBE: "/images/youtube.png",
+//         SOUNDCLOUD: "/images/soundcloud.png",
+//         APPLE_MUSIC: "/images/apple-music.png",
+//         TWITCH: "/images/twitch.png",
+//         CHZZK: "/images/chzzk.png",
+//         NULL: "/images/default.png", // 알 수 없는 서비스에 대한 기본 이미지
+//         INVALID: "/images/invalid.png" // 잘못된 URL에 대한 기본 이미지
+//     };
+//
+//     return platformToImage[platform] || platformToImage["NULL"]; // 기본값은 "NULL"
+// };
+
+
+
+
+export const mapServiceTypeToIcon = (platform) => {
+    const platformToIcon = {
+        TIKTOK: <FaTiktok />,
+        INSTAGRAM: <FaInstagram />,
+        FACEBOOK: <FaFacebook />,
+        NOTION: <SiNotion />,
+        X: <FaTwitter />,
+        SPOTIFY: <FaSpotify />,
+        YOUTUBE: <FaYoutube />,
+        SOUNDCLOUD: <SiSoundcloud />,
+        APPLE_MUSIC: <FaApple />,
+        TWITCH: <FaTwitch />,
+        CHZZK: <FaTwitch />,
+        NULL: <FaTiktok />, // 기본 아이콘 (TIKTOK) 또는 "알 수 없음" 아이콘
+        INVALID: <FaTiktok />, // 잘못된 URL을 위한 아이콘
+    };
+
+    return platformToIcon[platform] || platformToIcon["NULL"]; // 기본값은 "NULL"
 };

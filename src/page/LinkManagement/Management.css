@@ -145,7 +145,7 @@
     font-size: 18px;
 }
 
-.trash-button {
+.detail-trash-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -153,7 +153,8 @@
     padding: 9px 7px 7px;
 }
 
-.trash-button:hover {
+
+.detail-trash-button:hover {
     background-color: rgba(225, 225, 225, 0.6);
     border-radius: 10px;
     padding: 9px 7px 7px;
@@ -407,11 +408,13 @@ input:checked + .slider:before {
 }
 
 .link-details-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border: 2px solid #d5d5d5;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
-    cursor: pointer;
     transition: scale 0.3s;
 
 }
@@ -442,5 +445,19 @@ input:checked + .slider:before {
 .management-add-service-button:hover {
     background-color: #654adc;
     color: white;
+}
+
+.link-add-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 9px 7px 7px;
+
+}
+.link-add-btn:hover {
+    background-color: rgba(225, 225, 225, 0.6);
+    border-radius: 10px;
+    padding: 9px 7px 7px;
 }
 

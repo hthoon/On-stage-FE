@@ -122,3 +122,27 @@
     cursor: not-allowed;
     background-color: #ccc;
 }
+
+.service-icon {
+    font-size: 24px;  /* 아이콘 크기 */
+    margin-right: 10px;  /* 텍스트와 아이콘 사이의 간격 */
+    color: #333;  /* 아이콘 색상 */
+    display: inline-block;
+}
+
+.link-details-platform{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.service-icon{
+    margin-left: 10px;
+    font-size: 25px;
+}
+
+.service-platform{
+    margin-left: 20px;
+    font-size: 15px;
+    font-weight: bold;
+}
