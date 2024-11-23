@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import "./Management.css";
 import {IoMdAdd, IoMdTrash} from "react-icons/io";
+import { LuTrash2 } from "react-icons/lu";
 import {SlPencil} from "react-icons/sl";
 import {useLink} from "../../context/LinkContext";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
@@ -199,7 +200,7 @@ const ManagementPanel = ({updateLink, createLink, deleteLink}) => {
                                 onClick={() => handleDeleteLink(link)}
                                 className="trash-button"
                             >
-                                <IoMdTrash/>
+                                <LuTrash2/>
                             </button>
                         </div>
                     </div>
