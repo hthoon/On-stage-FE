@@ -82,7 +82,7 @@ const DetailManagement = ({link}) => {
                 console.log(linkId)
                 const response = await axiosInstance.post(`/api/link-detail/${linkId}`, {
                     url: inputURL,
-                    type: serviceType,
+                    platform: serviceType,
                 });
 
                 const newDetail = response.data;
@@ -98,7 +98,7 @@ const DetailManagement = ({link}) => {
                 // 수정 모드
                 const response = await axiosInstance.put(`/api/link-detail/${selectedDetail.id}`, {
                     url: inputURL,
-                    type: serviceType,
+                    platform: serviceType,
                 });
 
                 const updatedDetail = response.data;
@@ -109,15 +109,10 @@ const DetailManagement = ({link}) => {
                 );
                 setLinks((prevLinks) =>
                     prevLinks.map((item) =>
-                        item.id === link.id
-                            ? {
-                                ...item,
-                                details: item.details.map((detail) =>
-                                    detail.id === updatedDetail.id ? updatedDetail : detail
-                                ),
-                            }
-                            : item
-                    )
+                        item.id === link.id ? {
+                            ...item, details: item.details.map((detail) =>
+                                detail.id === updatedDetail.id ? updatedDetail : detail),
+                        } : item)
                 );
             }
             closeModal();
@@ -127,7 +122,6 @@ const DetailManagement = ({link}) => {
             setIsSubmitting(false);
         }
     };
-
 
     return (
         <div className="link-details">
