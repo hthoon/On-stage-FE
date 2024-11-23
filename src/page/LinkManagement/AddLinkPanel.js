@@ -3,7 +3,7 @@ import "./Management.css";
 import {useLink} from "../../context/LinkContext";
 import {HiPlus} from "react-icons/hi";
 
-const AddLinkPanel = (updateLink, createLink) => {
+const AddLinkPanel = ({updateLink, createLink}) => {
     const {links, setLinks} = useLink();
     const [showForm, setShowForm] = useState(false);
     const [newLink, setNewLink] = useState({title: "", url: ""});

@@ -2,8 +2,6 @@ import React, {createContext, useContext, useState, useEffect} from 'react';
 import {useAxios} from "./AxiosContext";
 import { useLocation } from 'react-router-dom';
 
-
-
 const LinkContext = createContext();
 export const useLink = () => {
     return useContext(LinkContext);
@@ -26,7 +24,6 @@ export const LinkProvider = ({children}) => {
         const userId = 1; // 수정 해야함
         axiosInstance.get(`/api/link/${userId}`, {id: userId})
             .then((response) => {
-                console.log(response);
                 setLinks(response.data.link);
                 setSocialLink(response.data.socialLink);
                 setTheme(response.data.theme);

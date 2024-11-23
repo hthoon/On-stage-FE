@@ -363,7 +363,6 @@ input:checked + .slider:before {
 
 /* 확장된 영역: link-details */
 .link-details {
-    border: 1px solid #d5d5d5;
     width: 95%;
     padding: 10px;
     border-radius: 10px;
@@ -411,6 +410,13 @@ input:checked + .slider:before {
     border: 2px solid #d5d5d5;
     padding: 20px;
     border-radius: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: scale 0.3s;
+
+}
+.link-details-list:hover {
+    scale: 1.02;
 }
 
 

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import "./Management.css";
 import "./DetailModal.css";
-import { HiChevronLeft, HiPlus } from "react-icons/hi";
-import { IoMdClose } from "react-icons/io";
+import {HiChevronLeft, HiPlus} from "react-icons/hi";
+import {IoMdClose} from "react-icons/io";
 import {getDomainType, mapServiceTypeToKorean} from "../../utils/AnalysisURL";
 import {useAxios} from "../../context/AxiosContext";
 import {useLink} from "../../context/LinkContext";
 
-const DetailManagement = ({ link }) => {
+const DetailManagement = ({link}) => {
     const {axiosInstance} = useAxios();
+    const [linkId, setLinkId] = useState(link.id);
     const [details, setDetails] = useState(link.details || []); // 로컬 상태로 관리
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [inputURL, setInputURL] = useState("");
@@ -16,9 +17,34 @@ const DetailManagement = ({ link }) => {
     const [translatedServiceType, setTranslatedServiceType] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const { links, setLinks } = useLink();
+    const CREATE = "create";
+    const UPDATE = "update";
+    const [mode, setMode] = useState(CREATE);
+    const [selectedDetail, setSelectedDetail] = useState(null); // 수정할 detail
+    const {setLinks} = useLink();
 
-    const openModal = () => setIsModalOpen(true);
+    const openModal = (detail = null) => {
+        setIsModalOpen(true);
+        if (detail) {
+            // 수정 모드 초기화
+            setMode(UPDATE);
+            setSelectedDetail(detail);
+            setInputURL(detail.url);
+            setServiceType(detail.type);
+            setTranslatedServiceType(mapServiceTypeToKorean(detail.type));
+            setIsValidURL(true);
+        } else {
+            // 생성 모드 초기화
+            setMode(CREATE);
+            setSelectedDetail(null);
+            setInputURL("");
+            setServiceType("");
+            setTranslatedServiceType("");
+            setIsValidURL(false);
+            console.log(mode);
+        }
+    };
+
     const closeModal = () => {
         setIsModalOpen(false);
         setInputURL("");
@@ -30,10 +56,10 @@ const DetailManagement = ({ link }) => {
     useEffect(() => {
         if (isModalOpen) {
             document.body.style.overflow = "hidden"; // 모달이 열리면 스크롤 방지
-        }
-        else {
+        } else {
             document.body.style.overflow = ""; // 모달이 닫히면 스크롤 복구
         }
+        setLinkId(link.id);
     }, [isModalOpen]);
 
     // URL 변경 시 자동 분석
@@ -46,35 +72,58 @@ const DetailManagement = ({ link }) => {
         setIsValidURL(type !== "INVALID" && type !== "NULL");
     };
 
-    const handleAddLinkDetail = async () => {
-        if (!isValidURL || isSubmitting) return; // 유효하지 않거나 요청 중이면 무시
+    const handleSave = async () => {
+        if (!isValidURL || isSubmitting || !link?.id) return;
         setIsSubmitting(true);
 
         try {
-            const linkId = link.id;
-            const response = await axiosInstance.post(`/api/link-detail/${linkId}`, {
-                url: inputURL,
-                type: serviceType
-            });
+            if (mode === CREATE) {
+                // 생성 모드
+                console.log(linkId)
+                const response = await axiosInstance.post(`/api/link-detail/${linkId}`, {
+                    url: inputURL,
+                    type: serviceType,
+                });
 
-            const newDetail = response.data; // 추가된 detail 데이터
-            setDetails((prevDetails) => [...prevDetails, newDetail]); // 로컬 업데이트
+                const newDetail = response.data;
+                setDetails((prevDetails) => [...prevDetails, newDetail]);
+                setLinks((prevLinks) =>
+                    prevLinks.map((item) =>
+                        item.id === link.id
+                            ? {...item, details: [...item.details, newDetail]}
+                            : item
+                    )
+                );
+            } else if (mode === UPDATE && selectedDetail) {
+                // 수정 모드
+                const response = await axiosInstance.put(`/api/link-detail/${selectedDetail.id}`, {
+                    url: inputURL,
+                    type: serviceType,
+                });
 
-            // LinkContext의 links 업데이트
-            setLinks((prevLinks) =>
-                prevLinks.map((item) =>
-                    item.id === linkId
-                        ? { ...item, details: [...item.details, newDetail] } // 현재 링크의 details만 업데이트
-                        : item
-                )
-            );
-
-            closeModal(); // 모달 닫기
-        }
-        catch (error) {
-            console.error("Error adding link detail:", error);
-        }
-        finally {
+                const updatedDetail = response.data;
+                setDetails((prevDetails) =>
+                    prevDetails.map((detail) =>
+                        detail.id === updatedDetail.id ? updatedDetail : detail
+                    )
+                );
+                setLinks((prevLinks) =>
+                    prevLinks.map((item) =>
+                        item.id === link.id
+                            ? {
+                                ...item,
+                                details: item.details.map((detail) =>
+                                    detail.id === updatedDetail.id ? updatedDetail : detail
+                                ),
+                            }
+                            : item
+                    )
+                );
+            }
+            closeModal();
+        } catch (error) {
+            console.error("Error saving link detail:", error);
+        } finally {
             setIsSubmitting(false);
         }
     };
@@ -88,17 +137,19 @@ const DetailManagement = ({ link }) => {
                 <p>No details available for this link.</p>
             ) : (
                 details.map((detail, index) => (
-                    <div key={index} className="link-details-list">
+                    <div key={index} className="link-details-list"
+                         onClick={() => openModal(detail)}>
                         <p>{detail.url}</p>
+
                     </div>
                 ))
             )}
             <div>
                 <button
                     className="management-add-service-button"
-                    onClick={openModal}
+                    onClick={() => openModal()}
                 >
-                    <HiPlus className="add-link-icon" /> 서비스 추가
+                    <HiPlus className="add-link-icon"/> 서비스 추가
                 </button>
             </div>
 
@@ -107,9 +158,11 @@ const DetailManagement = ({ link }) => {
                 <div className={`modal-overlay ${isModalOpen ? "open" : ""}`}>
                     <div className={`detail-modal-content ${isModalOpen ? "open" : ""}`}>
                         <div className="detail-modal-close-btn-container">
-                            <HiChevronLeft className="modal-close-btn" onClick={closeModal} />
-                            <h2 className="detail-modal-title">서비스 추가</h2>
-                            <IoMdClose className="modal-close-btn" onClick={closeModal} />
+                            <HiChevronLeft className="modal-close-btn" onClick={closeModal}/>
+                            <h2 className="detail-modal-title">
+                                {mode === CREATE ? "서비스 추가" : "서비스 수정"}
+                            </h2>
+                            <IoMdClose className="modal-close-btn" onClick={closeModal}/>
                         </div>
                         <div className="detail-modal-body">
                             <div className="details-border-line"></div>
@@ -132,9 +185,15 @@ const DetailManagement = ({ link }) => {
                                 isValidURL ? "" : "disabled-button"
                             }`}
                             disabled={!isValidURL || isSubmitting}
-                            onClick={handleAddLinkDetail}
+                            onClick={handleSave}
                         >
-                            {isSubmitting ? "추가 중..." : isValidURL ? "추가" : "URL을 확인하세요"}
+                            {isSubmitting
+                                ? "저장 중..."
+                                : isValidURL
+                                    ? mode === CREATE
+                                        ? "추가"
+                                        : "수정"
+                                    : "URL을 확인하세요"}
                         </button>
                     </div>
                 </div>
