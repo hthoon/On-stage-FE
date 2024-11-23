@@ -69,16 +69,23 @@
 /* 링크 항목 스타일 */
 .link-item {
     display: flex;
-    justify-content: space-between;
-
+    flex-direction: column;
+    /*justify-content: space-between;*/
     margin-top: 15px;
     margin-bottom: 15px;
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 15px;
     align-items: center;
-
     position:relative;
+
+    transition: min-height 0.3s ease, padding 0.3s ease;
+    overflow: hidden;
+    min-height: 90px; /* 기본 높이 */
+}
+.link-item.expanded {
+    min-height: 400px; /* 확장된 높이 */
+    padding: 15px; /* 확장된 패딩 */
 }
 
 .link-left {
@@ -322,4 +329,52 @@ input:checked + .slider:before {
     font-size: 20px;
     cursor: pointer;
     font-weight: bold;
+}
+
+
+/* 확장 상태 */
+.link-item.expanded {
+    max-height: 300px; /* 확장 상태에서의 높이 */
+    padding-bottom: 20px;
+}
+
+/* link-header: 좌우로 배치 */
+.link-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+/* 확장된 영역: link-details */
+.link-details {
+    width: 90%;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 버튼 스타일링 */
+.link-add-btn {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* 기타 버튼 및 스위치 스타일 */
+.toggle-switch {
+    margin-right: 10px;
 }
