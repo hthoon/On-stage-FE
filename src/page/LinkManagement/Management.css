@@ -184,6 +184,11 @@
 }
 
 
+.add-link-icon{
+    margin-right: 7px;
+    font-size: 20px;
+    font-weight: bold;
+}
 /* Add link form with slide-down animation */
 .add-link-form {
     display: flex;
@@ -235,6 +240,7 @@
 /* Add button styling */
 .form-add-button {
     background-color: #7d5cf8;
+    font-weight: bold;
     color: white;
 }
 
@@ -245,6 +251,7 @@
 /* Cancel button styling */
 .form-cancel-button {
     background-color: #ccc;
+    font-weight: bold;
     color: #333;
 }
 
@@ -369,11 +376,6 @@ input:checked + .slider:before {
     }
 }
 
-/* 버튼 스타일링 */
-.link-add-btn {
-    margin-left: 10px;
-    cursor: pointer;
-}
 
 /* 기타 버튼 및 스위치 스타일 */
 .toggle-switch {

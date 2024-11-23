@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
-import {IoMdAdd} from "react-icons/io";
+import {HiPlus} from "react-icons/hi";
 
 const AddLinkPanel = (updateLink, createLink) => {
     const {links, setLinks} = useLink();
@@ -63,7 +63,7 @@ const AddLinkPanel = (updateLink, createLink) => {
                     className="management-add-link-button"
                     onClick={() => setShowForm(true)}
                 >
-                    <IoMdAdd/> add link
+                    <HiPlus className="add-link-icon"/> add link
                 </button>
             )}
             {showForm && (

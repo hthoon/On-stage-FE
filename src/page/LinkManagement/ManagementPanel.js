@@ -5,6 +5,7 @@ import {LuLink, LuTrash2} from "react-icons/lu";
 import {SlPencil} from "react-icons/sl";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
 import {IoImageOutline} from "react-icons/io5";
+import DetailManagement from "./DetailManagement";
 
 const ManagementPanel = ({updateLink, deleteLink}) => {
     const {links, setLinks} = useLink();
@@ -131,10 +132,9 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                     </div>
 
                     {expandedLinkId === link.id && (
-                        <div className="link-details">
-                            <p>Additional details about this link go here.</p>
-                            <button onClick={() => console.log("Edit link details")}>Edit Details</button>
-                        </div>
+                        <DetailManagement
+                            link={link}
+                        />
                     )}
                 </div>
             ))}
