@@ -3,27 +3,35 @@ import "./Management.css";
 import "./DetailModal.css";
 import { HiChevronLeft, HiPlus } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
-import {getDomainType} from "../../utils/AnalysisURL";
+import {getDomainType, mapServiceTypeToKorean} from "../../utils/AnalysisURL";
+import {useAxios} from "../../context/AxiosContext";
+import {useLink} from "../../context/LinkContext";
 
 const DetailManagement = ({ link }) => {
-    const details = link.details || [];
+    const {axiosInstance} = useAxios();
+    const [details, setDetails] = useState(link.details || []); // 로컬 상태로 관리
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [inputURL, setInputURL] = useState("");
     const [serviceType, setServiceType] = useState("");
+    const [translatedServiceType, setTranslatedServiceType] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { links, setLinks } = useLink();
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => {
         setIsModalOpen(false);
         setInputURL("");
         setServiceType("");
+        setTranslatedServiceType("");
         setIsValidURL(false);
     };
 
     useEffect(() => {
         if (isModalOpen) {
             document.body.style.overflow = "hidden"; // 모달이 열리면 스크롤 방지
-        } else {
+        }
+        else {
             document.body.style.overflow = ""; // 모달이 닫히면 스크롤 복구
         }
     }, [isModalOpen]);
@@ -34,8 +42,43 @@ const DetailManagement = ({ link }) => {
         setInputURL(url);
         const type = getDomainType(url);
         setServiceType(type);
+        setTranslatedServiceType(mapServiceTypeToKorean(type));
         setIsValidURL(type !== "INVALID" && type !== "NULL");
     };
+
+    const handleAddLinkDetail = async () => {
+        if (!isValidURL || isSubmitting) return; // 유효하지 않거나 요청 중이면 무시
+        setIsSubmitting(true);
+
+        try {
+            const linkId = link.id;
+            const response = await axiosInstance.post(`/api/link-detail/${linkId}`, {
+                url: inputURL,
+                type: serviceType
+            });
+
+            const newDetail = response.data; // 추가된 detail 데이터
+            setDetails((prevDetails) => [...prevDetails, newDetail]); // 로컬 업데이트
+
+            // LinkContext의 links 업데이트
+            setLinks((prevLinks) =>
+                prevLinks.map((item) =>
+                    item.id === linkId
+                        ? { ...item, details: [...item.details, newDetail] } // 현재 링크의 details만 업데이트
+                        : item
+                )
+            );
+
+            closeModal(); // 모달 닫기
+        }
+        catch (error) {
+            console.error("Error adding link detail:", error);
+        }
+        finally {
+            setIsSubmitting(false);
+        }
+    };
+
 
     return (
         <div className="link-details">
@@ -53,7 +96,7 @@ const DetailManagement = ({ link }) => {
             <div>
                 <button
                     className="management-add-service-button"
-                    onClick={openModal} // 모달 열기
+                    onClick={openModal}
                 >
                     <HiPlus className="add-link-icon" /> 서비스 추가
                 </button>
@@ -79,7 +122,7 @@ const DetailManagement = ({ link }) => {
                             />
                             {serviceType && (
                                 <p className="service-type-result">
-                                    분석 결과: {serviceType === "INVALID" ? "잘못된 URL 형식입니다." : serviceType}
+                                    {translatedServiceType}
                                 </p>
                             )}
                         </div>
@@ -88,9 +131,10 @@ const DetailManagement = ({ link }) => {
                             className={`management-detail-submit-button ${
                                 isValidURL ? "" : "disabled-button"
                             }`}
-                            disabled={!isValidURL}
+                            disabled={!isValidURL || isSubmitting}
+                            onClick={handleAddLinkDetail}
                         >
-                            {isValidURL ? "추가" : "URL을 확인하세요"}
+                            {isSubmitting ? "추가 중..." : isValidURL ? "추가" : "URL을 확인하세요"}
                         </button>
                     </div>
                 </div>
@@ -98,5 +142,4 @@ const DetailManagement = ({ link }) => {
         </div>
     );
 };
-
 export default DetailManagement;

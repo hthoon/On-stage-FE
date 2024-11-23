@@ -15,7 +15,6 @@ export const LinkProvider = ({children}) => {
     const location = useLocation();
 
     const [links, setLinks] = useState([]);
-    const [linkDetails, setLinkDetails] = useState([]);
     const [socialLink, setSocialLink] = useState();
     const [theme, setTheme] = useState();
 
@@ -29,7 +28,6 @@ export const LinkProvider = ({children}) => {
             .then((response) => {
                 console.log(response);
                 setLinks(response.data.link);
-                setLinkDetails(response.data.details);
                 setSocialLink(response.data.socialLink);
                 setTheme(response.data.theme);
             })
@@ -41,7 +39,7 @@ export const LinkProvider = ({children}) => {
 
 
     return (
-        <LinkContext.Provider value={{ links, setLinks, linkDetails, socialLink, theme }}>
+        <LinkContext.Provider value={{ links, setLinks,  socialLink, theme }}>
             {children}
         </LinkContext.Provider>
     )

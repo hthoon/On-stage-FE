@@ -22,3 +22,26 @@ export const getDomainType = (url) => {
         return "INVALID";
     }
 };
+
+
+// 서비스 타입을 한국어로 매핑하는 함수
+export const mapServiceTypeToKorean = (type) => {
+    const typeToKorean = {
+        TIKTOK: "틱톡",
+        INSTAGRAM: "인스타그램",
+        FACEBOOK: "페이스북",
+        NOTION: "노션",
+        X: "X",
+        SPOTIFY: "스포티파이",
+        YOUTUBE: "유튜브",
+        SOUNDCLOUD: "사운드클라우드",
+        APPLE_MUSIC: "애플 뮤직",
+        TWITCH: "트위치",
+        CHZZK: "치지직",
+
+
+        NULL: "알 수 없음",
+        INVALID: "잘못된 URL 형식"
+    };
+    return typeToKorean[type] || "지원하지 않는 서비스";
+};
