@@ -34,14 +34,20 @@ const LinkDisplay = () => {
                 {/*메인 섹션*/}
                 <div className="linktree-content">
                     <div className="linktree-links">
-                        {sortedLinks.map((link, index) => (
-                            <a key={index} href={link.url} target="_blank" rel="noopener noreferrer"
-                               className="linktree-button">
-                                {link.title}
-                            </a>))}
+                        {sortedLinks
+                            .filter((link) => link.active) // 활성화된 링크만 필터링
+                            .map((link, index) => (
+                                <a
+                                    key={index}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="linktree-button"
+                                >
+                                    {link.title}
+                                </a>
+                            ))}
                     </div>
-
-
                 </div>
                 {/*소셜 섹션*/}
                 <div className="linktree-socials">
@@ -65,6 +71,6 @@ const LinkDisplay = () => {
                 </div>
             </div>
         </div>
-            );
-            };
-            export default LinkDisplay;
+    );
+};
+export default LinkDisplay;

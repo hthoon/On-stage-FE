@@ -110,7 +110,6 @@ const ManagementPanel = ({updateLink, createLink, deleteLink}) => {
             // 상태를 원래대로 되돌리기
             link.active = !link.active;
         }
-
     }
 
 
