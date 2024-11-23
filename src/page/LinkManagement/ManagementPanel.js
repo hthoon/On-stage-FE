@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
 import {LuLink, LuTrash2} from "react-icons/lu";
-import {SlPencil} from "react-icons/sl";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
 import {IoImageOutline} from "react-icons/io5";
 import DetailManagement from "./DetailManagement";

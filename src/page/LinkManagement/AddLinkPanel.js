@@ -60,7 +60,7 @@ const AddLinkPanel = (updateLink, createLink) => {
                     className="management-add-link-button"
                     onClick={() => setShowForm(true)}
                 >
-                    <HiPlus className="add-link-icon"/> add link
+                    <HiPlus className="add-link-icon"/> 서비스 추가
                 </button>
             )}
             {showForm && (
