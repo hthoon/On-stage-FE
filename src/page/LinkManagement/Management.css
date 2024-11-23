@@ -89,7 +89,7 @@
 }
 
 .link-item.expanded {
-    min-height: 400px; /* 확장된 높이 */
+    min-height: 250px; /* 확장된 높이 */
     padding: 15px; /* 확장된 패딩 */
 }
 
@@ -149,7 +149,7 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 23px;
     padding: 9px 7px 7px;
 }
 

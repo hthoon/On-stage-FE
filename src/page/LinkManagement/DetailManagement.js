@@ -17,6 +17,7 @@ const DetailManagement = ({link}) => {
     const [inputURL, setInputURL] = useState("");
     const [serviceType, setServiceType] = useState("");
     const [translatedServiceType, setTranslatedServiceType] = useState("");
+    const [serviceIcon, setServiceIcon] = useState("");
     const [isValidURL, setIsValidURL] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const CREATE = "create";
@@ -71,6 +72,7 @@ const DetailManagement = ({link}) => {
         const type = getDomainType(url);
         setServiceType(type);
         setTranslatedServiceType(mapServiceTypeToKorean(type));
+        setServiceIcon(mapServiceTypeToIcon(type));
         setIsValidURL(type !== "INVALID" && type !== "NULL");
     };
 
@@ -141,10 +143,9 @@ const DetailManagement = ({link}) => {
     };
     return (
         <div className="link-details">
-            <p className="link-details-message-title">Link</p>
             <p className="link-details-message">방문자에게 다양한 서비스 링크를 제공해보세요!</p>
             {details.length === 0 ? (
-                <p>No details available for this link.</p>
+                <p></p>
             ) : (
                 details.map((detail, index) => (
                     <div key={index} className="link-details-list">
@@ -201,9 +202,10 @@ const DetailManagement = ({link}) => {
                                 onChange={handleInputChange}/>
                             {serviceType && (
                                 <p className="service-type-result">
-                                    {translatedServiceType}
+                                    {serviceIcon}
                                 </p>
                             )}
+                            <p>URL을 입력해주세요. 다양한 플랫폼을 지원합니다.</p>
                         </div>
                         <button
                             type="submit"
