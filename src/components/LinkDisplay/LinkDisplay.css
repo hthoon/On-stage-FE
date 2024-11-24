@@ -37,10 +37,13 @@
     font-size: 1.6rem;
     font-weight: bold;
 }
+.linktree-detail-title{
+    font-size: 1rem;
+}
 
 .linktree-content {
     position: relative;
-    max-height: 410px; /* 화면 크기에서 프로필 영역 크기 제외 */
+    max-height: 420px; /* 화면 크기에서 프로필 영역 크기 제외 */
     overflow-y: auto; /* 세로 스크롤 활성화 */
     border-radius: 25px;
     z-index: 1; /* 배경보다 위에 표시 */
@@ -84,7 +87,7 @@
     font-weight: normal;
     color: #ffffff;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .linktree-links {
@@ -101,7 +104,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 10px auto;
+    margin: 8px auto;
     width: 100%;
     text-decoration: none;
     text-align: center;
@@ -110,7 +113,7 @@
     font-size: 1rem;
     font-weight: bold;
     border-radius: 20px;
-    transition: all 0.3s ease;
+    transition: min-height 0.4s ease-in-out;
     cursor: pointer;
 
     overflow: hidden;
@@ -118,10 +121,6 @@
 }
 .linktree-button.expanded{
     min-height: 100px; /* 확장된 높이 */
-}
-
-.linktree-button:hover {
-    transform: scale(1.01);
 }
 
 .linktree-details{
@@ -143,7 +142,12 @@
     width: 90%;
     border-radius: 15px;
     border: #818181 solid 1px;
+    transition: scale 0.3s ease-in-out;
 }
+.linktree-detail-item:hover{
+    scale: 1.03;
+}
+
 
 .linktree-socials {
     display: flex;

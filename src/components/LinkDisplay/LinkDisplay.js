@@ -63,7 +63,7 @@ const LinkDisplay = () => {
                                     className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""}`}
                                     onClick={() => handleToggleExpand(link.id)}
                                 >
-                                    <p>{link.title}</p>
+                                    <p className="linktree-detail-title">{link.title}</p>
                                     {expandedLinkId === link.id && (
                                         <div
                                             className="linktree-details"
