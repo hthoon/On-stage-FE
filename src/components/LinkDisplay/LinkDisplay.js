@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import "./LinkDisplay.css";
 import {useLink} from "../../context/LinkContext";
-import {FaInstagram} from "react-icons/fa";
-import {SlSocialSpotify} from "react-icons/sl";
-import {PiTiktokLogo} from "react-icons/pi";
+import {FaGithub, FaInstagram} from "react-icons/fa";
+import {SlSocialSpotify, SlSocialYoutube} from "react-icons/sl";
 import {FaXTwitter} from "react-icons/fa6";
 import {CiStar, CiShare1} from "react-icons/ci";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
@@ -123,7 +122,7 @@ const LinkDisplay = () => {
                     </a>
                     <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
                        className="social-icon">
-                        <SlSocialSpotify/>
+                        <SlSocialYoutube/>
                     </a>
                     <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
                        className="social-icon">
@@ -131,7 +130,11 @@ const LinkDisplay = () => {
                     </a>
                     <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
                        className="social-icon">
-                        <PiTiktokLogo/>
+                        <SlSocialSpotify/>
+                    </a>
+                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
+                       className="social-icon">
+                        <FaGithub/>
                     </a>
 
                 </div>

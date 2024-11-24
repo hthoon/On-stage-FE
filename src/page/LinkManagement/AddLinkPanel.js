@@ -60,23 +60,23 @@ const AddLinkPanel = ({updateLink, createLink}) => {
                     className="management-add-link-button"
                     onClick={() => setShowForm(true)}
                 >
-                    <HiPlus className="add-link-icon"/> 서비스 추가
+                    <HiPlus className="add-link-icon"/> 링크 추가
                 </button>
             )}
             {showForm && (
                 <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
                     <input
                         type="text"
-                        placeholder="제목을 입력하세요"
+                        placeholder="링크 이름을 입력하세요"
                         value={newLink.title}
                         onChange={(e) => setNewLink({...newLink, title: e.target.value})}
                         className="add-link-form-input"
                     />
                     <button onClick={handleAddLink} className="form-add-button">
-                        Add
+                        추가
                     </button>
                     <button onClick={handleCancel} className="form-cancel-button">
-                        Cancel
+                        취소
                     </button>
                 </div>
             )}

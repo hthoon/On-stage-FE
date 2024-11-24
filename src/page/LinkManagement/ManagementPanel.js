@@ -6,6 +6,7 @@ import {sortLinksByPrevId} from "../../utils/sortLinks";
 import {IoImageOutline} from "react-icons/io5";
 import DetailManagement from "./DetailManagement";
 import {FiEdit3} from "react-icons/fi";
+import {AiOutlineFrown} from "react-icons/ai";
 
 const ManagementPanel = ({updateLink, deleteLink}) => {
     const {links, setLinks} = useLink();
@@ -66,81 +67,81 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
 
     return (
         <div className="management-link-container">
-            {sortedLinks.map((link) => (
-                <div
-                    key={link.id}
-                    className={`link-item ${expandedLinkId === link.id ? "expanded" : ""}`}
-                >
-                    <div className="link-header">
-                        <div className="link-left">
-                            <div className="link-divide">
-                        <span
-                            className={`link-title ${editingId === link.id ? "editing" : ""}`}
-                            contentEditable={editingId === link.id}
-                            suppressContentEditableWarning
-                            onBlur={(e) => {
-                                handleEdit(link.id, "title", e.target.textContent);
-                                setEditingId(null);
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    e.preventDefault();
-                                    e.target.blur();
-                                }
-                            }}
-                        >
-                            {link.title}
-                            {editingId !== link.id && (
-                                <FiEdit3
-                                    className="edit-icon"
-                                    onClick={() => setEditingId(link.id)}
-                                />
-                            )}
-                        </span>
-                                <div className="link-bottom-icons">
+            {sortedLinks.length === 0 ? (
+                <div className="no-links-container">
 
-                                    <LuLink
-                                        className="link-add-btn"
-                                        onClick={() => handleToggleExpand(link.id)}
-                                    />
-                                    <IoImageOutline
-                                        className="link-add-btn"
-                                        onClick={() => handleToggleExpand(link.id)}
-                                    />
+                    <AiOutlineFrown className="no-links-message-icon" />
+                    <p className="no-links-message-text">링크가 없습니다. 새로운 링크를 추가해주세요!</p>
+                </div>
+            ) : (
+                sortedLinks.map((link) => (
+                    <div
+                        key={link.id}
+                        className={`link-item ${expandedLinkId === link.id ? "expanded" : ""}`}
+                    >
+                        <div className="link-header">
+                            <div className="link-left">
+                                <div className="link-divide">
+                                <span
+                                    className={`link-title ${editingId === link.id ? "editing" : ""}`}
+                                    contentEditable={editingId === link.id}
+                                    suppressContentEditableWarning
+                                    onBlur={(e) => {
+                                        handleEdit(link.id, "title", e.target.textContent);
+                                        setEditingId(null);
+                                    }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            e.target.blur();
+                                        }
+                                    }}
+                                >
+                                    {link.title}
+                                    {editingId !== link.id && (
+                                        <FiEdit3
+                                            className="edit-icon"
+                                            onClick={() => setEditingId(link.id)}
+                                        />
+                                    )}
+                                </span>
+                                    <div className="link-bottom-icons">
+                                        <LuLink
+                                            className="link-add-btn"
+                                            onClick={() => handleToggleExpand(link.id)}
+                                        />
+                                        <IoImageOutline
+                                            className="link-add-btn"
+                                            onClick={() => handleToggleExpand(link.id)}
+                                        />
+                                    </div>
                                 </div>
+                            </div>
 
+                            <div className="link-right">
+                                <label className="toggle-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={link.active}
+                                        onChange={() => handleToggleLink(link)}
+                                    />
+                                    <span className="slider"></span>
+                                </label>
+                                <button
+                                    onClick={() => handleDeleteLink(link)}
+                                    className="detail-trash-button"
+                                >
+                                    <LuTrash2/>
+                                </button>
                             </div>
                         </div>
 
-                        <div className="link-right">
-                            <label className="toggle-switch">
-                                <input
-                                    type="checkbox"
-                                    checked={link.active}
-                                    onChange={() => handleToggleLink(link)}
-                                />
-                                <span className="slider"></span>
-                            </label>
-                            <button
-                                onClick={() => handleDeleteLink(link)}
-                                className="detail-trash-button"
-                            >
-                                <LuTrash2/>
-                            </button>
-
-                        </div>
+                        {expandedLinkId === link.id && <DetailManagement link={link}/>}
                     </div>
-
-                    {expandedLinkId === link.id && (
-                        <DetailManagement
-                            link={link}
-                        />
-                    )}
-                </div>
-            ))}
+                ))
+            )}
         </div>
     );
-
 };
 
 export default ManagementPanel;
