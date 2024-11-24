@@ -1,7 +1,7 @@
 .management-container {
     display: flex;
     justify-content: left;
-    min-width: 1500px;
+    min-width: 1200px;
 
     width: 100%;
     padding: 20px;
@@ -33,7 +33,7 @@
 }
 
 /* 화면 너비가 768px 이하일 때 패널 숨기기 */
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1200px) {
     .display-panel {
         display: none; /* 패널 숨기기 */
     }

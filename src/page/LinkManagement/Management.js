@@ -34,13 +34,14 @@ const Management = () => {
     return (
         <div className="management-container">
             <div className="management-panel">
+                {/* 링크 Create 패널 */}
                 <AddLinkPanel
                     updateLink={updateLink}
                     createLink={createLink}
                 />
+                {/* 메인 링크 관리 패널*/}
                 <ManagementPannel
                     updateLink={updateLink}
-                    createLink={createLink}
                     deleteLink={deleteLink}
                 />
             </div>
