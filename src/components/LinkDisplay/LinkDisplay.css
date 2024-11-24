@@ -91,30 +91,57 @@
     max-width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
+
 
 /* 버튼 스타일 */
 .linktree-button {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 5px auto;
-    width: 80%;
+    margin: 10px auto;
+    width: 95%;
     text-decoration: none;
     text-align: center;
-    padding: 15px;
     background-color: #ffffff;
     color: #000000;
     font-size: 1rem;
-    font-weight: normal;
-    border-radius: 15px;
+    font-weight: bold;
+    border-radius: 20px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    overflow: hidden;
+    min-height: 40px; /* 기본 높이 */
+}
+.linktree-button.expanded{
+    min-height: 100px; /* 확장된 높이 */
 }
 
 .linktree-button:hover {
-    transform: scale(1.05);
+    transform: scale(1.01);
+}
+
+.linktree-details{
+    width: 100%;
+    padding: 10px;
+}
+
+.linktree-service-icon{
+    margin-left: 15px;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.linktree-detail-item{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 10px auto;
+    width: 90%;
+    border-radius: 15px;
+    border: #818181 solid 1px;
 }
 
 .linktree-socials {

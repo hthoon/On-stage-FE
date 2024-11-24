@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./LinkDisplay.css";
 import {useLink} from "../../context/LinkContext";
 import {FaInstagram} from "react-icons/fa";
@@ -7,12 +7,19 @@ import {PiTiktokLogo} from "react-icons/pi";
 import {FaXTwitter} from "react-icons/fa6";
 import {CiStar, CiShare1} from "react-icons/ci";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
+import {mapServiceTypeToIcon, mapServiceTypeToKorean} from "../../utils/AnalysisURL";
 
 const LinkDisplay = () => {
     const backgroundImage = "https://images.pexels.com/photos/3518623/pexels-photo-3518623.jpeg?cs=srgb&dl=pexels-steve-3518623.jpg&fm=jpg";
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
     const {links} = useLink();
     const sortedLinks = sortLinksByPrevId(links);
+    const [expandedLinkId, setExpandedLinkId] = useState(null);
+
+
+    const handleToggleExpand = (id) => {
+        setExpandedLinkId((prevId) => (prevId === id ? null : id));
+    };
 
     return (
         <div className="linktree-container">
@@ -33,21 +40,46 @@ const LinkDisplay = () => {
 
                 {/*메인 섹션*/}
                 <div className="linktree-content">
-                    <div className="linktree-links">
+
+                    <div className={`linktree-links `}>
                         {sortedLinks
                             .filter((link) => link.active) // 활성화된 링크만 필터링
                             .map((link, index) => (
-                                <a
+                                <div
                                     key={index}
-                                    href={link.url}
-                                    target="_blank"
                                     rel="noopener noreferrer"
-                                    className="linktree-button"
+                                    className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""} `}
+                                    onClick={() => handleToggleExpand(link.id)}
                                 >
-                                    {link.title}
-                                </a>
+                                    <p>{link.title}</p>
+                                    {expandedLinkId === link.id && (
+                                        <div className="linktree-details">
+                                            {link.details.length > 0 ? (
+                                                link.details.map((detail, detailIndex) => (
+                                                    <div key={detailIndex} className="linktree-detail-item">
+                                                        <span className="linktree-service-icon">
+                                                            {mapServiceTypeToIcon(detail.platform)}
+                                                        </span>
+                                                        <p>
+                                                            {mapServiceTypeToKorean(detail.platform)}
+                                                        </p>
+                                                        <a
+                                                            href={detail.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                        </a>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p className="linktree-no-details">No details available.</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             ))}
                     </div>
+
                 </div>
                 {/*소셜 섹션*/}
                 <div className="linktree-socials">

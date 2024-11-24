@@ -177,7 +177,7 @@ const DetailManagement = ({link}) => {
                 <button
                     className="management-add-service-button"
                     onClick={() => openModal()}>
-                    <HiPlus className="add-link-icon"/> 서비스 추가
+                    <HiPlus className="add-link-icon"/> 링크 추가
                 </button>
             </div>
 
