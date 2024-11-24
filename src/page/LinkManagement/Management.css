@@ -54,7 +54,7 @@
     justify-content: center;
     align-items: center;
 
-    background-color: #7d5cf8;
+    background-color: #8089ff;
     border: none;
 
     border-radius: 10px;
@@ -66,7 +66,7 @@
 }
 
 .management-add-link-button:hover {
-    background-color: #654adc;
+    background-color: #6c77ff;
 }
 
 .management-link-container {
@@ -166,7 +166,7 @@
 }
 
 .thumbnail-button {
-    background-color: #7d5cf8;
+    background-color: #8089ff;
     color: white;
     padding: 5px 10px;
     border: none;
@@ -175,7 +175,7 @@
 }
 
 .thumbnail-button:hover {
-    background-color: #654adc;
+    background-color: #6c77ff;
 }
 
 .thumbnail-upload {
@@ -252,13 +252,13 @@
 
 /* Add button styling */
 .form-add-button {
-    background-color: #7d5cf8;
+    background-color: #8089ff;
     font-weight: bold;
     color: white;
 }
 
 .form-add-button:hover {
-    background-color: #654adc;
+    background-color: #6c77ff;
 }
 
 /* Cancel button styling */
@@ -334,7 +334,7 @@
 }
 
 input:checked + .slider {
-    background-color: #7d5cf8;
+    background-color: #8089ff;
 }
 
 input:checked + .slider:before {
@@ -443,7 +443,7 @@ input:checked + .slider:before {
 }
 
 .management-add-service-button:hover {
-    background-color: #654adc;
+    background-color: #6c77ff;
     color: white;
 }
 
