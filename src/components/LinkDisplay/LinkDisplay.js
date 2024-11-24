@@ -21,6 +21,18 @@ const LinkDisplay = () => {
         setExpandedLinkId((prevId) => (prevId === id ? null : id));
     };
 
+    const getSpotifyEmbedUrl = (url) => {
+        if (!url.includes("open.spotify.com")) return null;
+
+        const parts = url.split("/");
+        const type = parts[3]; // e.g., "track", "playlist", etc.
+        const id = parts[4]?.split("?")[0]; // Extract ID without query params
+
+        return `https://open.spotify.com/embed/${type}/${id}`;
+    };
+
+
+
     return (
         <div className="linktree-container">
             <div
@@ -41,39 +53,61 @@ const LinkDisplay = () => {
                 {/*메인 섹션*/}
                 <div className="linktree-content">
 
-                    <div className={`linktree-links `}>
+                    <div className={`linktree-links`}>
                         {sortedLinks
                             .filter((link) => link.active) // 활성화된 링크만 필터링
                             .map((link, index) => (
                                 <div
                                     key={index}
                                     rel="noopener noreferrer"
-                                    className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""} `}
+                                    className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""}`}
                                     onClick={() => handleToggleExpand(link.id)}
                                 >
                                     <p>{link.title}</p>
                                     {expandedLinkId === link.id && (
-                                        <div className="linktree-details">
-                                            {link.details.length > 0 ? (
-                                                link.details.map((detail, detailIndex) => (
-                                                    <div key={detailIndex} className="linktree-detail-item">
-                                                        <span className="linktree-service-icon">
-                                                            {mapServiceTypeToIcon(detail.platform)}
-                                                        </span>
-                                                        <p>
-                                                            {mapServiceTypeToKorean(detail.platform)}
-                                                        </p>
-                                                        <a
-                                                            href={detail.url}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                        >
-                                                        </a>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                <p className="linktree-no-details">No details available.</p>
-                                            )}
+                                        <div
+                                            className="linktree-details"
+                                            onClick={(e) => e.stopPropagation()} // 이벤트 버블링 방지
+                                        >
+                                            {(() => {
+                                                // 스포티파이 URL 검색
+                                                const spotifyDetail = link.details.find(detail =>
+                                                    detail.url.includes("spotify.com")
+                                                );
+
+                                                // 스포티파이 임베드 URL 생성
+                                                const spotifyEmbedUrl = spotifyDetail
+                                                    ? getSpotifyEmbedUrl(spotifyDetail.url)
+                                                    : null;
+
+                                                return (
+                                                    <>
+                                                        {/* 스포티파이 플레이어 */}
+                                                        {spotifyEmbedUrl && (
+                                                            <iframe
+                                                                src={spotifyEmbedUrl}
+                                                                className="linktree-spotify-embed"
+                                                                allow="encrypted-media"
+                                                            ></iframe>
+                                                        )}
+                                                        {/* 다른 세부 정보 */}
+                                                        {link.details.map((detail, detailIndex) => (
+                                                            <div
+                                                                key={detailIndex}
+                                                                onClick={() => window.open(detail.url, "_blank", "noopener,noreferrer")}
+                                                                className="linktree-detail-item"
+                                                            >
+                                                                <span className="linktree-service-icon">
+                                                                    {mapServiceTypeToIcon(detail.platform)}
+                                                                </span>
+                                                                <p>
+                                                                    {mapServiceTypeToKorean(detail.platform)}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </>
+                                                );
+                                            })()}
                                         </div>
                                     )}
                                 </div>

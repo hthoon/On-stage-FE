@@ -33,7 +33,7 @@
 }
 
 /* 화면 너비가 768px 이하일 때 패널 숨기기 */
-@media screen and (max-width: 1800px) {
+@media screen and (max-width: 1500px) {
     .display-panel {
         display: none; /* 패널 숨기기 */
     }

@@ -22,7 +22,7 @@
 .profile-container {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .linktree-share{
@@ -40,8 +40,9 @@
 
 .linktree-content {
     position: relative;
-    max-height: 350px; /* 화면 크기에서 프로필 영역 크기 제외 */
+    max-height: 410px; /* 화면 크기에서 프로필 영역 크기 제외 */
     overflow-y: auto; /* 세로 스크롤 활성화 */
+    border-radius: 25px;
     z-index: 1; /* 배경보다 위에 표시 */
 }
 /* 스크롤바 숨기기 */
@@ -101,7 +102,7 @@
     align-items: center;
     justify-content: center;
     margin: 10px auto;
-    width: 95%;
+    width: 100%;
     text-decoration: none;
     text-align: center;
     background-color: #ffffff;
@@ -148,7 +149,7 @@
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 .social-icon {
@@ -168,3 +169,8 @@
     transform: scale(1.1);
 }
 
+.linktree-spotify-embed{
+    width: 90%;
+    height: 360px;
+    border: transparent;
+}
