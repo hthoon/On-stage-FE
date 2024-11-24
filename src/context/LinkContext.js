@@ -36,7 +36,7 @@ export const LinkProvider = ({children}) => {
 
 
     return (
-        <LinkContext.Provider value={{ links, setLinks,  socialLink, theme }}>
+        <LinkContext.Provider value={{ links, setLinks,  socialLink, setSocialLink, theme }}>
             {children}
         </LinkContext.Provider>
     )

@@ -177,7 +177,7 @@ const DetailManagement = ({link}) => {
                 <button
                     className="management-add-service-button"
                     onClick={() => openModal()}>
-                    <HiPlus className="add-link-icon"/> 서비스 추가
+                    <HiPlus className="add-link-icon"/> URL 추가
                 </button>
             </div>
 
@@ -188,7 +188,7 @@ const DetailManagement = ({link}) => {
                         <div className="detail-modal-close-btn-container">
                             <HiChevronLeft className="modal-close-btn" onClick={closeModal}/>
                             <h2 className="detail-modal-title">
-                                {mode === CREATE ? "서비스 추가" : "서비스 수정"}
+                                {mode === CREATE ? "URL 추가" : "URL 수정"}
                             </h2>
                             <IoMdClose className="modal-close-btn" onClick={closeModal}/>
                         </div>
@@ -205,7 +205,7 @@ const DetailManagement = ({link}) => {
                                     {serviceIcon}
                                 </p>
                             )}
-                            <p>URL을 입력해주세요. 다양한 플랫폼을 지원합니다.</p>
+                            <p>URL을 입력해주세요. <br/> On-Stage는 다양한 플랫폼을 지원합니다.</p>
                         </div>
                         <button
                             type="submit"

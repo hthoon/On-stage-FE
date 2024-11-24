@@ -97,7 +97,7 @@
     justify-content: center;
     align-items: center;
 
-    background-color: #7d5cf8;
+    background-color: #8089ff;
     border: none;
     color: white;
     border-radius: 25px;
@@ -110,7 +110,7 @@
 }
 
 .management-detail-submit-button:hover {
-    background-color: #654adc;
+    background-color: #717bff;
     color: white;
 }
 
