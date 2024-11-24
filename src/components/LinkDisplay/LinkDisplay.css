@@ -9,7 +9,7 @@
 .linktree-background {
     width: 300px;
     height: 700px;
-    padding: 20px;
+    padding: 15px;
     border-radius: 15px;
     background-size: cover;
     background-position: center;
@@ -22,7 +22,7 @@
 .profile-container {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .linktree-share{
@@ -37,11 +37,15 @@
     font-size: 1.6rem;
     font-weight: bold;
 }
+.linktree-detail-title{
+    font-size: 1rem;
+}
 
 .linktree-content {
     position: relative;
-    max-height: 350px; /* 화면 크기에서 프로필 영역 크기 제외 */
+    max-height: 420px; /* 화면 크기에서 프로필 영역 크기 제외 */
     overflow-y: auto; /* 세로 스크롤 활성화 */
+    border-radius: 25px;
     z-index: 1; /* 배경보다 위에 표시 */
 }
 /* 스크롤바 숨기기 */
@@ -83,7 +87,7 @@
     font-weight: normal;
     color: #ffffff;
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .linktree-links {
@@ -91,37 +95,65 @@
     max-width: 400px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
+
 
 /* 버튼 스타일 */
 .linktree-button {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 5px auto;
-    width: 80%;
+    margin: 8px auto;
+    width: 100%;
     text-decoration: none;
     text-align: center;
-    padding: 15px;
     background-color: #ffffff;
     color: #000000;
     font-size: 1rem;
-    font-weight: normal;
-    border-radius: 15px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    border-radius: 20px;
+    transition: min-height 0.4s ease-in-out;
+    cursor: pointer;
+
+    overflow: hidden;
+    min-height: 40px; /* 기본 높이 */
+}
+.linktree-button.expanded{
+    min-height: 100px; /* 확장된 높이 */
 }
 
-.linktree-button:hover {
-    transform: scale(1.05);
+.linktree-details{
+    width: 100%;
+    padding: 10px;
 }
+
+.linktree-service-icon{
+    margin-left: 15px;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.linktree-detail-item{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 10px auto;
+    width: 90%;
+    border-radius: 15px;
+    border: #818181 solid 1px;
+    transition: scale 0.3s ease-in-out;
+}
+.linktree-detail-item:hover{
+    scale: 1.03;
+}
+
 
 .linktree-socials {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 .social-icon {
@@ -141,3 +173,8 @@
     transform: scale(1.1);
 }
 
+.linktree-spotify-embed{
+    width: 90%;
+    height: 360px;
+    border: transparent;
+}
