@@ -15,6 +15,7 @@ export const LinkProvider = ({children}) => {
     const [links, setLinks] = useState([]);
     const [socialLink, setSocialLink] = useState({});
     const [theme, setTheme] = useState({});
+    const [backgroundImage, setBackgroundImage] = useState("");
 
     const updateTheme = (newTheme) => {
         setTheme((prevTheme) => ({ ...prevTheme, ...newTheme }));
@@ -40,7 +41,7 @@ export const LinkProvider = ({children}) => {
 
 
     return (
-        <LinkContext.Provider value={{ links, setLinks,  socialLink, setSocialLink, theme, updateTheme }}>
+        <LinkContext.Provider value={{ links, setLinks,  socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage }}>
             {children}
         </LinkContext.Provider>
     )
