@@ -3,7 +3,7 @@ import "./ThemeSwitcher.css";
 import { useLink } from "../../context/LinkContext";
 import { HiChevronLeft } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
-import { FaPalette } from "react-icons/fa";
+import {FaImage, FaPalette} from "react-icons/fa";
 import { useAxios } from "../../context/AxiosContext";
 
 const ThemeSwitcher = () => {
@@ -13,7 +13,7 @@ const ThemeSwitcher = () => {
         ...theme,
         borderRadius: theme?.borderRadius ? parseInt(theme.borderRadius, 10) : 25, // 초기 설정
     });
-    const [isOpen, setIsOpen] = useState(false); // 토글 상태 관리
+    const [openSection, setOpenSection] = useState(null); // 어떤 섹션이 열릴지 관리
 
     useEffect(() => {
         // CSS 변수 업데이트
@@ -47,8 +47,11 @@ const ThemeSwitcher = () => {
             const response = await axiosInstance.put(`/api/theme/${customTheme.userId}/background`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            const imageUrl = response.data.url; // 서버에서 반환된 이미지 URL
+            const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
+
             handleThemeChange("backgroundImage", `url(${imageUrl})`);
+            console.log(response.data);
+            updateTheme(response.data);
         } catch (error) {
             console.error("Image upload failed:", error);
         }
@@ -64,38 +67,52 @@ const ThemeSwitcher = () => {
         handleThemeChange(property, parseInt(value, 10)); // 숫자로 저장
     };
 
-    const handleUpdateTheme = async () => {
+    const handleUpdateTheme = async (e) => {
         try {
             await axiosInstance.put(`/api/theme`, customTheme);
-            setIsOpen(false);
+            setOpenSection(null); // 설정 후 닫기
         } catch (error) {
             console.error(error);
         }
     };
 
+    const handleSectionToggle = (section) => {
+        setOpenSection(openSection === section ? null : section); // 열려있는 섹션을 토글
+    };
+
     return (
         <div className="themeSwitcher-container">
             <div className="themeSwitcher-button-container">
+                {/* 테마 설정 버튼 */}
                 <button
                     className="theme-toggle-button"
-                    onClick={() => setIsOpen(!isOpen)} // 토글 상태 변경
+                    onClick={() => handleSectionToggle("theme")} // 테마 설정 토글
                 >
-                    <FaPalette className="palette-icon"/> 테마
+                    <FaPalette className="palette-icon" /> 테마
+                </button>
+
+                {/* 배경 이미지 업로드 버튼 */}
+                <button
+                    className="theme-toggle-button"
+                    onClick={() => handleSectionToggle("background")} // 배경 이미지 업로드 토글
+                >
+                    <FaImage className="palette-icon" /> 배경
                 </button>
             </div>
 
-            <div className={`theme-switcher ${isOpen ? "open" : "close"}`}>
-                {isOpen && (
+            {/* 테마 설정 영역 */}
+            <div className={`theme-switcher ${openSection === "theme" ? "open" : "close"}`}>
+                {openSection === "theme" && (
                     <div>
                         <div className="detail-modal-close-btn-container">
                             <HiChevronLeft
                                 className="modal-close-btn"
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => setOpenSection(null)} // 테마 설정 닫기
                             />
                             <h3>테마</h3>
                             <IoMdClose
                                 className="modal-close-btn"
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => setOpenSection(null)} // 테마 설정 닫기
                             />
                         </div>
 
@@ -163,20 +180,41 @@ const ThemeSwitcher = () => {
                                 <span>{customTheme.borderRadius}px</span>
                             </label>
                         </div>
-                        <div className="theme-setting">
-                            <label>
-                                배경 이미지 업로드:
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileUpload}
-                                />
-                            </label>
-                        </div>
 
                         <button onClick={handleUpdateTheme} className="form-cancel-button">
                             저장
                         </button>
+                    </div>
+                )}
+            </div>
+
+            {/* 배경 이미지 업로드 영역 */}
+            <div className={`theme-switcher ${openSection === "background" ? "open" : "close"}`}>
+                {openSection === "background" && (
+                    <div>
+                        <div className="detail-modal-close-btn-container">
+                            <HiChevronLeft
+                                className="modal-close-btn"
+                                onClick={() => setOpenSection(null)} // 배경 이미지 업로드 닫기
+                            />
+                            <h3>배경 이미지 업로드</h3>
+                            <IoMdClose
+                                className="modal-close-btn"
+                                onClick={() => setOpenSection(null)} // 배경 이미지 업로드 닫기
+                            />
+                        </div>
+
+                        <div className="theme-setting">
+                            <label className="theme-file-label">
+                                <span className="theme-file-button">업로드</span>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileUpload}
+                                    className="theme-file-input"
+                                />
+                            </label>
+                        </div>
                     </div>
                 )}
             </div>

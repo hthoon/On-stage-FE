@@ -32,7 +32,6 @@ export const LinkProvider = ({children}) => {
                 setLinks(response.data.link);
                 setSocialLink(response.data.socialLink);
                 setTheme(response.data.theme);
-                setBackgroundImage(response.data.theme.backgroundImage);
             })
             .catch((error) => {
                 console.log(error);
