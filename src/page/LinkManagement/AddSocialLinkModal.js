@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./SocialPanel.css";
+import {HiChevronLeft} from "react-icons/hi";
+import {IoMdClose} from "react-icons/io";
 
 const AddSocialLinkModal = ({ socialLink, setSocialLink, onClose }) => {
     const [formData, setFormData] = useState({
@@ -26,8 +28,17 @@ const AddSocialLinkModal = ({ socialLink, setSocialLink, onClose }) => {
 
     return (
         <div className="modal-overlay">
+
             <div className="modal-content">
-                <h4>소셜 링크 추가</h4>
+                <div className="detail-modal-close-btn-container">
+                    <HiChevronLeft className="modal-close-btn" onClick={onClose}/>
+                    <h2 className="detail-modal-title">
+                        소셜 링크 추가
+                    </h2>
+                    <IoMdClose className="modal-close-btn" onClick={onClose}/>
+                </div>
+                <div className="details-border-line"></div>
+
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Instagram</label>
@@ -79,14 +90,13 @@ const AddSocialLinkModal = ({ socialLink, setSocialLink, onClose }) => {
                             placeholder="GitHub URL"
                         />
                     </div>
-                    <div className="modal-actions">
-                        <button type="submit" className="modal-save-button">
-                            저장
-                        </button>
-                        <button type="button" className="modal-cancel-button" onClick={onClose}>
-                            취소
-                        </button>
-                    </div>
+
+                    <button
+                        type="submit"
+                        className={`management-detail-submit-button`}
+                        onClick={handleSubmit}>
+                        저장
+                    </button>
                 </form>
             </div>
         </div>
