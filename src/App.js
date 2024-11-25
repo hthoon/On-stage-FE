@@ -3,6 +3,7 @@ import AppRouter from "./router/Router";
 import {BrowserRouter} from "react-router-dom";
 import {AxiosContextProvider} from "./context/AxiosContext";
 import {LinkProvider} from "./context/LinkContext";
+import {ThemeProvider} from "./context/ThemeContext";
 
 function App() {
     return (
@@ -10,9 +11,11 @@ function App() {
             <BrowserRouter>
                 <AxiosContextProvider>
                     <LinkProvider>
-                        <div className="Content">
-                            <AppRouter/>
-                        </div>
+
+                            <div className="Content">
+                                <AppRouter/>
+                            </div>
+
                     </LinkProvider>
                 </AxiosContextProvider>
             </BrowserRouter>

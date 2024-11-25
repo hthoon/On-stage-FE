@@ -1,11 +1,12 @@
 import React from 'react';
 import LinkDisplay from "../../components/LinkDisplay/LinkDisplay";
 import "./Management.css";
-import ManagementPannel from "./ManagementPanel";
+import ManagementPanel from "./ManagementPanel";
 import {useAxios} from "../../context/AxiosContext";
 import {useLink} from "../../context/LinkContext";
 import AddLinkPanel from "./AddLinkPanel";
 import SocialPanel from "./SocialPanel";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Management = () => {
     const {axiosInstance} = useAxios();
@@ -36,13 +37,14 @@ const Management = () => {
         <div className="management-container">
             <div className="management-panel">
                 <SocialPanel />
+                <ThemeSwitcher/>
                 {/* 링크 Create 패널 */}
                 <AddLinkPanel
                     updateLink={updateLink}
                     createLink={createLink}
                 />
                 {/* 메인 링크 관리 패널*/}
-                <ManagementPannel
+                <ManagementPanel
                     updateLink={updateLink}
                     deleteLink={deleteLink}
                 />

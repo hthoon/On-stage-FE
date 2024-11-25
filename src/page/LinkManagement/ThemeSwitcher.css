@@ -1,0 +1,36 @@
+.theme-switcher {
+    width: 100%;
+    padding: 20px;
+    background-color:  #ffffff;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 300px;
+    margin: 20px auto;
+}
+
+.theme-switcher h3 {
+    margin-bottom: 16px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.theme-setting {
+    margin-bottom: 16px;
+}
+
+.theme-setting label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1em;
+}
+
+.theme-setting input[type="color"] {
+    margin-left: 10px;
+    cursor: pointer;
+    height: 32px;
+    width: 32px;
+    border: none;
+    border-radius: 50%;
+}
