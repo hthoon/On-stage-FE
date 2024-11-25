@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./ThemeSwitcher.css";
 import { useLink } from "../../context/LinkContext";
+import {HiChevronLeft} from "react-icons/hi";
+import {IoMdClose} from "react-icons/io";
+import {FaPalette} from "react-icons/fa";
 
 const ThemeSwitcher = () => {
     const { theme, updateTheme } = useLink();
@@ -26,62 +29,87 @@ const ThemeSwitcher = () => {
 
     return (
         <div className="themeSwitcher-container">
-            <button
-                className="theme-toggle-button"
-                onClick={() => setIsOpen(!isOpen)} // 토글 상태 변경
-            >
-                {isOpen ? "테마 닫기" : "테마 열기"}
-            </button>
+            <div className="themeSwitcher-button-container">
+
+                <button
+                    className="theme-toggle-button"
+                    onClick={() => setIsOpen(!isOpen)} // 토글 상태 변경
+                >
+                    <FaPalette className="palette-icon"/> Theme
+                </button>
+
+            </div>
             <div className={`theme-switcher ${isOpen ? "open" : "close"}`}>
-                <h3>테마</h3>
-                <div className="theme-setting">
-                    <label>
-                        버튼 색상:
-                        <input
-                            type="color"
-                            value={customTheme.buttonColor || "#ffffff"}
-                            onChange={(e) =>
-                                handleThemeChange("buttonColor", e.target.value)
-                            }
-                        />
-                    </label>
-                </div>
-                <div className="theme-setting">
-                    <label>
-                        폰트 색상:
-                        <input
-                            type="color"
-                            value={customTheme.fontColor || "#000000"}
-                            onChange={(e) =>
-                                handleThemeChange("fontColor", e.target.value)
-                            }
-                        />
-                    </label>
-                </div>
-                <div className="theme-setting">
-                    <label>
-                        아이콘 색상:
-                        <input
-                            type="color"
-                            value={customTheme.iconColor || "#000000"}
-                            onChange={(e) =>
-                                handleThemeChange("iconColor", e.target.value)
-                            }
-                        />
-                    </label>
-                </div>
-                <div className="theme-setting">
-                    <label>
-                        프로필 색상:
-                        <input
-                            type="color"
-                            value={customTheme.profileColor || "#000000"}
-                            onChange={(e) =>
-                                handleThemeChange("profileColor", e.target.value)
-                            }
-                        />
-                    </label>
-                </div>
+                {isOpen && (
+                    <div>
+                        <div className="detail-modal-close-btn-container">
+                            <HiChevronLeft className="modal-close-btn" onClick={() => setIsOpen(false)}/>
+                            <h3>테마</h3>
+                            <IoMdClose className="modal-close-btn" onClick={() => setIsOpen(false)}/>
+                        </div>
+
+                        <div className="theme-setting">
+                            <label>
+                                버튼 색상:
+                                <input
+                                    type="color"
+                                    value={customTheme.buttonColor || "#ffffff"}
+                                    onChange={(e) =>
+                                        handleThemeChange(
+                                            "buttonColor",
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div className="theme-setting">
+                            <label>
+                                폰트 색상:
+                                <input
+                                    type="color"
+                                    value={customTheme.fontColor || "#000000"}
+                                    onChange={(e) =>
+                                        handleThemeChange(
+                                            "fontColor",
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div className="theme-setting">
+                            <label>
+                                아이콘 색상:
+                                <input
+                                    type="color"
+                                    value={customTheme.iconColor || "#000000"}
+                                    onChange={(e) =>
+                                        handleThemeChange(
+                                            "iconColor",
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                            </label>
+                        </div>
+                        <div className="theme-setting">
+                            <label>
+                                프로필 색상:
+                                <input
+                                    type="color"
+                                    value={customTheme.profileColor || "#000000"}
+                                    onChange={(e) =>
+                                        handleThemeChange(
+                                            "profileColor",
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                            </label>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

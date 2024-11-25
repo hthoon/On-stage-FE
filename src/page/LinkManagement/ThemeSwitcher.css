@@ -1,7 +1,13 @@
 .themeSwitcher-container{
     width: 100%;
-    margin: 10px auto;
+    margin: 0 auto;
 
+}
+.themeSwitcher-button-container{
+    width: 90%;
+    display: flex;
+    justify-content: start;
+    margin: 0 auto;
 }
 .theme-switcher {
     width: 80%;
@@ -12,37 +18,52 @@
     border-radius: 15px;
     margin: 0 auto;
     overflow: hidden; /* 내용이 밖으로 넘치지 않도록 설정 */
-    transition: all 0.4s ease-in-out; /* 부드러운 애니메이션 */
-    max-height: 0; /* 기본적으로 닫힌 상태 */
+    transition: all 0.2s ease-in-out; /* 부드러운 애니메이션 */
     opacity: 0; /* 기본적으로 보이지 않음 */
+}
+.palette-icon{
+    font-size: 25px;
+    color: #8089ff;
+    margin-right: 10px;
+
+    transition: all 0.4s ease-in-out;
+}
+.palette-icon:hover{
+    scale: 1.2;
+    color: #6e79ff;
 }
 
 .theme-switcher.open {
-    max-height: 300px;
-    padding: 15px 30px;
 
+    padding: 15px 30px;
+    margin: 10px auto;
     opacity: 1; /* 보이도록 설정 */
 }
 .theme-switcher-close {
     opacity: 0;
-    padding: 15px 30px;
-    max-height: 0;
+    padding: 10px 30px;
 }
 
 .theme-toggle-button {
-    padding: 10px 20px;
-    margin: 0 auto;
-    width: 90%;
-    border: black solid 1px;
-    border-radius: 5px;
+
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.4s ease-in-out;
+}
+.theme-toggle-button:hover {
+    background-color: #efefef;
 }
 
-.theme-toggle-button:hover {
-    opacity: 0.8;
-}
 
 .theme-switcher h3 {
     font-size: 1.5em;
@@ -58,13 +79,15 @@
     justify-content: space-between;
     align-items: center;
     font-size: 1em;
+    font-weight: bold;
 }
 
 .theme-setting input[type="color"] {
     margin-left: 10px;
     cursor: pointer;
-    height: 32px;
-    width: 32px;
+    height: 35px;
+    width: 35px;
     border: none;
     border-radius: 50%;
+    background-color: transparent;
 }
