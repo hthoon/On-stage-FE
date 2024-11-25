@@ -109,6 +109,16 @@
     transition: background-color 0.7s ease;
 }
 
+.management-detail-submit-button:disabled {
+    background-color: #8f8f8f;
+    cursor: not-allowed;
+}
+.management-detail-submit-button:disabled:hover {
+    background-color: #8f8f8f;
+}
+
+
+
 .management-detail-submit-button:hover {
     background-color: #717bff;
     color: white;

@@ -1,20 +1,19 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import "./LinkDisplay.css";
-import {useLink} from "../../context/LinkContext";
-import {FaGithub, FaInstagram} from "react-icons/fa";
-import {SlSocialSpotify, SlSocialYoutube} from "react-icons/sl";
-import {FaXTwitter} from "react-icons/fa6";
-import {CiStar, CiShare1} from "react-icons/ci";
-import {sortLinksByPrevId} from "../../utils/sortLinks";
-import {mapServiceTypeToIcon, mapServiceTypeToKorean} from "../../utils/AnalysisURL";
+import { useLink } from "../../context/LinkContext";
+import { FaGithub, FaInstagram } from "react-icons/fa";
+import { SlSocialSpotify, SlSocialYoutube } from "react-icons/sl";
+import { FaXTwitter } from "react-icons/fa6";
+import { CiStar, CiShare1 } from "react-icons/ci";
+import { sortLinksByPrevId } from "../../utils/sortLinks";
+import { mapServiceTypeToIcon, mapServiceTypeToKorean } from "../../utils/AnalysisURL";
 
 const LinkDisplay = () => {
     const backgroundImage = "https://images.pexels.com/photos/3518623/pexels-photo-3518623.jpeg?cs=srgb&dl=pexels-steve-3518623.jpg&fm=jpg";
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
-    const {links} = useLink();
+    const { links, socialLink } = useLink();
     const sortedLinks = sortLinksByPrevId(links);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
-
 
     const handleToggleExpand = (id) => {
         setExpandedLinkId((prevId) => (prevId === id ? null : id));
@@ -30,20 +29,26 @@ const LinkDisplay = () => {
         return `https://open.spotify.com/embed/${type}/${id}`;
     };
 
-
+    const socialIcons = {
+        instagram: <FaInstagram />,
+        youtube: <SlSocialYoutube />,
+        x: <FaXTwitter />,
+        spotify: <SlSocialSpotify />,
+        github: <FaGithub />,
+    };
 
     return (
         <div className="linktree-container">
             <div
-                className="linktree-background" style={{backgroundImage: `url(${backgroundImage})`,}}>
+                className="linktree-background" style={{ backgroundImage: `url(${backgroundImage})`, }}>
                 <div className="linktree-share">
-                    <h6 className="linktree-share-icon"><CiStar/></h6>
-                    <h6 className="linktree-share-icon"><CiShare1/></h6>
+                    <h6 className="linktree-share-icon"><CiStar /></h6>
+                    <h6 className="linktree-share-icon"><CiShare1 /></h6>
                 </div>
 
                 {/*프로필 섹션*/}
                 <div className="profile-container">
-                    <img src={profileImage} alt="Profile" className="profile-image"/>
+                    <img src={profileImage} alt="Profile" className="profile-image" />
                 </div>
 
                 <h5 className="linktree-name">Winter</h5>
@@ -51,7 +56,6 @@ const LinkDisplay = () => {
 
                 {/*메인 섹션*/}
                 <div className="linktree-content">
-
                     <div className={`linktree-links`}>
                         {sortedLinks
                             .filter((link) => link.active) // 활성화된 링크만 필터링
@@ -112,34 +116,27 @@ const LinkDisplay = () => {
                                 </div>
                             ))}
                     </div>
-
                 </div>
+
                 {/*소셜 섹션*/}
                 <div className="linktree-socials">
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
-                       className="social-icon">
-                        <FaInstagram/>
-                    </a>
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
-                       className="social-icon">
-                        <SlSocialYoutube/>
-                    </a>
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
-                       className="social-icon">
-                        <FaXTwitter/>
-                    </a>
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
-                       className="social-icon">
-                        <SlSocialSpotify/>
-                    </a>
-                    <a href="https://example.com/" target="_blank" rel="noopener noreferrer"
-                       className="social-icon">
-                        <FaGithub/>
-                    </a>
-
+                    {Object.entries(socialLink)
+                        .filter(([platform, url]) => platform !== "userId" && url)
+                        .map(([platform, url]) => (
+                            <a
+                                key={platform}
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="social-icon"
+                            >
+                                {socialIcons[platform] || platform}
+                            </a>
+                        ))}
                 </div>
             </div>
         </div>
     );
 };
+
 export default LinkDisplay;
