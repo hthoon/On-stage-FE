@@ -3,6 +3,7 @@ import "./SocialPanel.css";
 import { HiChevronLeft } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
 import { useAxios } from "../../context/AxiosContext";
+import {mapServiceTypeToIcon} from "../../utils/AnalysisURL";
 
 const AddSocialLinkModal = ({ socialLink, setSocialLink, onClose }) => {
     const { axiosInstance } = useAxios();
@@ -21,8 +22,8 @@ const AddSocialLinkModal = ({ socialLink, setSocialLink, onClose }) => {
     const urlPatterns = {
         instagram: "instagram.com",
         youtube: "youtube.com/@",
-        x: "x.com", // 또는 "x.com"
-        spotify: "spotify.com",
+        x: "x.com",
+        spotify: "spotify.com/artist",
         github: "github.com",
     };
 
@@ -101,7 +102,7 @@ const AddSocialLinkModal = ({ socialLink, setSocialLink, onClose }) => {
                 <form onSubmit={handleSubmit}>
                     {Object.entries(formData).map(([platform, value]) => (
                         <div className="form-group" key={platform}>
-                            <label>{platform.charAt(0).toUpperCase() + platform.slice(1)}</label>
+                            <label className="add-social-icons">{mapServiceTypeToIcon(platform.toUpperCase())}</label>
                             <input
                                 type="url"
                                 name={platform}
