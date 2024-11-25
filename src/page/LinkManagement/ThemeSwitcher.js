@@ -20,7 +20,9 @@ const ThemeSwitcher = () => {
         Object.entries(customTheme).forEach(([property, value]) => {
             document.documentElement.style.setProperty(
                 `--${property}`,
-                property === "borderRadius" ? `${value}px` : value
+                property === "borderRadius" || property === "backgroundImage"
+                    ? `${value}px`
+                    : value
             );
         });
     }, [customTheme]);
@@ -32,6 +34,25 @@ const ThemeSwitcher = () => {
             borderRadius: theme?.borderRadius ? parseInt(theme.borderRadius, 10) : 25,
         });
     }, [theme]);
+
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await axiosInstance.put(`/api/theme/${customTheme.userId}/background`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            const imageUrl = response.data.url; // 서버에서 반환된 이미지 URL
+            handleThemeChange("backgroundImage", `url(${imageUrl})`);
+        } catch (error) {
+            console.error("Image upload failed:", error);
+        }
+    };
 
     const handleThemeChange = (property, value) => {
         const newTheme = { ...customTheme, [property]: value };
@@ -59,9 +80,10 @@ const ThemeSwitcher = () => {
                     className="theme-toggle-button"
                     onClick={() => setIsOpen(!isOpen)} // 토글 상태 변경
                 >
-                    <FaPalette className="palette-icon" /> 테마
+                    <FaPalette className="palette-icon"/> 테마
                 </button>
             </div>
+
             <div className={`theme-switcher ${isOpen ? "open" : "close"}`}>
                 {isOpen && (
                     <div>
@@ -139,6 +161,16 @@ const ThemeSwitcher = () => {
                                     }
                                 />
                                 <span>{customTheme.borderRadius}px</span>
+                            </label>
+                        </div>
+                        <div className="theme-setting">
+                            <label>
+                                배경 이미지 업로드:
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileUpload}
+                                />
                             </label>
                         </div>
 

@@ -10,9 +10,9 @@ import { mapServiceTypeToIcon, mapServiceTypeToKorean } from "../../utils/Analys
 
 
 const LinkDisplay = () => {
-    const backgroundImage = "https://images.pexels.com/photos/3518623/pexels-photo-3518623.jpeg?cs=srgb&dl=pexels-steve-3518623.jpg&fm=jpg";
+    const background = "https://images.pexels.com/photos/3518623/pexels-photo-3518623.jpeg?cs=srgb&dl=pexels-steve-3518623.jpg&fm=jpg";
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
-    const { links, socialLink, theme } = useLink();
+    const { links, socialLink, backgroundImage } = useLink();
 
     const sortedLinks = sortLinksByPrevId(links);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
@@ -43,7 +43,7 @@ const LinkDisplay = () => {
     return (
         <div className="linktree-container">
             <div
-                className="linktree-background" style={{ backgroundImage: `url(${backgroundImage})`, }}>
+                className="linktree-background" style={{ backgroundImage: `url(${background})`, }}>
                 <div className="linktree-share">
                     <h6 className="linktree-share-icon"><CiStar /></h6>
                     <h6 className="linktree-share-icon"><CiShare1 /></h6>

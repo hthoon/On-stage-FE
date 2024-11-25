@@ -110,10 +110,6 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                                             className="link-add-btn"
                                             onClick={() => handleToggleExpand(link.id)}
                                         />
-                                        <IoImageOutline
-                                            className="link-add-btn"
-                                            onClick={() => handleToggleExpand(link.id)}
-                                        />
                                     </div>
                                 </div>
                             </div>
