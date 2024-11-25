@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from "react";
 import "./ThemeSwitcher.css";
 import { useLink } from "../../context/LinkContext";
-import {HiChevronLeft} from "react-icons/hi";
-import {IoMdClose} from "react-icons/io";
-import {FaPalette} from "react-icons/fa";
-import {useAxios} from "../../context/AxiosContext";
+import { HiChevronLeft } from "react-icons/hi";
+import { IoMdClose } from "react-icons/io";
+import { FaPalette } from "react-icons/fa";
+import { useAxios } from "../../context/AxiosContext";
 
 const ThemeSwitcher = () => {
     const { axiosInstance } = useAxios();
     const { theme, updateTheme } = useLink();
-    const [customTheme, setCustomTheme] = useState(theme || {});
+    const [customTheme, setCustomTheme] = useState({
+        ...theme,
+        borderRadius: theme?.borderRadius ? parseInt(theme.borderRadius, 10) : 25, // 초기 설정
+    });
     const [isOpen, setIsOpen] = useState(false); // 토글 상태 관리
 
     useEffect(() => {
         // CSS 변수 업데이트
         Object.entries(customTheme).forEach(([property, value]) => {
-            document.documentElement.style.setProperty(`--${property}`, value);
+            document.documentElement.style.setProperty(
+                `--${property}`,
+                property === "borderRadius" ? `${value}px` : value
+            );
         });
     }, [customTheme]);
 
     useEffect(() => {
-        setCustomTheme(theme || {}); // theme 변경 시 상태 업데이트
+        // theme 변경 시 상태 초기화
+        setCustomTheme({
+            ...theme,
+            borderRadius: theme?.borderRadius ? parseInt(theme.borderRadius, 10) : 25,
+        });
     }, [theme]);
 
     const handleThemeChange = (property, value) => {
@@ -29,35 +39,42 @@ const ThemeSwitcher = () => {
         updateTheme(newTheme); // 컨텍스트 동기화
     };
 
+    const handleSliderChange = (property, value) => {
+        handleThemeChange(property, parseInt(value, 10)); // 숫자로 저장
+    };
+
     const handleUpdateTheme = async () => {
         try {
             await axiosInstance.put(`/api/theme`, customTheme);
             setIsOpen(false);
-        }
-        catch (error) {
-            console.log(error);
+        } catch (error) {
+            console.error(error);
         }
     };
 
     return (
         <div className="themeSwitcher-container">
             <div className="themeSwitcher-button-container">
-
                 <button
                     className="theme-toggle-button"
                     onClick={() => setIsOpen(!isOpen)} // 토글 상태 변경
                 >
-                    <FaPalette className="palette-icon"/> Theme
+                    <FaPalette className="palette-icon" /> 테마
                 </button>
-
             </div>
             <div className={`theme-switcher ${isOpen ? "open" : "close"}`}>
                 {isOpen && (
                     <div>
                         <div className="detail-modal-close-btn-container">
-                            <HiChevronLeft className="modal-close-btn" onClick={() => setIsOpen(false)}/>
+                            <HiChevronLeft
+                                className="modal-close-btn"
+                                onClick={() => setIsOpen(false)}
+                            />
                             <h3>테마</h3>
-                            <IoMdClose className="modal-close-btn" onClick={() => setIsOpen(false)}/>
+                            <IoMdClose
+                                className="modal-close-btn"
+                                onClick={() => setIsOpen(false)}
+                            />
                         </div>
 
                         <div className="theme-setting">
@@ -67,10 +84,7 @@ const ThemeSwitcher = () => {
                                     type="color"
                                     value={customTheme.buttonColor || "#ffffff"}
                                     onChange={(e) =>
-                                        handleThemeChange(
-                                            "buttonColor",
-                                            e.target.value
-                                        )
+                                        handleThemeChange("buttonColor", e.target.value)
                                     }
                                 />
                             </label>
@@ -82,10 +96,7 @@ const ThemeSwitcher = () => {
                                     type="color"
                                     value={customTheme.fontColor || "#000000"}
                                     onChange={(e) =>
-                                        handleThemeChange(
-                                            "fontColor",
-                                            e.target.value
-                                        )
+                                        handleThemeChange("fontColor", e.target.value)
                                     }
                                 />
                             </label>
@@ -97,10 +108,7 @@ const ThemeSwitcher = () => {
                                     type="color"
                                     value={customTheme.iconColor || "#000000"}
                                     onChange={(e) =>
-                                        handleThemeChange(
-                                            "iconColor",
-                                            e.target.value
-                                        )
+                                        handleThemeChange("iconColor", e.target.value)
                                     }
                                 />
                             </label>
@@ -112,12 +120,25 @@ const ThemeSwitcher = () => {
                                     type="color"
                                     value={customTheme.profileColor || "#000000"}
                                     onChange={(e) =>
-                                        handleThemeChange(
-                                            "profileColor",
-                                            e.target.value
-                                        )
+                                        handleThemeChange("profileColor", e.target.value)
                                     }
                                 />
+                            </label>
+                        </div>
+                        <div className="theme-setting">
+                            <label>
+                                모서리 둥글기:
+                                <input
+                                    type="range"
+                                    min="1"
+                                    max="25"
+                                    className="theme-border-radius-slider"
+                                    value={customTheme.borderRadius} // 숫자로 유지
+                                    onChange={(e) =>
+                                        handleSliderChange("borderRadius", e.target.value)
+                                    }
+                                />
+                                <span>{customTheme.borderRadius}px</span>
                             </label>
                         </div>
 
