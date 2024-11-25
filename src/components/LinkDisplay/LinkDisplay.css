@@ -1,3 +1,10 @@
+:root {
+    --buttonColor: #ffffff; /* 버튼 기본 배경색 */
+    --profileColor: #ffffff;
+    --fontColor: #000000; /* 텍스트 색상 */
+    --iconColor: #ffffff;
+}
+
 .linktree-container {
     display: flex;
     justify-content: center;
@@ -33,7 +40,7 @@
 }
 
 .linktree-share-icon{
-    color: white;
+    color: var(--iconColor);
     font-size: 1.6rem;
     font-weight: bold;
 }
@@ -68,7 +75,7 @@
     height: 100px;
     border-radius: 50%; /* 원형으로 만들기 */
     object-fit: cover; /* 이미지 비율을 유지하면서 잘림 없이 채우기 */
-    border: 2px solid #fff; /* 프로필 이미지 테두리 추가 */
+    border: 2px solid var(--iconColor);; /* 프로필 이미지 테두리 추가 */
 }
 
 .linktree-name{
@@ -76,7 +83,7 @@
     justify-content: center;
     font-size: 1.2rem;
     font-weight: bold;
-    color: #ffffff;
+    color: var(--profileColor);
     margin: 10px;
 }
 
@@ -85,7 +92,7 @@
     justify-content: center;
     font-size: 1.1rem;
     font-weight: normal;
-    color: #ffffff;
+    color: var(--profileColor);
     margin-top: 10px;
     margin-bottom: 15px;
 }
@@ -97,7 +104,6 @@
     flex-direction: column;
 }
 
-
 /* 버튼 스타일 */
 .linktree-button {
     display: flex;
@@ -108,8 +114,8 @@
     width: 100%;
     text-decoration: none;
     text-align: center;
-    background-color: #ffffff;
-    color: #000000;
+    background-color: var(--buttonColor);
+    color: var(--fontColor);
     font-size: 1rem;
     font-weight: bold;
     border-radius: 20px;
@@ -158,7 +164,7 @@
 
 .social-icon {
     font-size: 22px;
-    color: white;
+    color: var(--iconColor);
     border-radius: 50%;
     padding: 5px;
     text-decoration: none;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import "./LinkDisplay.css";
 import { useLink } from "../../context/LinkContext";
 import { FaGithub, FaInstagram } from "react-icons/fa";
@@ -8,10 +8,12 @@ import { CiStar, CiShare1 } from "react-icons/ci";
 import { sortLinksByPrevId } from "../../utils/sortLinks";
 import { mapServiceTypeToIcon, mapServiceTypeToKorean } from "../../utils/AnalysisURL";
 
+
 const LinkDisplay = () => {
     const backgroundImage = "https://images.pexels.com/photos/3518623/pexels-photo-3518623.jpeg?cs=srgb&dl=pexels-steve-3518623.jpg&fm=jpg";
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
-    const { links, socialLink } = useLink();
+    const { links, socialLink, theme } = useLink();
+
     const sortedLinks = sortLinksByPrevId(links);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
 
@@ -36,6 +38,7 @@ const LinkDisplay = () => {
         spotify: <SlSocialSpotify />,
         github: <FaGithub />,
     };
+
 
     return (
         <div className="linktree-container">
