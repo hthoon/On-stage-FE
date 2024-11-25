@@ -4,8 +4,10 @@ import { useLink } from "../../context/LinkContext";
 import {HiChevronLeft} from "react-icons/hi";
 import {IoMdClose} from "react-icons/io";
 import {FaPalette} from "react-icons/fa";
+import {useAxios} from "../../context/AxiosContext";
 
 const ThemeSwitcher = () => {
+    const { axiosInstance } = useAxios();
     const { theme, updateTheme } = useLink();
     const [customTheme, setCustomTheme] = useState(theme || {});
     const [isOpen, setIsOpen] = useState(false); // 토글 상태 관리
@@ -25,6 +27,16 @@ const ThemeSwitcher = () => {
         const newTheme = { ...customTheme, [property]: value };
         setCustomTheme(newTheme); // 로컬 상태 업데이트
         updateTheme(newTheme); // 컨텍스트 동기화
+    };
+
+    const handleUpdateTheme = async () => {
+        try {
+            await axiosInstance.put(`/api/theme`, customTheme);
+            setIsOpen(false);
+        }
+        catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -108,6 +120,10 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
+                        <button onClick={handleUpdateTheme} className="form-cancel-button">
+                            저장
+                        </button>
                     </div>
                 )}
             </div>
