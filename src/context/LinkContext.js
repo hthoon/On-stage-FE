@@ -13,7 +13,7 @@ export const LinkProvider = ({children}) => {
     const location = useLocation();
 
     const [links, setLinks] = useState([]);
-    const [socialLink, setSocialLink] = useState();
+    const [socialLink, setSocialLink] = useState({});
     const [theme, setTheme] = useState();
 
 
