@@ -3,6 +3,7 @@
     --profileColor: #ffffff;
     --fontColor: #000000; /* 텍스트 색상 */
     --iconColor: #ffffff;
+    --borderRadius: 25px;
 }
 
 .linktree-container {
@@ -52,7 +53,7 @@
     position: relative;
     max-height: 420px; /* 화면 크기에서 프로필 영역 크기 제외 */
     overflow-y: auto; /* 세로 스크롤 활성화 */
-    border-radius: 25px;
+    border-radius: var(--borderRadius);
     z-index: 1; /* 배경보다 위에 표시 */
 }
 /* 스크롤바 숨기기 */
@@ -118,7 +119,7 @@
     color: var(--fontColor);
     font-size: 1rem;
     font-weight: bold;
-    border-radius: 20px;
+    border-radius: var(--borderRadius);
     transition: min-height 0.4s ease-in-out;
     cursor: pointer;
 
