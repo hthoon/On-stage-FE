@@ -115,9 +115,10 @@ const DetailManagement = ({link}) => {
                 );
             } else if (mode === UPDATE && selectedDetail) {
                 // 수정 모드
-                const response = await axiosInstance.put(`/api/link-detail/${selectedDetail.id}`, {
+                const response = await axiosInstance.put("/api/link-detail", {
                     url: inputURL,
                     platform: serviceType,
+                    id: selectedDetail.id,
                 });
 
                 const updatedDetail = response.data;
