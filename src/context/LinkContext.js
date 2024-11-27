@@ -26,8 +26,7 @@ export const LinkProvider = ({children}) => {
         if (!whitelistPaths.includes(location.pathname)) {
             return;
         }
-        const userId = 1; // 수정 해야함
-        axiosInstance.get(`/api/link/${userId}`, {id: userId})
+        axiosInstance.get(`/api/link`)
             .then((response) => {
                 setLinks(response.data.link);
                 setSocialLink(response.data.socialLink);

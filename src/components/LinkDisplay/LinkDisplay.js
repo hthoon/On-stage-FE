@@ -131,7 +131,7 @@ const LinkDisplay = () => {
                 {/*소셜 섹션*/}
                 <div className="linktree-socials">
                     {Object.entries(socialLink)
-                        .filter(([platform, url]) => platform !== "userId" && url)
+                        .filter(([platform, url]) => platform !== "username" && url)
                         .map(([platform, url]) => (
                             <a
                                 key={platform}
