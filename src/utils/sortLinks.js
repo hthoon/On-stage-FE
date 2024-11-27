@@ -16,7 +16,6 @@ export const sortLinksByPrevId = (links) => {
     while (current) {
         // 순환 참조를 방지: 이미 방문한 노드라면 중단
         if (visited.has(current.id)) {
-            console.warn("Circular reference detected in links. Aborting sort.");
             break;
         }
 
@@ -32,11 +31,20 @@ export const sortLinksByPrevId = (links) => {
         );
     }
 
-    // 누락된 노드가 있으면 뒤에 추가 (prevLinkId가 잘못 설정된 경우 처리)
+    // TODO 누락된 노드가 있으면 뒤에 추가 (prevLinkId가 잘못 설정된 경우 처리)
     const remainingLinks = links.filter((link) => !visited.has(link.id));
     if (remainingLinks.length > 0) {
-        console.warn("Some links were not connected. Adding them at the end.");
-        sortedLinks.push(...remainingLinks);
+        // 남은 링크들을 순서대로 연결
+        for (const link of remainingLinks) {
+            if (sortedLinks.length > 0) {
+                link.prevLinkId = sortedLinks[sortedLinks.length - 1].id;
+            } else {
+                link.prevLinkId = null; // 시작 노드가 없는 경우
+            }
+
+            // 링크를 정렬된 배열에 추가
+            sortedLinks.push(link);
+        }
     }
 
     return sortedLinks;

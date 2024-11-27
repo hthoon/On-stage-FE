@@ -44,7 +44,7 @@ const ThemeSwitcher = () => {
         formData.append("file", file);
 
         try {
-            const response = await axiosInstance.put(`/api/theme/${customTheme.userId}/background`, formData, {
+            const response = await axiosInstance.put(`/api/theme/${customTheme.username}/background`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
