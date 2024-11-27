@@ -7,6 +7,8 @@ import {IoImageOutline} from "react-icons/io5";
 import DetailManagement from "./DetailManagement";
 import {FiEdit3} from "react-icons/fi";
 import {AiOutlineFrown} from "react-icons/ai";
+import {MdOutlineEdit} from "react-icons/md";
+import {GrEdit} from "react-icons/gr";
 
 const ManagementPanel = ({updateLink, deleteLink}) => {
     const {links, setLinks} = useLink();
@@ -99,7 +101,7 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                                 >
                                     {link.title}
                                     {editingId !== link.id && (
-                                        <FiEdit3
+                                        <GrEdit
                                             className="edit-icon"
                                             onClick={() => setEditingId(link.id)}
                                         />
@@ -115,6 +117,18 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                             </div>
 
                             <div className="link-right">
+                                <button
+                                    className="detail-trash-button"
+                                    onClick={() => setEditingId(link.id)}
+                                >
+                                    <GrEdit />
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteLink(link)}
+                                    className="detail-trash-button"
+                                >
+                                    <LuTrash2/>
+                                </button>
                                 <label className="toggle-switch">
                                     <input
                                         type="checkbox"
@@ -123,12 +137,7 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                                     />
                                     <span className="slider"></span>
                                 </label>
-                                <button
-                                    onClick={() => handleDeleteLink(link)}
-                                    className="detail-trash-button"
-                                >
-                                    <LuTrash2/>
-                                </button>
+
                             </div>
                         </div>
 

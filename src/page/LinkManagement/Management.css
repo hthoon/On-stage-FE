@@ -535,7 +535,7 @@ input:checked + .slider:before {
 .popup-toggle-button {
     display: none;
     position: fixed;
-    bottom: 70px;
+    bottom: 80px;
     background-color: #6e79ff;
     color: white;
     border: none;
