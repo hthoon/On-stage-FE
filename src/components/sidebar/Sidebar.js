@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import "./Sidebar.css";
 import {BsBarChart, BsGear, BsHouse, BsLayoutSidebar, BsLink} from "react-icons/bs";
+import {MdOutlineContactSupport} from "react-icons/md";
+import {FiUser} from "react-icons/fi";
+import {ImCoinDollar} from "react-icons/im";
+
+import {TbLogout2} from "react-icons/tb";
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -17,11 +23,11 @@ const Sidebar = () => {
     return (
         <>
             {/* 토글 버튼 */}
-                <BsLayoutSidebar className="sidebar-toggle" onClick={toggleSidebar} />
+            <BsLayoutSidebar className="sidebar-toggle" onClick={toggleSidebar}/>
 
             {/* 사이드바 */}
             <div className={`sidebar ${isOpen ? "open" : ""}`}>
-                <div className="sidebar-empty-space" />
+                <div className="sidebar-empty-space"/>
                 <div className="sidebar-menu">
                     <div className="sidebar-menu-item"><a href="/">홈</a></div>
                     <div className="sidebar-menu-item"><a href="/management">링크</a></div>
@@ -34,7 +40,7 @@ const Sidebar = () => {
                 {/* 회원 이미지 */}
                 <div className="sidebar-profile" onClick={toggleModal}>
                     <img
-                        src="https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg" // 대체할 프로필 이미지 URL
+                        src={profileImage}
                         alt="Profile"
                         className="profile-image"
 
@@ -45,11 +51,34 @@ const Sidebar = () => {
 
             {/* 모달 */}
             {isModalOpen && (
-                <div className="modal-overlay" onClick={toggleModal}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <h3>회원 정보</h3>
-                        <p>여기에 회원 정보를 표시할 수 있습니다.</p>
-                        <button onClick={toggleModal}>닫기</button>
+                <div
+                    className={`profile-modal-overlay ${isModalOpen ? "show" : ""}`}
+                    onClick={toggleModal}
+                >
+                    <div
+                        className={`profile-modal-content ${isModalOpen ? "show" : ""}`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="profile-modal-container">
+                            <img
+                                src={profileImage}
+                                alt="Profile"
+                                className="modal-profile-image"
+                            />
+                            <div className="profile-modal-text-container">
+                            <h3>Winter</h3>
+                            <h5>onstage.winter</h5>
+                            </div>
+                        </div>
+                        <div className="profile-modal-button-container">
+                            <h4>Account</h4>
+                            <div className="profile-modal-button"><FiUser className="profile-modal-icon"/> 마이페이지 </div>
+                            <div className="profile-modal-button"><MdOutlineContactSupport className="profile-modal-icon"/> 고객지원 </div>
+                            <div className="profile-modal-button"><ImCoinDollar className="profile-modal-icon"/> 요금 정책</div>
+                            <h4/>
+                            <h4/>
+                            <div className="profile-modal-button"><TbLogout2 className="profile-modal-icon"/> 로그아웃</div>
+                        </div>
                     </div>
                 </div>
             )}
