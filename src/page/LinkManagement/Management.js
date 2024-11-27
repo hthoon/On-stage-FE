@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import LinkDisplay from "../../components/LinkDisplay/LinkDisplay";
 import "./Management.css";
 import ManagementPanel from "./ManagementPanel";
@@ -7,10 +7,12 @@ import {useLink} from "../../context/LinkContext";
 import AddLinkPanel from "./AddLinkPanel";
 import SocialPanel from "./SocialPanel";
 import ThemeSwitcher from "./ThemeSwitcher";
+import {FaChevronUp} from "react-icons/fa";
 
 const Management = () => {
     const {axiosInstance} = useAxios();
     const { setLinks } = useLink();
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const updateLink = async (updatedLink) => {
         console.log(updatedLink);
@@ -54,8 +56,26 @@ const Management = () => {
                 <div className="display-panel">
                     <LinkDisplay/>
                 </div>
+            {/* 팝업 버튼 */}
+            <button
+                className="popup-toggle-button"
+                onClick={() => setIsPopupOpen(true)}
+            >
+                <FaChevronUp />
+            </button>
+
+            {/* 팝업 컴포넌트 */}
+            {isPopupOpen && (
+                <div className="popup-overlay" onClick={() => setIsPopupOpen(false)}>
+                    <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+                        <LinkDisplay />
+                    </div>
+                </div>
+            )}
+
             </div>
-            )
+
+            );
 
             };
             export default Management;
