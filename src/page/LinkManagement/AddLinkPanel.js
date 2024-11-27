@@ -17,7 +17,7 @@ const AddLinkPanel = ({updateLink, createLink}) => {
         // 1. 새 링크 생성 API 호출
         const createdLink = await createLink({
             title: newLink.title,
-            userId: 1,  // TODO 추후 변경
+            username: "1",  // TODO 추후 변경
             thumbnail: null,
             prevLinkId: null, // 새 링크는 맨 앞에
             layout: "CLASSIC",
