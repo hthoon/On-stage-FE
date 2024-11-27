@@ -19,11 +19,11 @@
     width: 40%;
     min-width: 300px;
     min-height: 80vh;
-    margin: 5% auto;
+    margin-right: 10%;
     padding: 20px;
 
-    border-left: #d5d5d5 solid 1px;
-    border-right: #d5d5d5 solid 1px;
+    /*border-left: #d5d5d5 solid 1px;*/
+    /*border-right: #d5d5d5 solid 1px;*/
 }
 
 /* 오른쪽 패널 */
@@ -42,9 +42,13 @@
 }
 
 /* 화면 너비가 768px 이하일 때 패널 숨기기 */
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1200px) {
+
     .display-panel {
         display: none; /* 오른쪽 패널 숨기기 */
+    }
+    .sidebar{
+        display: none;
     }
     .management-panel {
         border: transparent;
@@ -531,7 +535,7 @@ input:checked + .slider:before {
 .popup-toggle-button {
     display: none;
     position: fixed;
-    bottom: 20px;
+    bottom: 70px;
     background-color: #6e79ff;
     color: white;
     border: none;
@@ -547,7 +551,7 @@ input:checked + .slider:before {
 }
 
 /* 화면 너비 1200px 이하에서 팝업 버튼 표시 */
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1200px) {
     .display-panel {
         display: none; /* 오른쪽 패널 숨기기 */
     }
