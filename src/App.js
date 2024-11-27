@@ -3,7 +3,7 @@ import AppRouter from "./router/Router";
 import {BrowserRouter} from "react-router-dom";
 import {AxiosContextProvider} from "./context/AxiosContext";
 import {LinkProvider} from "./context/LinkContext";
-import {ThemeProvider} from "./context/ThemeContext";
+import Sidebar from "./components/sidebar/Sidebar";
 
 function App() {
     return (
@@ -11,7 +11,7 @@ function App() {
             <BrowserRouter>
                 <AxiosContextProvider>
                     <LinkProvider>
-
+                            <Sidebar/>
                             <div className="Content">
                                 <AppRouter/>
                             </div>
