@@ -4,8 +4,9 @@ import {useLink} from "../../context/LinkContext";
 import {HiPlus} from "react-icons/hi";
 import {FiFolderPlus} from "react-icons/fi";
 import {TbFolderPlus} from "react-icons/tb";
+import Joyride from "react-joyride";
 
-const AddLinkPanel = ({updateLink, createLink}) => {
+const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
     const {links, setLinks} = useLink();
     const [showForm, setShowForm] = useState(false);
     const [newLink, setNewLink] = useState({title: "", url: ""});
@@ -56,6 +57,13 @@ const AddLinkPanel = ({updateLink, createLink}) => {
 
 
     return (
+        <>
+        <Joyride
+            steps={steps}
+            run={runTutorial} // 실행 여부 전달
+            continuous={true}
+            showSkipButton={true}
+        />
         <div className="add-link-panel">
             {links.length < 10 && !showForm && ( // 링크 개수가 10개 미만일 때만 "add link" 버튼 표시
                 <button
@@ -83,6 +91,7 @@ const AddLinkPanel = ({updateLink, createLink}) => {
                 </div>
             )}
         </div>
+        </>
     )
 }
 export default AddLinkPanel;
