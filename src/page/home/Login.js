@@ -1,6 +1,7 @@
 import React, { useEffect, userState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { getCookie, useAxios } from "../../context/AxiosContext";
+import {  useAxios } from "../../context/AxiosContext";
+import Cookies from "js-cookie";
 
 function Login() {
     const { axiosInstance } = useAxios();
@@ -8,7 +9,7 @@ function Login() {
     
     const handleLogout = async() => {
 
-        const refreshToken = getCookie('refresh');
+        const refreshToken = Cookies.get('refresh');
         
         try {
             await axiosInstance.post('/logout', null, {
@@ -18,7 +19,7 @@ function Login() {
                 }
             });
 
-            navigate('/login');
+            navigate('/');
 
         } catch (error) {
             console.error('logout error', error)

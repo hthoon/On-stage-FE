@@ -1,12 +1,13 @@
 import axios from "axios";
-import {createContext, useContext} from "react";
+import {createContext, useContext, useEffect} from "react";
+import Cookies from 'js-cookie';
 
 // 쿠키 읽어오기
-export const getCookie = (name) => {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    if (match) return match[2];
-    return null;
-};
+// export const getCookie = (name) => {
+//     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+//     if (match) return match[2];
+//     return null;
+// };
 
 const AxiosContext = createContext();
 export const useAxios = () => useContext(AxiosContext);
@@ -25,7 +26,8 @@ export const AxiosContextProvider = ({children}) => {
     // 쿠키의 Access 토큰을 헤더에 포함시켜 요청한다.
     axiosInstance.interceptors.request.use(
         (config) => {
-            const accessToken = getCookie('access');
+            const accessToken = Cookies.get('access');
+            console.log(accessToken);
 
             if (accessToken) {
                 config.headers["Authorization"] = `Bearer ${accessToken}`;
