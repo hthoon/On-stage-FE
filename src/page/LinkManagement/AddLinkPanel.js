@@ -1,13 +1,11 @@
 import React, {useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
-import {HiPlus} from "react-icons/hi";
-import {FiFolderPlus} from "react-icons/fi";
 import {TbFolderPlus} from "react-icons/tb";
 import Joyride from "react-joyride";
 
 const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
-    const {links, setLinks} = useLink();
+    const {links, setLinks, socialLink} = useLink();
     const [showForm, setShowForm] = useState(false);
     const [newLink, setNewLink] = useState({title: "", url: ""});
     const [isClosing, setIsClosing] = useState(false);
@@ -20,7 +18,7 @@ const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
         // 1. 새 링크 생성 API 호출
         const createdLink = await createLink({
             title: newLink.title,
-            username: "1",  // TODO 추후 변경
+            username: socialLink.username,
             thumbnail: null,
             prevLinkId: null, // 새 링크는 맨 앞에
             layout: "CLASSIC",

@@ -1,8 +1,8 @@
 /* 우측 하단 고정 버튼 */
 .tutorial-button {
     position: fixed;
-    bottom: 10px;
-    right: 40px;
+    bottom: 20px;
+    right: 10px;
     background-color: transparent;
     color: #6e79ff;
     border: none;
@@ -16,6 +16,12 @@
     transition: all 0.3s ease-in-out;
     border-radius: 10px;
     padding: 7px
+}
+
+@media screen and (max-width: 1200px) {
+    .tutorial-button{
+        display: none;
+    }
 }
 .tutorial-button-quest{
     font-size: 15px;
