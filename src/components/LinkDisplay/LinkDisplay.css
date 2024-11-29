@@ -1,0 +1,188 @@
+:root {
+    --buttonColor: #ffffff; /* 버튼 기본 배경색 */
+    --profileColor: #ffffff;
+    --fontColor: #000000; /* 텍스트 색상 */
+    --iconColor: #ffffff;
+    --borderRadius: 25px;
+}
+
+.linktree-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    overflow: hidden; /* 배경과 다른 요소가 스크롤 되지 않도록 */
+
+}
+
+.linktree-background {
+    width: 300px;
+    height: 700px;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid #c5c5c5;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.linktree-share{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+}
+
+.linktree-share-icon{
+    color: var(--iconColor);
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+.linktree-detail-title{
+    font-size: 1rem;
+}
+
+.linktree-content {
+    position: relative;
+    max-height: 420px; /* 화면 크기에서 프로필 영역 크기 제외 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    border-radius: var(--borderRadius);
+    z-index: 1; /* 배경보다 위에 표시 */
+}
+/* 스크롤바 숨기기 */
+.linktree-content::-webkit-scrollbar {
+    width: 0px; /* 가로 스크롤바 숨기기 */
+    height: 0px; /* 세로 스크롤바 숨기기 */
+}
+
+.linktree-content::-webkit-scrollbar-thumb {
+    background: transparent; /* 스크롤바 thumb의 색을 투명하게 설정 */
+}
+
+.linktree-content::-webkit-scrollbar-track {
+    background: transparent; /* 스크롤바 트랙도 투명하게 설정 */
+}
+
+
+.profile-image {
+    width: 100px; /* 프로필 이미지 크기 */
+    height: 100px;
+    border-radius: 50%; /* 원형으로 만들기 */
+    object-fit: cover; /* 이미지 비율을 유지하면서 잘림 없이 채우기 */
+}
+
+.linktree-name{
+    display: flex;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--profileColor);
+    margin: 10px;
+}
+
+.linktree-description {
+    display: flex;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: var(--profileColor);
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.linktree-links {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 버튼 스타일 */
+.linktree-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 8px auto;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+    background-color: var(--buttonColor);
+    color: var(--fontColor);
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: var(--borderRadius);
+    transition: min-height 0.4s ease-in-out;
+    cursor: pointer;
+
+    overflow: hidden;
+    min-height: 40px; /* 기본 높이 */
+}
+.linktree-button.expanded{
+    min-height: 100px; /* 확장된 높이 */
+}
+
+.linktree-details{
+    width: 100%;
+    padding: 10px;
+}
+
+.linktree-service-icon{
+    margin-left: 15px;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.linktree-detail-item{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 10px auto;
+    width: 90%;
+    border-radius: var(--borderRadius);
+    border: #818181 solid 1px;
+    transition: scale 0.3s ease-in-out;
+}
+.linktree-detail-item:hover{
+    scale: 1.03;
+}
+
+
+.linktree-socials {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.social-icon {
+    font-size: 22px;
+    color: var(--iconColor);
+    border-radius: 50%;
+    padding: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.linktree-spotify-embed{
+    width: 90%;
+    height: 360px;
+    border: transparent;
+}
