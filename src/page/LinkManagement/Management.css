@@ -34,7 +34,7 @@
     align-items: center;
     justify-content: flex-start;
     position: fixed; /* 오른쪽 고정을 위해 사용 */
-    right: 4%; /* 오른쪽 여백 설정 */
+    right: 6%; /* 오른쪽 여백 설정 */
     top: 10%; /* 상단 여백 */
     width: 300px;
     min-height: 70vh;

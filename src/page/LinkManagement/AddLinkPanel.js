@@ -1,12 +1,11 @@
 import React, {useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
-import {HiPlus} from "react-icons/hi";
-import {FiFolderPlus} from "react-icons/fi";
 import {TbFolderPlus} from "react-icons/tb";
+import Joyride from "react-joyride";
 
-const AddLinkPanel = ({updateLink, createLink}) => {
-    const {links, setLinks} = useLink();
+const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
+    const {links, setLinks, socialLink} = useLink();
     const [showForm, setShowForm] = useState(false);
     const [newLink, setNewLink] = useState({title: "", url: ""});
     const [isClosing, setIsClosing] = useState(false);
@@ -19,7 +18,7 @@ const AddLinkPanel = ({updateLink, createLink}) => {
         // 1. 새 링크 생성 API 호출
         const createdLink = await createLink({
             title: newLink.title,
-            username: "1",  // TODO 추후 변경
+            username: socialLink.username,
             thumbnail: null,
             prevLinkId: null, // 새 링크는 맨 앞에
             layout: "CLASSIC",
@@ -56,6 +55,13 @@ const AddLinkPanel = ({updateLink, createLink}) => {
 
 
     return (
+        <>
+        <Joyride
+            steps={steps}
+            run={runTutorial} // 실행 여부 전달
+            continuous={true}
+            showSkipButton={true}
+        />
         <div className="add-link-panel">
             {links.length < 10 && !showForm && ( // 링크 개수가 10개 미만일 때만 "add link" 버튼 표시
                 <button
@@ -83,6 +89,7 @@ const AddLinkPanel = ({updateLink, createLink}) => {
                 </div>
             )}
         </div>
+        </>
     )
 }
 export default AddLinkPanel;
