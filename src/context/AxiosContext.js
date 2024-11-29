@@ -1,28 +1,40 @@
 import axios from "axios";
 import {createContext, useContext} from "react";
 
+// 쿠키 읽어오기
+export const getCookie = (name) => {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return match[2];
+    return null;
+};
+
 const AxiosContext = createContext();
 export const useAxios = () => useContext(AxiosContext);
 export const AxiosContextProvider = ({children}) => {
 
 
     // Axios 인스턴스 설정
+    // 쿠키를 허용하여 서버에서의 Refresh 토큰 검증에 사용한다.
     const axiosInstance = axios.create({
-        baseURL: "http://localhost:8080",
+        baseURL: `${process.env.REACT_APP_SERVER_HOST}`,
         headers: { "Content-Type": "application/json" },
+        withCredentials: true,
     });
 
-    // // 요청 인터셉터 설정
-    // axiosInstance.interceptors.request.use(
-    //     (config) => {
-    //         if (accessToken) {
-    //             config.headers["Authorization"] = `Bearer ${accessToken}`;
-    //         }
-    //         return config;
-    //     },
-    //     (error) => Promise.reject(error)
-    // );
-    //
+    // 요청 인터셉터 설정
+    // 쿠키의 Access 토큰을 헤더에 포함시켜 요청한다.
+    axiosInstance.interceptors.request.use(
+        (config) => {
+            const accessToken = getCookie('access');
+
+            if (accessToken) {
+                config.headers["Authorization"] = `Bearer ${accessToken}`;
+            }
+            return config;
+        },
+        (error) => Promise.reject(error)
+    );
+
     // // 응답 인터셉터 설정
     // axiosInstance.interceptors.response.use(
     //     (response) => response,
