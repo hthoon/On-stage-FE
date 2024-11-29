@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
 import {HiPlus} from "react-icons/hi";
+import {FiFolderPlus} from "react-icons/fi";
+import {TbFolderPlus} from "react-icons/tb";
 
 const AddLinkPanel = ({updateLink, createLink}) => {
     const {links, setLinks} = useLink();
@@ -60,14 +62,14 @@ const AddLinkPanel = ({updateLink, createLink}) => {
                     className="management-add-link-button"
                     onClick={() => setShowForm(true)}
                 >
-                    <HiPlus className="add-link-icon"/> 링크 추가
+                    <TbFolderPlus className="add-link-icon"/> 저장소 추가
                 </button>
             )}
             {showForm && (
                 <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
                     <input
                         type="text"
-                        placeholder="링크 이름을 입력하세요"
+                        placeholder="저장소 이름을 입력하세요"
                         value={newLink.title}
                         onChange={(e) => setNewLink({...newLink, title: e.target.value})}
                         className="add-link-form-input"
