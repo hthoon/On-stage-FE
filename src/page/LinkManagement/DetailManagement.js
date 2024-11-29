@@ -8,6 +8,7 @@ import {useAxios} from "../../context/AxiosContext";
 import {useLink} from "../../context/LinkContext";
 import {LuTrash2} from "react-icons/lu";
 import {FiEdit3} from "react-icons/fi";
+import Tooltip from "../../components/tooltip/Tooltip";
 
 const DetailManagement = ({link}) => {
     const {axiosInstance} = useAxios();
@@ -157,12 +158,14 @@ const DetailManagement = ({link}) => {
                             <p className="service-platform">{mapServiceTypeToKorean(detail.platform)}</p>
                         </div>
                         <div>
+                            <Tooltip text="URL 변경">
                             <button
                                 onClick={() => openModal(detail)}
                                 className="detail-trash-button "
                             >
                                 <FiEdit3/>
                             </button>
+                                </Tooltip>
                             <button
                                 onClick={() => handleDeleteDetail(detail.id)}
                                 className="detail-trash-button"

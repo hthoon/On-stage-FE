@@ -1,18 +1,18 @@
-import React, {useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import "./Management.css";
-import {useLink} from "../../context/LinkContext";
-import {LuFolderOpen, LuLink, LuTrash2} from "react-icons/lu";
-import {sortLinksByPrevId} from "../../utils/sortLinks";
+import { useLink } from "../../context/LinkContext";
+import { LuTrash2 } from "react-icons/lu";
+import { sortLinksByPrevId } from "../../utils/sortLinks";
 import DetailManagement from "./DetailManagement";
-import {AiOutlineFrown} from "react-icons/ai";
-import {GrEdit} from "react-icons/gr";
+import { AiOutlineFrown } from "react-icons/ai";
+import { GrEdit } from "react-icons/gr";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import {RiDraggable} from "react-icons/ri";
-import Tooltip from "../../components/Tooptip/Tooltip";
-import {TbFolder} from "react-icons/tb";
+import { RiDraggable } from "react-icons/ri";
+import Tooltip from "../../components/tooltip/Tooltip";
+import { TbFolder } from "react-icons/tb";
 
-const ManagementPanel = ({updateLink, deleteLink}) => {
-    const {links, setLinks} = useLink();
+const ManagementPanel = ({ updateLink, deleteLink }) => {
+    const { links, setLinks } = useLink();
     const [editingId, setEditingId] = useState(null);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
     const sortedLinks = sortLinksByPrevId(links);
@@ -126,21 +126,21 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                                             onClick={() => setExpandedLinkId((prev) => (prev === id ? null : id))}
                                         />
                                     </Tooltip>
-                                <span
-                                    ref={(el) => (titleRefs.current[id] = el)}
-                                    className={`link-title ${editingId === id ? "editing" : ""}`}
-                                    contentEditable={editingId === id}
-                                    suppressContentEditableWarning
-                                    onBlur={(e) =>
-                                        handleEdit(id, "title", e.target.textContent.trim())
-                                    }
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter") {
-                                            e.preventDefault();
-                                            e.target.blur();
+                                    <span
+                                        ref={(el) => (titleRefs.current[id] = el)}
+                                        className={`link-title ${editingId === id ? "editing" : ""}`}
+                                        contentEditable={editingId === id}
+                                        suppressContentEditableWarning
+                                        onBlur={(e) =>
+                                            handleEdit(id, "title", e.target.textContent.trim())
                                         }
-                                    }}
-                                >
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+                                                e.target.blur();
+                                            }
+                                        }}
+                                    >
                                     {title}
 
                                 </span>
@@ -178,27 +178,27 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
 
 
     return (
-        <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="links">
-                {(provided) => (
-                    <div
-                        className="management-link-container"
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                    >
-                        {sortedLinks.length === 0 ? (
-                            <div className="no-links-container">
-                                <AiOutlineFrown className="no-links-message-icon" />
-                                <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 저장소를 만들어보세요!</p>
-                            </div>
-                        ) : (
-                            sortedLinks.map((link, index) => <LinkItem key={link.id} link={link} index={index} />)
-                        )}
-                        {provided.placeholder}
-                    </div>
-                )}
-            </Droppable>
-        </DragDropContext>
+            <DragDropContext onDragEnd={handleDragEnd}>
+                <Droppable droppableId="links">
+                    {(provided) => (
+                        <div
+                            className="management-link-container"
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {sortedLinks.length === 0 ? (
+                                <div className="no-links-container">
+                                    <AiOutlineFrown className="no-links-message-icon"/>
+                                    <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 저장소를 만들어보세요!</p>
+                                </div>
+                            ) : (
+                                sortedLinks.map((link, index) => <LinkItem key={link.id} link={link} index={index}/>)
+                            )}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
     );
 };
 
