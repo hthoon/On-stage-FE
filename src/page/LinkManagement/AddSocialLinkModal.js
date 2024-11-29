@@ -67,7 +67,7 @@ const AddSocialLinkModal = ({ socialLink, setSocialLink, onClose }) => {
 
         try {
             const response = await axiosInstance.put(`/api/social-link`, {
-                userId: socialLink.userId,
+                username: socialLink.username,
                 ...formData,
             });
             setSocialLink(response.data);
