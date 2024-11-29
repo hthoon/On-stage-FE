@@ -105,7 +105,7 @@
     /*justify-content: space-between;*/
     margin-top: 15px;
     margin-bottom: 15px;
-    padding: 5px;
+    padding: 7px;
     border: 1px solid #ddd;
     border-radius: 15px;
     align-items: center;
@@ -113,7 +113,7 @@
 
     transition: min-height 0.4s ease, padding 0.3s ease;
     overflow: hidden;
-    min-height: 80px; /* 기본 높이 */
+    min-height: 100px; /* 기본 높이 */
 }
 
 .link-item.expanded {
@@ -138,13 +138,18 @@
 }
 
 .link-title {
+    display: flex;
+    align-items: center;
+
     font-size: 18px;
+    padding: 10px;
+
     font-weight: bold;
     cursor: pointer;
 }
 
 .link-url {
-    padding: 5px;
+    padding: 7px;
     font-size: 14px;
     cursor: pointer;
 }
@@ -158,7 +163,12 @@
 
 .link-title:focus,
 .link-url:focus {
+    padding: 9px;
     border-color: transparent;
+
+    .edit-icon {
+        display: none;
+    }
 }
 
 .link-right {
@@ -215,9 +225,15 @@
 }
 
 .edit-icon {
-    font-size: 15px;
+    font-size: 16px;
     margin-left: 15px;
+    padding: 7px;
+    border-radius: 10px;
+
     color: #7e7e7e;
+}
+.edit-icon:hover {
+    background-color: #ececec;
 }
 
 

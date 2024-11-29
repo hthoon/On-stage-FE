@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
 import {LuLink, LuTrash2} from "react-icons/lu";
@@ -15,6 +15,7 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
     const [editingId, setEditingId] = useState(null);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
     const sortedLinks = sortLinksByPrevId(links);
+    const titleRefs = useRef({});
 
     const handleEdit = async (id, field, value) => {
         const updatedLinks = links.map((link) =>
@@ -67,6 +68,15 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
         setExpandedLinkId((prevId) => (prevId === id ? null : id));
     };
 
+    const handleFocus = (id) => {
+        setEditingId(id); // Enable editing mode
+        setTimeout(() => {
+            if (titleRefs.current[id]) {
+                titleRefs.current[id].focus(); // Focus on the editable element
+            }
+        }, 0); // Wait for state to update and DOM to reflect changes
+    };
+
     return (
         <div className="management-link-container">
             {sortedLinks.length === 0 ? (
@@ -85,12 +95,14 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                             <div className="link-left">
                                 <div className="link-divide">
                                 <span
-                                    className={`link-title ${editingId === link.id ? "editing" : ""}`}
+                                    ref={(el) => (titleRefs.current[link.id] = el)} // Assign ref
+                                    className={`link-title ${
+                                        editingId === link.id ? "editing" : ""
+                                    }`}
                                     contentEditable={editingId === link.id}
                                     suppressContentEditableWarning
                                     onBlur={(e) => {
-                                        handleEdit(link.id, "title", e.target.textContent);
-                                        setEditingId(null);
+                                        handleEdit(link.id, "title", e.target.textContent.trim());
                                     }}
                                     onKeyDown={(e) => {
                                         if (e.key === "Enter") {
@@ -99,14 +111,13 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                                         }
                                     }}
                                 >
-                                    {link.title}
-                                    {editingId !== link.id && (
-                                        <GrEdit
-                                            className="edit-icon"
-                                            onClick={() => setEditingId(link.id)}
-                                        />
-                                    )}
-                                </span>
+                                        {link.title}
+                                    <GrEdit
+                                        className="edit-icon"
+                                        onClick={() => handleFocus(link.id)} // Trigger focus and edit mode
+                                    />
+                                    </span>
+
                                     <div className="link-bottom-icons">
                                         <LuLink
                                             className="link-add-btn"
@@ -117,12 +128,12 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                             </div>
 
                             <div className="link-right">
-                                <button
-                                    className="detail-trash-button"
-                                    onClick={() => setEditingId(link.id)}
-                                >
-                                    <GrEdit />
-                                </button>
+                                {/*<button*/}
+                                {/*    className="detail-trash-button"*/}
+                                {/*    onClick={() => setEditingId(link.id)}*/}
+                                {/*>*/}
+                                {/*    <GrEdit />*/}
+                                {/*</button>*/}
                                 <button
                                     onClick={() => handleDeleteLink(link)}
                                     className="detail-trash-button"
