@@ -1,13 +1,15 @@
 import React, {useRef, useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
-import {LuLink, LuTrash2} from "react-icons/lu";
+import {LuFolderOpen, LuLink, LuTrash2} from "react-icons/lu";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
 import DetailManagement from "./DetailManagement";
 import {AiOutlineFrown} from "react-icons/ai";
 import {GrEdit} from "react-icons/gr";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {RiDraggable} from "react-icons/ri";
+import Tooltip from "../../components/Tooptip/Tooltip";
+import {TbFolder} from "react-icons/tb";
 
 const ManagementPanel = ({updateLink, deleteLink}) => {
     const {links, setLinks} = useLink();
@@ -118,6 +120,12 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                                     <span className="drag-icon"><RiDraggable /></span>
                                 </div>
                                 <div className="link-divide">
+                                    <Tooltip text={expandedLinkId === id ? "저장소 닫기" : "저장소 열기"}>
+                                        <TbFolder
+                                            className={`link-add-btn ${expandedLinkId === id ? 'opened' : 'closed'}`}
+                                            onClick={() => setExpandedLinkId((prev) => (prev === id ? null : id))}
+                                        />
+                                    </Tooltip>
                                 <span
                                     ref={(el) => (titleRefs.current[id] = el)}
                                     className={`link-title ${editingId === id ? "editing" : ""}`}
@@ -134,14 +142,12 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                                     }}
                                 >
                                     {title}
-                                    <GrEdit className="edit-icon" onClick={() => handleFocus(id)} />
+
                                 </span>
-                                    <LuLink
-                                        className="link-add-btn"
-                                        onClick={() =>
-                                            setExpandedLinkId((prev) => (prev === id ? null : id))
-                                        }
-                                    />
+                                    <Tooltip text="저장소 이름 바꾸기">
+                                        <GrEdit className="edit-icon" onClick={() => handleFocus(id)} />
+                                    </Tooltip>
+
                                 </div>
                             </div>
 
@@ -183,7 +189,7 @@ const ManagementPanel = ({updateLink, deleteLink}) => {
                         {sortedLinks.length === 0 ? (
                             <div className="no-links-container">
                                 <AiOutlineFrown className="no-links-message-icon" />
-                                <p className="no-links-message-text">링크가 없습니다. 새로운 링크를 추가해주세요!</p>
+                                <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 저장소를 만들어보세요!</p>
                             </div>
                         ) : (
                             sortedLinks.map((link, index) => <LinkItem key={link.id} link={link} index={index} />)

@@ -22,6 +22,7 @@
     margin-right: 10%;
     padding: 20px;
 
+
     /*border-left: #d5d5d5 solid 1px;*/
     /*border-right: #d5d5d5 solid 1px;*/
 }
@@ -111,8 +112,8 @@
     align-items: center;
     position: relative;
 
-    transition: min-height 0.4s ease, padding 0.3s ease;
-    overflow: hidden;
+    transition: min-height 0.4s ease-in-out, padding 0.3s ease-in-out;
+
     min-height: 100px; /* 기본 높이 */
 }
 
@@ -120,6 +121,7 @@
     min-height: 250px; /* 확장된 높이 */
     padding: 5px; /* 확장된 패딩 */
 }
+
 
 .link-left {
     display: flex;
@@ -143,8 +145,8 @@
 
 .link-divide {
     display: flex;
-    flex-direction: column;
-    align-items: start;
+    align-items: center;
+    justify-content: center;
 
     margin-left: 5px;
     padding: 5px;
@@ -154,7 +156,7 @@
     display: flex;
     align-items: center;
 
-    font-size: 18px;
+    font-size: 19px;
     padding: 10px;
 
     font-weight: bold;
@@ -238,8 +240,8 @@
 }
 
 .edit-icon {
-    font-size: 16px;
-    margin-left: 15px;
+    font-size: 14px;
+    margin-left: 5px;
     padding: 7px;
     border-radius: 10px;
 
@@ -252,7 +254,7 @@
 
 .add-link-icon {
     margin-right: 7px;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
 }
 
@@ -283,7 +285,7 @@
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 18px;
     outline: none;
     transition: border-color 0.3s;
 }
@@ -502,17 +504,33 @@ input:checked + .slider:before {
 }
 
 .link-add-btn{
-    background-color: transparent;
+    background-color: #e5e5e5;
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 22px;
     padding: 9px 7px 7px;
+    border-radius: 10px;
+
+    transition: background-color 0.7s ease, color 0.3s;
 
 }
-.link-add-btn:hover {
-    background-color: rgba(225, 225, 225, 0.6);
+.link-add-btn.closed:hover {
+    background-color: #939bff;
+    color: white;
     border-radius: 10px;
     padding: 9px 7px 7px;
+}
+
+/* 열려 있을 때 버튼 색상 */
+.link-add-btn.opened {
+    background-color: #939bff;  /* 열려있을 때 색상 */
+    color: white;
+}
+
+/* 닫혀 있을 때 버튼 색상 */
+.link-add-btn.closed {
+    background-color: #ffffff;  /* 닫혀있을 때 색상 */
+    color: black;
 }
 
 .no-links-container{
@@ -530,7 +548,7 @@ input:checked + .slider:before {
     margin-bottom: 40px;
     font-size: 18px;
     font-weight: bold;
-    color: #bdbdbd;
+    color: #b6b6b6;
 
 }
 
@@ -590,14 +608,14 @@ input:checked + .slider:before {
         margin: 0 auto;
     }
 }
-/* 팝업 슬라이드 다운 애니메이션 */
-@keyframes slideUp {
-    from {
-        transform: translateY(100%); /* 위에서 시작 */
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0); /* 최종 위치 */
-        opacity: 1;
-    }
-}
+/*!* 팝업 슬라이드 다운 애니메이션 *!*/
+/*@keyframes slideUp {*/
+/*    from {*/
+/*        transform: translateY(100%); !* 위에서 시작 *!*/
+/*        opacity: 0;*/
+/*    }*/
+/*    to {*/
+/*        transform: translateY(0); !* 최종 위치 *!*/
+/*        opacity: 1;*/
+/*    }*/
+/*}*/
