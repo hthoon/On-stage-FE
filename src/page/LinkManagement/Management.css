@@ -125,7 +125,20 @@
     display: flex;
     align-items: center;
     margin-top: 10px;
-    gap: 10px;
+}
+
+.drag-handle {
+    cursor: grab; /* 드래그 아이콘 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 5px 20px;
+    margin-left: 5px;
+}
+
+.drag-icon {
+    font-size: 24px;
+    color: #888; /* 드래그 아이콘 색상 */
 }
 
 .link-divide {
@@ -133,7 +146,7 @@
     flex-direction: column;
     align-items: start;
 
-    margin-left: 15px;
+    margin-left: 5px;
     padding: 5px;
 }
 
