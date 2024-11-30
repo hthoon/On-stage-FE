@@ -1,0 +1,463 @@
+.management-container {
+    display: flex;
+    justify-content: left;
+    min-width: 1500px;
+
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* 왼쪽 패널 */
+.management-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+    margin-top: 5%;
+    margin-left: 25%;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* 오른쪽 패널 */
+.display-panel {
+    display: flex;
+    position: fixed;
+    right: 5%; /*이거 있어야 오른쪽에 고정 됨*/
+    /*margin-right: 5%; !*이거 있어야 오른쪽에 고정 됨*!*/
+    margin-top: 5%;
+
+
+    background-color: #ffffff;
+}
+
+/* 화면 너비가 768px 이하일 때 패널 숨기기 */
+@media screen and (max-width: 1800px) {
+    .display-panel {
+        display: none; /* 패널 숨기기 */
+    }
+}
+
+.add-link-panel {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.management-add-link-button {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #7d5cf8;
+    border: none;
+
+    border-radius: 10px;
+    padding: 15px;
+
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.management-add-link-button:hover {
+    background-color: #654adc;
+}
+
+.management-link-container {
+    width: 90%;
+}
+
+/* 링크 항목 스타일 */
+.link-item {
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-between;*/
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    align-items: center;
+    position: relative;
+
+    transition: min-height 0.4s ease, padding 0.3s ease;
+    overflow: hidden;
+    min-height: 90px; /* 기본 높이 */
+}
+
+.link-item.expanded {
+    min-height: 250px; /* 확장된 높이 */
+    padding: 15px; /* 확장된 패딩 */
+}
+
+.link-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.link-divide {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    margin-left: 15px;
+    padding: 10px;
+}
+
+.link-title {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.link-url {
+    padding: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.link-title,
+.link-url {
+    padding: 5px;
+    border: 1px dashed transparent;
+    outline: none;
+}
+
+.link-title:focus,
+.link-url:focus {
+    border-color: transparent;
+}
+
+.link-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toggle-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.detail-trash-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 23px;
+    padding: 9px 7px 7px;
+}
+
+
+.detail-trash-button:hover {
+    background-color: rgba(225, 225, 225, 0.6);
+    border-radius: 10px;
+    padding: 9px 7px 7px;
+}
+
+.thumbnail-button {
+    background-color: #7d5cf8;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.thumbnail-button:hover {
+    background-color: #654adc;
+}
+
+.thumbnail-upload {
+    display: none;
+}
+
+.thumbnail-preview {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.edit-icon {
+    font-size: 15px;
+    margin-left: 15px;
+    color: #7e7e7e;
+}
+
+
+.add-link-icon {
+    margin-right: 7px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Add link form with slide-down animation */
+.add-link-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0;
+    margin-top: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    animation: slideDown 0.3s ease-out;
+    width: 90%;
+}
+
+/* Add fade-out and slide-up animation */
+.add-link-form.hide {
+    animation: slideUp 0.3s ease-in;
+}
+
+/* Input fields in the form */
+.add-link-form-input {
+    width: 85%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 20px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+/* Input field focus effect */
+.add-link-form-input:focus {
+    border: 2px solid #090909;
+}
+
+/* Buttons in the form */
+.form-add-button, .form-cancel-button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    width: 90%;
+}
+
+/* Add button styling */
+.form-add-button {
+    background-color: #7d5cf8;
+    font-weight: bold;
+    color: white;
+}
+
+.form-add-button:hover {
+    background-color: #654adc;
+}
+
+/* Cancel button styling */
+.form-cancel-button {
+    background-color: #ccc;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-cancel-button:hover {
+    background-color: #999;
+}
+
+/* Slide-down animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide-up animation */
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #7d5cf8;
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px);
+}
+
+.link-bottom-icons {
+    display: flex;
+    margin-top: 10px;
+    padding: 8px;
+    gap: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* 확장 상태 */
+.link-item.expanded {
+    padding-bottom: 20px;
+}
+
+/* link-header: 좌우로 배치 */
+.link-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+
+/* 확장된 영역: link-details */
+.link-details {
+    width: 95%;
+    padding: 10px;
+    border-radius: 10px;
+    animation: fadeIn 1.0s ease;
+}
+
+
+@keyframes fadeIn {
+    /* 애니메이션 */
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.toggle-switch {
+    margin-right: 10px;
+}
+
+.link-details-message-title {
+    display: flex;
+    justify-content: start;
+    margin-left: 10px;
+    margin-bottom: 0;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+
+.link-details-message {
+    display: flex;
+    justify-content: start;
+    margin-top: 5px;
+    margin-left: 10px;
+    font-size: 16px;
+    color: #7e7e7e;
+}
+
+.link-details-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #d5d5d5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: scale 0.3s;
+
+}
+.link-details-list:hover {
+    scale: 1.02;
+}
+
+
+.management-add-service-button {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #737373;
+    border: none;
+    color: white;
+    border-radius: 25px;
+    padding: 15px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    transition: background-color 0.7s ease;
+}
+
+.management-add-service-button:hover {
+    background-color: #654adc;
+    color: white;
+}
+
+.link-add-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 9px 7px 7px;
+
+}
+.link-add-btn:hover {
+    background-color: rgba(225, 225, 225, 0.6);
+    border-radius: 10px;
+    padding: 9px 7px 7px;
+}
+
