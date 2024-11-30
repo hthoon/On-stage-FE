@@ -5,7 +5,6 @@ import Management from "../page/LinkManagement/Management";
 import KakaoMap from '../components/MapDisplay/MapDisplay';
 import Home from "../page/home/Home";
 import Login from "../page/home/Login";
-import News from "../page/news/News";
 
 function AppRouter() {
     return (
@@ -15,7 +14,6 @@ function AppRouter() {
             <Route path="/management" element={<Management />} />
             <Route path="/map" element={<KakaoMap />} />
             <Route path="/login" element={<Login />} />
-            {/* <Route path="/news" element={<News userId={8} />} /> */}
         </Routes>
           
     )
