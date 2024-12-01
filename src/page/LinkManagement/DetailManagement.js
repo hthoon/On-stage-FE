@@ -8,6 +8,7 @@ import {useAxios} from "../../context/AxiosContext";
 import {useLink} from "../../context/LinkContext";
 import {LuTrash2} from "react-icons/lu";
 import {FiEdit3} from "react-icons/fi";
+import Tooltip from "../../components/tooltip/Tooltip";
 
 const DetailManagement = ({link}) => {
     const {axiosInstance} = useAxios();
@@ -115,9 +116,10 @@ const DetailManagement = ({link}) => {
                 );
             } else if (mode === UPDATE && selectedDetail) {
                 // 수정 모드
-                const response = await axiosInstance.put(`/api/link-detail/${selectedDetail.id}`, {
+                const response = await axiosInstance.put("/api/link-detail", {
                     url: inputURL,
                     platform: serviceType,
+                    id: selectedDetail.id,
                 });
 
                 const updatedDetail = response.data;
@@ -156,12 +158,14 @@ const DetailManagement = ({link}) => {
                             <p className="service-platform">{mapServiceTypeToKorean(detail.platform)}</p>
                         </div>
                         <div>
+                            <Tooltip text="URL 변경">
                             <button
                                 onClick={() => openModal(detail)}
                                 className="detail-trash-button "
                             >
                                 <FiEdit3/>
                             </button>
+                                </Tooltip>
                             <button
                                 onClick={() => handleDeleteDetail(detail.id)}
                                 className="detail-trash-button"
@@ -177,7 +181,7 @@ const DetailManagement = ({link}) => {
                 <button
                     className="management-add-service-button"
                     onClick={() => openModal()}>
-                    <HiPlus className="add-link-icon"/> 서비스 추가
+                    <HiPlus className="add-link-icon"/> URL 추가
                 </button>
             </div>
 
@@ -188,7 +192,7 @@ const DetailManagement = ({link}) => {
                         <div className="detail-modal-close-btn-container">
                             <HiChevronLeft className="modal-close-btn" onClick={closeModal}/>
                             <h2 className="detail-modal-title">
-                                {mode === CREATE ? "서비스 추가" : "서비스 수정"}
+                                {mode === CREATE ? "URL 추가" : "URL 수정"}
                             </h2>
                             <IoMdClose className="modal-close-btn" onClick={closeModal}/>
                         </div>
@@ -205,7 +209,7 @@ const DetailManagement = ({link}) => {
                                     {serviceIcon}
                                 </p>
                             )}
-                            <p>URL을 입력해주세요. 다양한 플랫폼을 지원합니다.</p>
+                            <p>URL을 입력해주세요. <br/> On-Stage는 다양한 플랫폼을 지원합니다.</p>
                         </div>
                         <button
                             type="submit"

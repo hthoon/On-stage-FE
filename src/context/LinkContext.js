@@ -13,16 +13,20 @@ export const LinkProvider = ({children}) => {
     const location = useLocation();
 
     const [links, setLinks] = useState([]);
-    const [socialLink, setSocialLink] = useState();
-    const [theme, setTheme] = useState();
+    const [socialLink, setSocialLink] = useState({});
+    const [theme, setTheme] = useState({});
+    const [backgroundImage, setBackgroundImage] = useState("");
+
+    const updateTheme = (newTheme) => {
+        setTheme((prevTheme) => ({ ...prevTheme, ...newTheme }));
+    };
 
 
     useEffect(() => {
         if (!whitelistPaths.includes(location.pathname)) {
             return;
         }
-        const userId = 1; // 수정 해야함
-        axiosInstance.get(`/api/link/${userId}`, {id: userId})
+        axiosInstance.get(`/api/link`)
             .then((response) => {
                 setLinks(response.data.link);
                 setSocialLink(response.data.socialLink);
@@ -36,7 +40,7 @@ export const LinkProvider = ({children}) => {
 
 
     return (
-        <LinkContext.Provider value={{ links, setLinks,  socialLink, theme }}>
+        <LinkContext.Provider value={{ links, setLinks,  socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage }}>
             {children}
         </LinkContext.Provider>
     )

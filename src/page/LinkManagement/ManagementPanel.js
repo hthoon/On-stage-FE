@@ -1,146 +1,205 @@
-import React, {useState} from "react";
+import React, { useRef, useState } from "react";
 import "./Management.css";
-import {useLink} from "../../context/LinkContext";
-import {LuLink, LuTrash2} from "react-icons/lu";
-import {sortLinksByPrevId} from "../../utils/sortLinks";
-import {IoImageOutline} from "react-icons/io5";
+import { useLink } from "../../context/LinkContext";
+import { LuTrash2 } from "react-icons/lu";
+import { sortLinksByPrevId } from "../../utils/sortLinks";
 import DetailManagement from "./DetailManagement";
-import {FiEdit3} from "react-icons/fi";
+import { AiOutlineFrown } from "react-icons/ai";
+import { GrEdit } from "react-icons/gr";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { RiDraggable } from "react-icons/ri";
+import Tooltip from "../../components/tooltip/Tooltip";
+import { TbFolder } from "react-icons/tb";
 
-const ManagementPanel = ({updateLink, deleteLink}) => {
-    const {links, setLinks} = useLink();
+const ManagementPanel = ({ updateLink, deleteLink }) => {
+    const { links, setLinks } = useLink();
     const [editingId, setEditingId] = useState(null);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
     const sortedLinks = sortLinksByPrevId(links);
+    const titleRefs = useRef({});
+
+    // 공통 핸들러: 링크 업데이트
+    const updateLinkState = async (updatedLink) => {
+        setLinks((prevLinks) =>
+            prevLinks.map((link) => (link.id === updatedLink.id ? updatedLink : link))
+        );
+        await updateLink(updatedLink);
+    };
+
+    // 드래그 종료 핸들러
+    const handleDragEnd = (result) => {
+        const { source, destination } = result;
+
+        // 유효하지 않은 드래그 (원래 자리로 돌아감)
+        if (!destination) return;
+
+        // 드래그된 아이템을 새 순서로 정렬
+        const updatedLinks = [...sortedLinks];
+        const [moved] = updatedLinks.splice(source.index, 1);
+        updatedLinks.splice(destination.index, 0, moved);
+
+        // prevLinkId를 업데이트하고 상태를 업데이트
+        for (let i = 0; i < updatedLinks.length; i++) {
+            updatedLinks[i].prevLinkId = i === 0 ? null : updatedLinks[i - 1].id;
+        }
+
+        setLinks(updatedLinks);
+
+        // 서버에 업데이트된 순서 반영
+        updatedLinks.forEach((link) => updateLink(link));
+    };
 
     const handleEdit = async (id, field, value) => {
-        const updatedLinks = links.map((link) =>
-            link.id === id ? {...link, [field]: value} : link
-        );
-        setLinks(updatedLinks);
-        const updatedLink = updatedLinks.find((link) => link.id === id);
+        const updatedLink = links.find((link) => link.id === id);
         if (updatedLink) {
-            await updateLink(updatedLink);
+            updatedLink[field] = value;
+            await updateLinkState(updatedLink);
         }
         setEditingId(null);
     };
 
     const handleDeleteLink = async (linkToDelete) => {
-        const isFirstLink = linkToDelete.prevLinkId === null;
-        if (isFirstLink) {
-            const nextLink = links.find((link) => link.prevLinkId === linkToDelete.id);
-            if (nextLink) {
-                const updatedNextLink = {...nextLink, prevLinkId: null};
-                await updateLink(updatedNextLink);
-            }
-        } else {
-            const previousLink = links.find((link) => link.id === linkToDelete.prevLinkId);
-            const nextLink = links.find((link) => link.prevLinkId === linkToDelete.id);
-            if (previousLink && nextLink) {
-                const updatedNextLink = {...nextLink, prevLinkId: previousLink.id};
-                await updateLink(updatedNextLink);
-            }
+        const { id, prevLinkId } = linkToDelete;
+        const nextLink = links.find((link) => link.prevLinkId === id);
+
+        if (prevLinkId && nextLink) {
+            const updatedNextLink = { ...nextLink, prevLinkId };
+            await updateLinkState(updatedNextLink);
+        } else if (nextLink) {
+            const updatedNextLink = { ...nextLink, prevLinkId: null };
+            await updateLinkState(updatedNextLink);
         }
-        await deleteLink(linkToDelete.id);
-        setLinks(links.filter((link) => link.id !== linkToDelete.id));
+
+        await deleteLink(id);
+        setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
     };
 
     const handleToggleLink = async (link) => {
         try {
-            link.active = !link.active;
-            await updateLink(link);
-            setLinks((prevLinks) =>
-                prevLinks.map((item) =>
-                    item.id === link.id ? {...item, active: link.active} : item
-                )
-            );
+            const updatedLink = { ...link, active: !link.active };
+            await updateLinkState(updatedLink);
         } catch (error) {
-            console.error(error);
-            link.active = !link.active;
+            console.error("Failed to toggle link:", error);
         }
     };
 
-    const handleToggleExpand = (id) => {
-        setExpandedLinkId((prevId) => (prevId === id ? null : id));
+    const handleFocus = (id) => {
+        setEditingId(id);
+        setTimeout(() => {
+            const element = titleRefs.current[id];
+            if (element) {
+                const range = document.createRange();
+                const selection = window.getSelection();
+                range.selectNodeContents(element);
+                range.collapse(false);
+                selection.removeAllRanges();
+                selection.addRange(range);
+                element.focus();
+            }
+        }, 0);
     };
 
-    return (
-        <div className="management-link-container">
-            {sortedLinks.map((link) => (
-                <div
-                    key={link.id}
-                    className={`link-item ${expandedLinkId === link.id ? "expanded" : ""}`}
-                >
-                    <div className="link-header">
-                        <div className="link-left">
-                            <div className="link-divide">
-                        <span
-                            className={`link-title ${editingId === link.id ? "editing" : ""}`}
-                            contentEditable={editingId === link.id}
-                            suppressContentEditableWarning
-                            onBlur={(e) => {
-                                handleEdit(link.id, "title", e.target.textContent);
-                                setEditingId(null);
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    e.preventDefault();
-                                    e.target.blur();
-                                }
-                            }}
-                        >
-                            {link.title}
-                            {editingId !== link.id && (
-                                <FiEdit3
-                                    className="edit-icon"
-                                    onClick={() => setEditingId(link.id)}
-                                />
-                            )}
-                        </span>
-                                <div className="link-bottom-icons">
+    const LinkItem = ({ link, index }) => {
+        const { id, title, active } = link;
 
-                                    <LuLink
-                                        className="link-add-btn"
-                                        onClick={() => handleToggleExpand(link.id)}
-                                    />
-                                    <IoImageOutline
-                                        className="link-add-btn"
-                                        onClick={() => handleToggleExpand(link.id)}
-                                    />
+        return (
+            <Draggable draggableId={id.toString()} index={index}>
+                {(provided) => (
+                    <div
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        className={`link-item ${expandedLinkId === id ? "expanded" : ""}`}
+                    >
+                        <div className="link-header">
+                            <div className="link-left">
+                                <div
+                                    {...provided.dragHandleProps} // 드래그 핸들러는 여기 적용
+                                    className="drag-handle" // 스타일 적용을 위해 클래스 추가
+                                >
+                                    {/* 드래그 핸들 아이콘 (선택 사항) */}
+                                    <span className="drag-icon"><RiDraggable /></span>
                                 </div>
+                                <div className="link-divide">
+                                    <Tooltip text={expandedLinkId === id ? "저장소 닫기" : "저장소 열기"}>
+                                        <TbFolder
+                                            className={`link-add-btn ${expandedLinkId === id ? 'opened' : 'closed'}`}
+                                            onClick={() => setExpandedLinkId((prev) => (prev === id ? null : id))}
+                                        />
+                                    </Tooltip>
+                                    <span
+                                        ref={(el) => (titleRefs.current[id] = el)}
+                                        className={`link-title ${editingId === id ? "editing" : ""}`}
+                                        contentEditable={editingId === id}
+                                        suppressContentEditableWarning
+                                        onBlur={(e) =>
+                                            handleEdit(id, "title", e.target.textContent.trim())
+                                        }
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+                                                e.target.blur();
+                                            }
+                                        }}
+                                    >
+                                    {title}
 
+                                </span>
+                                    <Tooltip text="저장소 이름 바꾸기">
+                                        <GrEdit className="edit-icon" onClick={() => handleFocus(id)} />
+                                    </Tooltip>
+
+                                </div>
+                            </div>
+
+                            <div className="link-right">
+                                <button
+                                    onClick={() => handleDeleteLink(link)}
+                                    className="detail-trash-button"
+                                >
+                                    <LuTrash2 />
+                                </button>
+                                <label className="toggle-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={active}
+                                        onChange={() => handleToggleLink(link)}
+                                    />
+                                    <span className="slider"></span>
+                                </label>
                             </div>
                         </div>
 
-                        <div className="link-right">
-                            <label className="toggle-switch">
-                                <input
-                                    type="checkbox"
-                                    checked={link.active}
-                                    onChange={() => handleToggleLink(link)}
-                                />
-                                <span className="slider"></span>
-                            </label>
-                            <button
-                                onClick={() => handleDeleteLink(link)}
-                                className="detail-trash-button"
-                            >
-                                <LuTrash2/>
-                            </button>
-
-                        </div>
+                        {expandedLinkId === id && <DetailManagement link={link} />}
                     </div>
+                )}
+            </Draggable>
+        );
+    };
 
-                    {expandedLinkId === link.id && (
-                        <DetailManagement
-                            link={link}
-                        />
+
+    return (
+            <DragDropContext onDragEnd={handleDragEnd}>
+                <Droppable droppableId="links">
+                    {(provided) => (
+                        <div
+                            className="management-link-container"
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {sortedLinks.length === 0 ? (
+                                <div className="no-links-container">
+                                    <AiOutlineFrown className="no-links-message-icon"/>
+                                    <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 저장소를 만들어보세요!</p>
+                                </div>
+                            ) : (
+                                sortedLinks.map((link, index) => <LinkItem key={link.id} link={link} index={index}/>)
+                            )}
+                            {provided.placeholder}
+                        </div>
                     )}
-                </div>
-            ))}
-        </div>
+                </Droppable>
+            </DragDropContext>
     );
-
 };
 
 export default ManagementPanel;

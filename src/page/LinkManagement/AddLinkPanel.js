@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
-import {HiPlus} from "react-icons/hi";
+import {TbFolderPlus} from "react-icons/tb";
+import Joyride from "react-joyride";
 
-const AddLinkPanel = ({updateLink, createLink}) => {
-    const {links, setLinks} = useLink();
+const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
+    const {links, setLinks, socialLink} = useLink();
     const [showForm, setShowForm] = useState(false);
     const [newLink, setNewLink] = useState({title: "", url: ""});
     const [isClosing, setIsClosing] = useState(false);
@@ -17,7 +18,7 @@ const AddLinkPanel = ({updateLink, createLink}) => {
         // 1. 새 링크 생성 API 호출
         const createdLink = await createLink({
             title: newLink.title,
-            userId: 1,  // TODO 추후 변경
+            username: socialLink.username,
             thumbnail: null,
             prevLinkId: null, // 새 링크는 맨 앞에
             layout: "CLASSIC",
@@ -54,33 +55,41 @@ const AddLinkPanel = ({updateLink, createLink}) => {
 
 
     return (
+        <>
+        <Joyride
+            steps={steps}
+            run={runTutorial} // 실행 여부 전달
+            continuous={true}
+            showSkipButton={true}
+        />
         <div className="add-link-panel">
             {links.length < 10 && !showForm && ( // 링크 개수가 10개 미만일 때만 "add link" 버튼 표시
                 <button
                     className="management-add-link-button"
                     onClick={() => setShowForm(true)}
                 >
-                    <HiPlus className="add-link-icon"/> 서비스 추가
+                    <TbFolderPlus className="add-link-icon"/> 저장소 추가
                 </button>
             )}
             {showForm && (
                 <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
                     <input
                         type="text"
-                        placeholder="제목을 입력하세요"
+                        placeholder="저장소 이름을 입력하세요"
                         value={newLink.title}
                         onChange={(e) => setNewLink({...newLink, title: e.target.value})}
                         className="add-link-form-input"
                     />
                     <button onClick={handleAddLink} className="form-add-button">
-                        Add
+                        추가
                     </button>
                     <button onClick={handleCancel} className="form-cancel-button">
-                        Cancel
+                        취소
                     </button>
                 </div>
             )}
         </div>
+        </>
     )
 }
 export default AddLinkPanel;
