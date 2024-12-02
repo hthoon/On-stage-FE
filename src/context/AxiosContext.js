@@ -1,5 +1,6 @@
 import axios from "axios";
 import {createContext, useContext} from "react";
+import {jwtDecode} from "jwt-decode";
 
 // 쿠키 읽어오기
 export const getCookie = (name) => {
@@ -7,6 +8,12 @@ export const getCookie = (name) => {
     if (match) return match[2];
     return null;
 };
+
+export const getValue = (key) => {
+    const decodedToken = jwtDecode(getCookie('access'));
+
+    return decodedToken[key] || null;
+}
 
 const AxiosContext = createContext();
 export const useAxios = () => useContext(AxiosContext);
