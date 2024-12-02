@@ -95,13 +95,15 @@ body {
 .sidebar-menu-item {
     display: flex;
     justify-content: start;
-    padding: 10px 10px;
+    padding: 13px 15px;
     margin-left: 10px;
     font-size: 1.1rem;
+    color: #808080;
     gap: 10px;
 
-    width: 85%;
+    width: 82%;
     border-radius: 15px;
+    transition: all 0.3s ease-in-out;
 }
 .sidebar-menu-item:hover {
     background-color: rgba(234, 234, 234, 0.6);

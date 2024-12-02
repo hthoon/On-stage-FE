@@ -12,10 +12,12 @@ import { useAxios } from "../../context/AxiosContext";
 // EditableField 컴포넌트로 contentEditable 처리
 const EditableField = ({ field, value, onSave, children }) => {
     const ref = useRef(null);
+    const [isEditing, setIsEditing] = useState(false);
 
     const handleFocus = () => {
-        if (ref.current) {
-            setTimeout(() => {
+        setIsEditing(true);
+        setTimeout(() => {
+            if (ref.current) {
                 const element = ref.current;
                 const range = document.createRange();
                 const selection = window.getSelection();
@@ -24,20 +26,22 @@ const EditableField = ({ field, value, onSave, children }) => {
                 selection.removeAllRanges();
                 selection.addRange(range);
                 element.focus();
-            }, 0);
-        }
+            }
+        }, 0);
     };
 
     const handleBlur = (e) => {
+        setIsEditing(false);
         onSave(field, e.target.textContent.trim());
     };
 
     return (
-        <div className={`editable-field ${field}`}>
+        <div className={`editable-field ${field} ${isEditing ? "editing" : ""}`}>
             <span
                 ref={ref}
                 contentEditable
                 suppressContentEditableWarning
+                onFocus={handleFocus}
                 onBlur={handleBlur}
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
@@ -48,14 +52,16 @@ const EditableField = ({ field, value, onSave, children }) => {
             >
                 {children || value}
             </span>
-            <Tooltip text={`${field === "name" ? "저장소 이름" : "설명"} 바꾸기`}>
-                <GrEdit className="edit-icon" onClick={handleFocus} />
-            </Tooltip>
+            {!isEditing && (
+                <Tooltip text={`${field === "nickname" ? "저장소 이름" : "설명"} 바꾸기`}>
+                    <GrEdit className="edit-icon" onClick={handleFocus}/>
+                </Tooltip>
+            )}
         </div>
     );
 };
 
-const SocialPanel = ({ runTutorial, steps }) => {
+const SocialPanel = ({runTutorial, steps}) => {
     const { axiosInstance } = useAxios();
     const { socialLink, setSocialLink, profile } = useLink();
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
@@ -75,7 +81,7 @@ const SocialPanel = ({ runTutorial, steps }) => {
     // 공통된 API 호출 로직
     const updateProfileField = async (field, newValue) => {
         try {
-            const response = await axiosInstance.patch(`/api/user/${newValue}`);
+            const response = await axiosInstance.patch(`/api/user/${field}`, { value: newValue });
             if (response.status === 200) {
                 console.log(`${field} updated successfully:`, newValue);
             }
@@ -84,6 +90,7 @@ const SocialPanel = ({ runTutorial, steps }) => {
             alert(`${field} 업데이트 중 오류가 발생했습니다.`);
         }
     };
+
 
     return (
         <div>
@@ -116,7 +123,7 @@ const SocialPanel = ({ runTutorial, steps }) => {
                             {platform.icon}
                         </div>
                     ))}
-                    <IoMdAddCircle className={`social-icon-add-btn`} onClick={handleOpenModal} />
+                    <IoMdAddCircle className="social-icon-add-btn" onClick={handleOpenModal} />
                 </div>
             </div>
 
