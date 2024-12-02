@@ -16,12 +16,13 @@ const Sidebar = () => {
     const { axiosInstance } = useAxios();
     const location = useLocation();
     const navigate = useNavigate();
+    const isVisitPage = location.pathname.startsWith('/page/');
     const whitelistPaths = ['/', '/login', '/signup', '/logout', '/main'];
     const [isOpen, setIsOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-    if (whitelistPaths.includes(location.pathname)) {
+    if (whitelistPaths.includes(location.pathname) || isVisitPage) {
         return null;
     }
 
@@ -38,6 +39,7 @@ const Sidebar = () => {
     const logout = async() => {
 
         const refreshToken = Cookies.get('refresh');
+        Cookies.remove('username');
 
         try {
             await axiosInstance.post('/logout', null, {

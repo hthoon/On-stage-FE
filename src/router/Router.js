@@ -5,6 +5,7 @@ import Management from "../page/LinkManagement/Management";
 import KakaoMap from '../components/MapDisplay/MapDisplay';
 import Home from "../page/home/Home";
 import Login from "../page/home/Login";
+import VisitPage from "../page/LinkManagement/VisitPage";
 
 function AppRouter() {
     return (
@@ -12,6 +13,7 @@ function AppRouter() {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/management" element={<Management />} />
+            <Route path="/page/:username" element={<VisitPage />} />
             <Route path="/map" element={<KakaoMap />} />
             <Route path="/login" element={<Login />} />
         </Routes>
