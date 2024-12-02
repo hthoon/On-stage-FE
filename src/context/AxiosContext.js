@@ -1,16 +1,10 @@
 import axios from "axios";
 import {createContext, useContext} from "react";
+import Cookies from 'js-cookie';
 import {jwtDecode} from "jwt-decode";
 
-// 쿠키 읽어오기
-export const getCookie = (name) => {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    if (match) return match[2];
-    return null;
-};
-
 export const getValue = (key) => {
-    const decodedToken = jwtDecode(getCookie('access'));
+    const decodedToken = jwtDecode(Cookies.get('access'));
 
     return decodedToken[key] || null;
 }
@@ -32,7 +26,7 @@ export const AxiosContextProvider = ({children}) => {
     // 쿠키의 Access 토큰을 헤더에 포함시켜 요청한다.
     axiosInstance.interceptors.request.use(
         (config) => {
-            const accessToken = getCookie('access');
+            const accessToken = Cookies.get('access');
 
             if (accessToken) {
                 config.headers["Authorization"] = `Bearer ${accessToken}`;

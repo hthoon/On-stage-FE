@@ -6,10 +6,26 @@ import {FiUser} from "react-icons/fi";
 import {ImCoinDollar} from "react-icons/im";
 
 import {TbLogout2} from "react-icons/tb";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useAuth} from "../../context/AuthContext";
+import { useAxios} from "../../context/AxiosContext";
+import Cookies from "js-cookie";
 
 const Sidebar = () => {
+    const { loggedIn } = useAuth();
+    const { axiosInstance } = useAxios();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const isVisitPage = location.pathname.startsWith('/page/');
+    const whitelistPaths = ['/', '/login', '/signup', '/logout', '/main'];
     const [isOpen, setIsOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+    if (whitelistPaths.includes(location.pathname) || isVisitPage) {
+        return null;
+    }
+
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
 
     const toggleSidebar = () => {
@@ -20,6 +36,30 @@ const Sidebar = () => {
         setIsModalOpen(!isModalOpen);
     };
 
+    const logout = async() => {
+
+        const refreshToken = Cookies.get('refresh');
+        Cookies.remove('username');
+
+        try {
+            await axiosInstance.post('/logout', null, {
+                withCredentials:true,
+                headers: {
+                    'Authorization': refreshToken
+                }
+            });
+
+            navigate('/');
+
+        } catch (error) {
+            console.error('logout error', error)
+        }
+    }
+
+    const login = () => {
+        navigate("/login")
+    }
+
     return (
         <>
             {/* 토글 버튼 */}
@@ -29,7 +69,6 @@ const Sidebar = () => {
             <div className={`sidebar ${isOpen ? "open" : ""}`}>
                 <div className="sidebar-empty-space"/>
                 <div className="sidebar-menu">
-                    <div className="sidebar-menu-item"><a href="/">홈</a></div>
                     <div className="sidebar-menu-item"><a href="/management">링크</a></div>
                     <div className="sidebar-menu-item"><a href="#services">분석</a></div>
                     <div className="sidebar-menu-item"><a href="#services">아티스트정보</a></div>
@@ -37,20 +76,21 @@ const Sidebar = () => {
                     <div className="sidebar-menu-item"><a href="#contact">설정</a></div>
                 </div>
 
-                {/* 회원 이미지 */}
-                <div className="sidebar-profile" onClick={toggleModal}>
-                    <img
-                        src={profileImage}
-                        alt="Profile"
-                        className="profile-image"
-
-                    />
-                    <h4>Winter</h4>
-                </div>
+                {/* 회원 이미지 (로그인 상태에 따라 다르게 표시) */}
+                {loggedIn ? (
+                    <div className="sidebar-profile" onClick={toggleModal}>
+                        <img src={profileImage} alt="Profile" className="sidebar-profile-image" />
+                        <h4>Winter</h4>
+                    </div>
+                ) : (
+                    <div className="sidebar-profile">
+                        <button className="" onClick={login}>로그인</button>
+                    </div>
+                )}
             </div>
 
-            {/* 모달 */}
-            {isModalOpen && (
+            {/* 모달 (로그인 상태에 따라 다르게 표시) */}
+            {isModalOpen && loggedIn && (
                 <div
                     className={`profile-modal-overlay ${isModalOpen ? "show" : ""}`}
                     onClick={toggleModal}
@@ -66,18 +106,21 @@ const Sidebar = () => {
                                 className="modal-profile-image"
                             />
                             <div className="profile-modal-text-container">
-                            <h3>Winter</h3>
-                            <h5>onstage.winter</h5>
+                                <h3>Winter</h3>
+                                <h5>onstage.winter</h5>
                             </div>
                         </div>
+
                         <div className="profile-modal-button-container">
                             <h4>Account</h4>
-                            <div className="profile-modal-button"><FiUser className="profile-modal-icon"/> 마이페이지 </div>
-                            <div className="profile-modal-button"><MdOutlineContactSupport className="profile-modal-icon"/> 고객지원 </div>
-                            <div className="profile-modal-button"><ImCoinDollar className="profile-modal-icon"/> 요금 정책</div>
-                            <h4/>
-                            <h4/>
-                            <div className="profile-modal-button"><TbLogout2 className="profile-modal-icon"/> 로그아웃</div>
+                            <div className="profile-modal-button"><FiUser className="profile-modal-icon" /> 마이페이지</div>
+                            <div className="profile-modal-button"><MdOutlineContactSupport className="profile-modal-icon" /> 고객지원</div>
+                            <div className="profile-modal-button"><ImCoinDollar className="profile-modal-icon" /> 요금 정책</div>
+                            <h4 />
+                            <h4 />
+                            <div className="profile-modal-button" onClick={logout}>
+                                <TbLogout2 className="profile-modal-icon" /> 로그아웃
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -85,10 +128,6 @@ const Sidebar = () => {
 
             {/* 하단바 */}
             <div className="bottom-nav">
-                <a href="/" className="bottom-nav-item">
-                    <BsHouse/>
-                    <span>홈</span>
-                </a>
                 <a href="/management" className="bottom-nav-item">
                     <BsLink/>
                     <span>링크</span>

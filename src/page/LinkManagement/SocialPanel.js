@@ -4,8 +4,9 @@ import AddSocialLinkModal from "./AddSocialLinkModal";
 import { useLink } from "../../context/LinkContext";
 import { FaInstagram, FaYoutube, FaTwitter, FaSpotify, FaGithub } from "react-icons/fa";
 import {IoMdAddCircle} from "react-icons/io";
+import Joyride from "react-joyride";
 
-const SocialPanel = () => {
+const SocialPanel = ({ runTutorial, steps }) => {
     const { socialLink, setSocialLink } = useLink();
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,6 +24,12 @@ const SocialPanel = () => {
 
     return (
         <div>
+            <Joyride
+                steps={steps}
+                run={runTutorial} // 실행 여부 전달
+                continuous={true}
+                showSkipButton={true}
+            />
             <div>
                 <img src={profileImage} alt="Profile" className="social-panel-profile-image" />
                 <h5 className="social-panel-name">Winter</h5>
