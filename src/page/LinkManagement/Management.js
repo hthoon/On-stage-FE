@@ -2,26 +2,31 @@ import React, {useState} from 'react';
 import LinkDisplay from "../../components/LinkDisplay/LinkDisplay";
 import "./Management.css";
 import "./Tutorial.css";
+import "./Share.css";
+
 import ManagementPanel from "./ManagementPanel";
 import {useAxios} from "../../context/AxiosContext";
 import {useLink} from "../../context/LinkContext";
 import AddLinkPanel from "./AddLinkPanel";
 import SocialPanel from "./SocialPanel";
 import ThemeSwitcher from "./ThemeSwitcher";
-import {FaChevronUp} from "react-icons/fa";
+import {FaChevronUp, FaLink, FaShareAlt} from "react-icons/fa";
 import Joyride from 'react-joyride';
 import ProgressBar from "../../components/tutorial/ProgressBar";
 import {BiSolidFlagCheckered} from "react-icons/bi";
 import {HiChevronLeft} from "react-icons/hi";
 import {IoMdClose} from "react-icons/io";
+import Cookies from "js-cookie";
 
 const Management = () => {
     const {axiosInstance} = useAxios();
     const { setLinks } = useLink();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [isLinkVisible, setIsLinkVisible] = useState(false);
     const [runTutorial, setRunTutorial] = useState(false);
     const [progress, setProgress] = useState(0); // 진행도 상태 추가
+    const shareURL = `http://localhost:3000/page/${Cookies.get("username")}`;
 
 
     const updateLink = async (updatedLink) => {
@@ -35,6 +40,13 @@ const Management = () => {
             )
         );
     };
+
+    // URL 복사
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(shareURL);
+        setIsLinkVisible(false);
+    };
+
 
     const createLink = async (link) => {
         const response = await axiosInstance.post(`/api/link`,link);
@@ -83,6 +95,38 @@ const Management = () => {
 
     return (
         <div className="management-container">
+            <div className="share-button-container">
+                {/* 공유 버튼 */}
+                {!isLinkVisible ? (
+                    <button
+                        onClick={() => setIsLinkVisible(true)}
+                        className="share-btn top-right"
+                    >
+                        <FaShareAlt/>
+                    </button>
+                ) : (
+                    // 링크 표시
+                    <div className="share-link-container">
+                        <input
+                            type="text"
+                            value={shareURL}
+                            readOnly
+                            className="share-link-input"
+                        />
+                        <button onClick={copyToClipboard} className="copy-btn">
+                            <FaLink/> 복사
+                        </button>
+                        <button
+                            onClick={() => setIsLinkVisible(false)}
+                            className="close-btn"
+                        >
+                            닫기
+                        </button>
+                    </div>
+                )}
+            </div>
+
+
             <Joyride
                 steps={steps}
                 run={runTutorial} // 튜토리얼 실행 여부
@@ -138,7 +182,7 @@ const Management = () => {
 
             {/* 튜토리얼 버튼 (우측 하단 고정) */}
             <div className="tutorial-button" onClick={() => setIsModalOpen(true)}>
-                <BiSolidFlagCheckered  />
+                <BiSolidFlagCheckered/>
                 <p className="tutorial-button-quest">튜토리얼</p>
             </div>
 
