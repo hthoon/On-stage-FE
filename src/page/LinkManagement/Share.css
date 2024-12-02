@@ -10,10 +10,10 @@
     background-color: #828cfc;
     color: white;
     border: none;
-    padding: 15px;
+    padding: 12px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 22px;
+    font-size: 20px;
 
     animation: fadeIn 0.7s ease-in-out;
 }
