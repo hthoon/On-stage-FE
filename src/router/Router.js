@@ -13,7 +13,7 @@ function AppRouter() {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/management" element={<Management />} />
-            <Route path="/page/:username" element={<VisitPage />} />
+            <Route path="/page/:nickname" element={<VisitPage />} />
             <Route path="/map" element={<KakaoMap />} />
             <Route path="/login" element={<Login />} />
         </Routes>
