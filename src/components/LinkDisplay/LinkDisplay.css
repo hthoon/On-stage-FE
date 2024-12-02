@@ -6,6 +6,11 @@
     --borderRadius: 25px;
 }
 
+.LinkDisplay{
+    margin-top: 100px;
+    animation: fadeIn 0.7s ease-out;
+}
+
 .linktree-container {
     display: flex;
     justify-content: center;
