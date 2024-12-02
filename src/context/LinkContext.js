@@ -20,6 +20,7 @@ export const LinkProvider = ({ children }) => {
     const [links, setLinks] = useState([]);
     const [socialLink, setSocialLink] = useState({});
     const [theme, setTheme] = useState({});
+    const [profile, setProfile] = useState({});
     const [backgroundImage, setBackgroundImage] = useState("");
 
     const updateTheme = (newTheme) => {
@@ -39,6 +40,13 @@ export const LinkProvider = ({ children }) => {
                 .catch((error) => {
                     console.log(error);
                 });
+            axiosInstance.get(`/api/user`)
+                .then((response) => {
+                    setProfile(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
 
         // 방문 페이지 화이트리스트 경로에서 username이 있을 경우
@@ -52,12 +60,20 @@ export const LinkProvider = ({ children }) => {
                 .catch((error) => {
                     console.log(error);
                 });
+
+            axiosInstance.get(`/api/link`)
+                .then((response) => {
+                    setProfile(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     }, [axiosInstance, location.pathname]);
 
     return (
         <LinkContext.Provider value={{
-            links, setLinks, socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage
+            links, setLinks, socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage, profile
         }}>
             {children}
         </LinkContext.Provider>
