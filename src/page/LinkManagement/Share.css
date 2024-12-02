@@ -7,20 +7,19 @@
 .share-btn {
     display: flex;
     align-items: center;
-    background-color: #6e79ff;
+    background-color: #828cfc;
     color: white;
     border: none;
-    padding: 17px;
+    padding: 15px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 16px;
-    gap: 5px;
+    font-size: 22px;
 
     animation: fadeIn 0.7s ease-in-out;
 }
 
 .share-btn:hover {
-    background-color: #5a63e0;
+    background-color: #6e79ff;
 }
 
 .share-link-container {
