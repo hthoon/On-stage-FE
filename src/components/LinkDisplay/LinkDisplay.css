@@ -169,6 +169,11 @@
     margin-top: 15px;
 }
 
+.blank-transparent{
+    opacity: 0; /* 투명도 설정 (0은 완전히 투명, 1은 불투명) */
+    pointer-events: none; /* 클릭을 막기 위해 포인터 이벤트를 비활성화 */
+}
+
 .social-icon {
     font-size: 22px;
     color: var(--iconColor);

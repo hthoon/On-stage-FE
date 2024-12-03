@@ -11,6 +11,7 @@ import { RiDraggable } from "react-icons/ri";
 import Tooltip from "../../components/tooltip/Tooltip";
 import { TbFolder } from "react-icons/tb";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5";
+import {FaRegFolderOpen} from "react-icons/fa";
 
 const ManagementPanel = ({ updateLink, deleteLink }) => {
     const { links, setLinks } = useLink();
@@ -121,7 +122,6 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     <span className="drag-icon"><RiDraggable /></span>
                                 </div>
                                 <div className="link-divide">
-
                                     <span
                                         ref={(el) => (titleRefs.current[id] = el)}
                                         className={`link-title ${editingId === id ? "editing" : ""}`}
@@ -140,7 +140,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     {title}
 
                                 </span>
-                                    <Tooltip text="저장소 이름 바꾸기">
+                                    <Tooltip text="블록 이름 바꾸기">
                                         <GrEdit className="edit-icon" onClick={() => handleFocus(id)} />
                                     </Tooltip>
 
@@ -148,7 +148,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                             </div>
 
                             <div className="link-right">
-                                <Tooltip text={expandedLinkId === id ? "저장소 닫기" : "저장소 열기"}>
+                                <Tooltip text={expandedLinkId === id ? "블록 닫기" : "블록 열기"}>
                                     {expandedLinkId === id ? (
                                         <IoChevronUp
                                             className="link-add-btn opened"
@@ -188,7 +188,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                             {sortedLinks.length === 0 ? (
                                 <div className="no-links-container">
                                     <AiOutlineFrown className="no-links-message-icon"/>
-                                    <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 저장소를 만들어보세요!</p>
+                                    <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 블록를 만들어보세요!</p>
                                 </div>
                             ) : (
                                 sortedLinks.map((link, index) => <LinkItem key={link.id} link={link} index={index}/>)

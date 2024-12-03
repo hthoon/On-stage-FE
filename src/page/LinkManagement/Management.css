@@ -42,7 +42,7 @@
 .link-control-container{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .link-control-button-container{
@@ -262,7 +262,7 @@
 
 .add-link-icon {
     margin-right: 7px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -558,6 +558,47 @@ input:checked + .slider:before {
     color: #b6b6b6;
 
 }
+
+.block-type-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.block-type-icon{
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.block-type-button {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    background-color: #f9f9f9;
+    color: #5e5e5e;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.block-type-button.active {
+    background-color: #6e79ff;
+    color: white;
+    font-weight: bold;
+    border-color: transparent;
+}
+
+.block-type-button:hover {
+    background-color: #e2e2e2;
+}
+
+.block-type-button.active:hover {
+    background-color: #6e79ff;
+}
+
 
 /* 팝업 오버레이 */
 .popup-overlay {

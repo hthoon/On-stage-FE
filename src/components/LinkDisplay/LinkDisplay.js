@@ -73,7 +73,7 @@ const LinkDisplay = () => {
                                 <div
                                     key={index}
                                     rel="noopener noreferrer"
-                                    className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""}`}
+                                    className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""} ${link.blockType === "BLANK" ? "blank-transparent" : ""}`} // BLANK 타입일 경우 transparent 클래스 추가
                                     onClick={() => handleToggleExpand(link.id)}
                                 >
                                     <p className="linktree-detail-title">{link.title}</p>

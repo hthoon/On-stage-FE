@@ -53,7 +53,7 @@ const EditableField = ({ field, value, onSave, children }) => {
                 {children || value}
             </span>
             {!isEditing && (
-                <Tooltip text={`${field === "nickname" ? "저장소 이름" : "설명"} 바꾸기`}>
+                <Tooltip text={`${field === "nickname" ? "블록 이름" : "설명"} 바꾸기`}>
                     <GrEdit className="edit-icon" onClick={handleFocus}/>
                 </Tooltip>
             )}

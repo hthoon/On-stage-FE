@@ -3,15 +3,17 @@ import "./Management.css";
 import {useLink} from "../../context/LinkContext";
 import {TbFolderPlus} from "react-icons/tb";
 import Joyride from "react-joyride";
+import {PiMusicNotesBold, PiPlusBold, PiSelectionPlusBold} from "react-icons/pi";
+import {MdOutlineFolder} from "react-icons/md";
 
-const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
+const AddLinkPanel = ({updateLink, createLink}) => {
     const {links, setLinks, socialLink} = useLink();
     const [showForm, setShowForm] = useState(false);
-    const [newLink, setNewLink] = useState({title: "", url: ""});
+    const [newLink, setNewLink] = useState({title: "", blockType: "FOLDER"});
     const [isClosing, setIsClosing] = useState(false);
 
     const handleAddLink = async () => {
-        if (!newLink.title) {
+        if (!newLink.title && newLink.blockType !== "BLANK") {
             alert("Please fill in all fields.");
             return;
         }
@@ -24,6 +26,7 @@ const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
             layout: "CLASSIC",
             active: true,
             details: [],
+            blockType: newLink.blockType
         });
         const {id: newLinkId} = createdLink;
         // 2. 기존 맨 앞 링크의 id 가져오기
@@ -40,7 +43,7 @@ const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
         )]);
 
         // 입력 폼 초기화 및 닫기
-        setNewLink({title: "", url: ""});
+        setNewLink({title: "", blockType: "FOLDER"});
         setShowForm(false);
     };
 
@@ -53,43 +56,70 @@ const AddLinkPanel = ({updateLink, createLink, runTutorial, steps}) => {
         }, 300);
     };
 
+    // 블록 타입 설정
+    const handleBlockTypeChange = (blockType) => {
+        setNewLink((prevLink) => ({
+            ...prevLink,
+            blockType,
+            // 블록 타입이 "BLANK"일 때만 title을 "여백"으로 설정
+            title: blockType === "BLANK" ? "여백" : prevLink.title
+        }));
+    };
+
 
     return (
         <>
-        <Joyride
-            steps={steps}
-            run={runTutorial} // 실행 여부 전달
-            continuous={true}
-            showSkipButton={true}
-        />
-        <div className="add-link-panel">
-            {links.length < 10 && !showForm && ( // 링크 개수가 10개 미만일 때만 "add link" 버튼 표시
-                <button
-                    className="management-add-link-button"
-                    onClick={() => setShowForm(true)}
-                >
-                    <TbFolderPlus className="add-link-icon"/> 저장소 추가
-                </button>
-            )}
-            {showForm && (
-                <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
-                    <input
-                        type="text"
-                        placeholder="저장소 이름을 입력하세요"
-                        value={newLink.title}
-                        onChange={(e) => setNewLink({...newLink, title: e.target.value})}
-                        className="add-link-form-input"
-                    />
-                    <button onClick={handleAddLink} className="form-add-button">
-                        추가
+            <div className="add-link-panel">
+                {links.length < 10 && !showForm && ( // 링크 개수가 10개 미만일 때만 "블록 추가" 버튼 표시
+                    <button
+                        className="management-add-link-button"
+                        onClick={() => setShowForm(true)}
+                    >
+                        <PiPlusBold className="add-link-icon"/> 블록 추가
                     </button>
-                    <button onClick={handleCancel} className="form-cancel-button">
-                        취소
-                    </button>
-                </div>
-            )}
-        </div>
+                )}
+                {showForm && (
+                    <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
+                        <p>블록의 타입을 선택해 주세요</p>
+                        <div className="block-type-buttons">
+                            <button
+                                className={`block-type-button ${newLink.blockType === "FOLDER" ? "active" : ""}`}
+                                onClick={() => handleBlockTypeChange("FOLDER")}
+                            >
+                                <MdOutlineFolder className="block-type-icon" /> 폴더
+                            </button>
+                            <button
+                                className={`block-type-button ${newLink.blockType === "BLANK" ? "active" : ""}`}
+                                onClick={() => handleBlockTypeChange("BLANK")}
+                            >
+                                <PiSelectionPlusBold className="block-type-icon" /> 여백
+                            </button>
+                            <button
+                                className={`block-type-button ${newLink.blockType === "MUSIC" ? "active" : ""}`}
+                                onClick={() => handleBlockTypeChange("MUSIC")}
+                            >
+                                <PiMusicNotesBold className="block-type-icon" /> 음악 (WIP)
+                            </button>
+                        </div>
+                        {newLink.blockType !== "BLANK" && (
+                            <input
+                                type="text"
+                                placeholder="블록 이름을 입력하세요"
+                                value={newLink.title}
+                                onChange={(e) => setNewLink({...newLink, title: e.target.value})}
+                                className="add-link-form-input"
+                            />
+                        )}
+                        <button onClick={handleAddLink} className="form-add-button">
+                            추가
+                        </button>
+                        <button onClick={handleCancel} className="form-cancel-button">
+                            취소
+                        </button>
+                    </div>
+                )}
+            </div>
         </>
-    )
-}
+    );
+};
 export default AddLinkPanel;
