@@ -30,20 +30,20 @@ body {
 /* 토글 버튼 */
 .sidebar-toggle {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    padding: 10px 15px;
-    color: #000000;
-    font-size: 1.5rem;
+    top: 15px;
+    left: 15px;
+    padding: 5px 10px;
+    color: #5b5b5b;
+    font-size: 1.8rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     z-index: 1001;
     transition: background-color 0.3s;
 }
 
 .sidebar-toggle:hover {
-    background-color: #dedede;
+    background-color: #efefef;
 }
 
 .sidebar-empty-space {
@@ -98,7 +98,8 @@ body {
     padding: 13px 15px;
     margin-left: 10px;
     font-size: 1.1rem;
-    color: #808080;
+    font-weight: bold;
+    color: #777777;
     gap: 10px;
 
     width: 82%;
@@ -110,7 +111,7 @@ body {
 }
 
 .sidebar-menu-item a {
-    color: #000000;
+    color: #777777;
     text-decoration: none;
 
     display: block;

@@ -11,6 +11,8 @@ import {
     FaGithub
 } from "react-icons/fa";
 import {SiNotion, SiSoundcloud} from "react-icons/si";
+import {AiOutlineFrown} from "react-icons/ai";
+import {PiLinkBold} from "react-icons/pi";
 
 // URL 분석 함수
 export const getDomainType = (url) => {
@@ -76,8 +78,8 @@ export const mapServiceTypeToIcon = (platform) => {
         CHZZK: <FaTwitch />,
         GITHUB: <FaGithub />,
 
-        NULL: <FaTiktok />, // 기본 아이콘 (TIKTOK) 또는 "알 수 없음" 아이콘
-        INVALID: <FaTiktok />, // 잘못된 URL을 위한 아이콘
+        NULL: <PiLinkBold />, // 기본 아이콘 (TIKTOK) 또는 "알 수 없음" 아이콘
+        INVALID: <AiOutlineFrown />, // 잘못된 URL을 위한 아이콘
     };
 
     return platformToIcon[platform] || platformToIcon["NULL"]; // 기본값은 "NULL"

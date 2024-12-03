@@ -4,6 +4,8 @@
     --fontColor: #000000; /* 텍스트 색상 */
     --iconColor: #ffffff;
     --borderRadius: 25px;
+
+    --contentHeight: 10px;
 }
 
 .LinkDisplay{
@@ -167,6 +169,19 @@
     justify-content: center;
     gap: 12px;
     margin-top: 15px;
+}
+
+.blank-transparent{
+    .linktree-detail-item{
+        display: none;
+    }
+    background-color: transparent;
+    color: transparent;
+    pointer-events: none; /* 클릭을 막기 위해 포인터 이벤트를 비활성화 */
+
+    margin: 0;
+    min-height: 0;
+    height: var(--contentHeight);
 }
 
 .social-icon {

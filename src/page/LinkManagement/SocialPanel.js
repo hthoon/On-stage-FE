@@ -53,7 +53,7 @@ const EditableField = ({ field, value, onSave, children }) => {
                 {children || value}
             </span>
             {!isEditing && (
-                <Tooltip text={`${field === "nickname" ? "저장소 이름" : "설명"} 바꾸기`}>
+                <Tooltip text={`${field === "nickname" ? "블록 이름" : "설명"} 바꾸기`}>
                     <GrEdit className="edit-icon" onClick={handleFocus}/>
                 </Tooltip>
             )}
@@ -81,7 +81,9 @@ const SocialPanel = ({runTutorial, steps}) => {
     // 공통된 API 호출 로직
     const updateProfileField = async (field, newValue) => {
         try {
-            const response = await axiosInstance.patch(`/api/user/${field}`, { value: newValue });
+            const response = await axiosInstance.patch(`/api/user`, null, {
+                params: { field, value: newValue },
+            });
             if (response.status === 200) {
                 console.log(`${field} updated successfully:`, newValue);
             }
