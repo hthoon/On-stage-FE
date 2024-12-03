@@ -1,6 +1,6 @@
-import React, { useEffect, userState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
-import {getCookie, getValue, useAxios} from "../../context/AxiosContext";
+import { useAxios } from "../../context/AxiosContext";
 import LoginButton from "../../components/button/LoginButton"
 import naver_button from "../../assets/loginbutton/naver_button.png"
 import kakao_button from "../../assets/loginbutton/kakao_button.png"
@@ -44,10 +44,8 @@ function Login() {
         }
     }
 
-    const handleGetValue = () => {
-        const value = getValue('username')
-
-        alert(value);
+    const mypage = () => {
+        navigate("/mypage");
     }
 
 
@@ -76,8 +74,6 @@ function Login() {
                     authLink={handleOAuth('google')}
                 />
 
-                <button onClick={handleGetValue}>토큰값 추출</button>
-
                 <div className="user-login-logo text-center mb-5">
 
                     <button onClick={handleLogout}>로그아웃</button>
@@ -87,6 +83,9 @@ function Login() {
                 </div>
                 <div>
                     <button onClick={handleReissueToken}>토큰 재발급</button>
+                </div>
+                <div>
+                    <button onClick={mypage}>마이페이지</button>
                 </div>
 
             </div>
