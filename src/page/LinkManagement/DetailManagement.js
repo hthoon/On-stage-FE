@@ -10,7 +10,7 @@ import {LuTrash2} from "react-icons/lu";
 import {FiEdit3} from "react-icons/fi";
 import Tooltip from "../../components/tooltip/Tooltip";
 
-const DetailManagement = ({link}) => {
+const DetailManagement = ({handleDeleteLink, handleToggleLink, link}) => {
     const {axiosInstance} = useAxios();
     const [linkId, setLinkId] = useState(link.id);
     const [details, setDetails] = useState(link.details || []); // 로컬 상태로 관리
@@ -145,7 +145,26 @@ const DetailManagement = ({link}) => {
     };
     return (
         <div className="link-details">
-            <p className="link-details-message">방문자에게 다양한 서비스 링크를 제공해보세요!</p>
+            <div className="link-control-container">
+                <p className="link-details-message">방문자에게 다양한 서비스 링크를 제공해보세요!</p>
+                <div className="link-control-button-container">
+                <button
+                    onClick={() => handleDeleteLink(link)}
+                    className="detail-trash-button"
+                >
+                    <LuTrash2/>
+                </button>
+                <label className="toggle-switch">
+                    <input
+                        type="checkbox"
+                        checked={link.active}
+                        onChange={() => handleToggleLink(link)}
+                    />
+                    <span className="slider"></span>
+                </label>
+                </div>
+            </div>
+
             {details.length === 0 ? (
                 <p></p>
             ) : (
@@ -159,13 +178,13 @@ const DetailManagement = ({link}) => {
                         </div>
                         <div>
                             <Tooltip text="URL 변경">
-                            <button
-                                onClick={() => openModal(detail)}
-                                className="detail-trash-button "
-                            >
-                                <FiEdit3/>
-                            </button>
-                                </Tooltip>
+                                <button
+                                    onClick={() => openModal(detail)}
+                                    className="detail-trash-button "
+                                >
+                                    <FiEdit3/>
+                                </button>
+                            </Tooltip>
                             <button
                                 onClick={() => handleDeleteDetail(detail.id)}
                                 className="detail-trash-button"

@@ -81,7 +81,9 @@ const SocialPanel = ({runTutorial, steps}) => {
     // 공통된 API 호출 로직
     const updateProfileField = async (field, newValue) => {
         try {
-            const response = await axiosInstance.patch(`/api/user/${field}`, { value: newValue });
+            const response = await axiosInstance.patch(`/api/user`, null, {
+                params: { field, value: newValue },
+            });
             if (response.status === 200) {
                 console.log(`${field} updated successfully:`, newValue);
             }

@@ -10,6 +10,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { RiDraggable } from "react-icons/ri";
 import Tooltip from "../../components/tooltip/Tooltip";
 import { TbFolder } from "react-icons/tb";
+import {IoChevronDown, IoChevronUp} from "react-icons/io5";
 
 const ManagementPanel = ({ updateLink, deleteLink }) => {
     const { links, setLinks } = useLink();
@@ -108,7 +109,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                     <div
                         {...provided.draggableProps}
                         ref={provided.innerRef}
-                        className={`link-item ${expandedLinkId === id ? "expanded" : ""}`}
+                        className={`link-item ${expandedLinkId === id ? "expanded" : ''}`}
                     >
                         <div className="link-header">
                             <div className="link-left">
@@ -120,12 +121,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     <span className="drag-icon"><RiDraggable /></span>
                                 </div>
                                 <div className="link-divide">
-                                    <Tooltip text={expandedLinkId === id ? "저장소 닫기" : "저장소 열기"}>
-                                        <TbFolder
-                                            className={`link-add-btn ${expandedLinkId === id ? 'opened' : 'closed'}`}
-                                            onClick={() => setExpandedLinkId((prev) => (prev === id ? null : id))}
-                                        />
-                                    </Tooltip>
+
                                     <span
                                         ref={(el) => (titleRefs.current[id] = el)}
                                         className={`link-title ${editingId === id ? "editing" : ""}`}
@@ -152,24 +148,27 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                             </div>
 
                             <div className="link-right">
-                                <button
-                                    onClick={() => handleDeleteLink(link)}
-                                    className="detail-trash-button"
-                                >
-                                    <LuTrash2 />
-                                </button>
-                                <label className="toggle-switch">
-                                    <input
-                                        type="checkbox"
-                                        checked={active}
-                                        onChange={() => handleToggleLink(link)}
-                                    />
-                                    <span className="slider"></span>
-                                </label>
+                                <Tooltip text={expandedLinkId === id ? "저장소 닫기" : "저장소 열기"}>
+                                    {expandedLinkId === id ? (
+                                        <IoChevronUp
+                                            className="link-add-btn opened"
+                                            onClick={() => setExpandedLinkId(null)}
+                                        />
+                                    ) : (
+                                        <IoChevronDown
+                                            className="link-add-btn closed"
+                                            onClick={() => setExpandedLinkId(id)}
+                                        />
+                                    )}
+                                </Tooltip>
                             </div>
                         </div>
 
-                        {expandedLinkId === id && <DetailManagement link={link} />}
+                        {expandedLinkId === id && <DetailManagement
+                            link={link}
+                            handleToggleLink={handleToggleLink}
+                            handleDeleteLink={handleDeleteLink}
+                        />}
                     </div>
                 )}
             </Draggable>

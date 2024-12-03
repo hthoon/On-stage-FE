@@ -22,10 +22,6 @@
     min-height: 80vh;
     margin-right: 10%;
     padding: 20px;
-
-
-    /*border-left: #d5d5d5 solid 1px;*/
-    /*border-right: #d5d5d5 solid 1px;*/
 }
 
 /* 오른쪽 패널 */
@@ -41,6 +37,21 @@
     min-height: 70vh;
     background-color: #ffffff;
     padding: 20px;
+}
+
+.link-control-container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.link-control-button-container{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 0 10px;
+    border-radius: 15px;
+    border: #cccccc 2px solid;
 }
 
 /* 화면 너비가 768px 이하일 때 패널 숨기기 */
@@ -104,18 +115,15 @@
 .link-item {
     display: flex;
     flex-direction: column;
-    /*justify-content: space-between;*/
     margin-top: 15px;
     margin-bottom: 15px;
-    padding: 7px;
+    padding: 5px;
     border: 1px solid #ddd;
     border-radius: 15px;
     align-items: center;
     position: relative;
-
     transition: min-height 0.4s ease-in-out, padding 0.3s ease-in-out;
-
-    min-height: 100px; /* 기본 높이 */
+    min-height: 30px;
 }
 
 .link-item.expanded {
@@ -127,7 +135,6 @@
 .link-left {
     display: flex;
     align-items: center;
-    margin-top: 10px;
 }
 
 .drag-handle {
@@ -135,7 +142,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px 5px 20px;
+    padding: 10px 5px;
     margin-left: 5px;
 }
 
@@ -415,7 +422,7 @@ input:checked + .slider:before {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 10px;
+    padding: 5px;
 }
 
 
@@ -458,7 +465,6 @@ input:checked + .slider:before {
 .link-details-message {
     display: flex;
     justify-content: start;
-    margin-top: 5px;
     margin-left: 10px;
     font-size: 16px;
     color: #7e7e7e;
