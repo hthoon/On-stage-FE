@@ -15,6 +15,7 @@ import {SiGoogleanalytics} from "react-icons/si";
 import {LuMusic4} from "react-icons/lu";
 import {RiSettings4Fill} from "react-icons/ri";
 import {useLink} from "../../context/LinkContext";
+import {PiSidebarSimpleBold} from "react-icons/pi";
 
 const Sidebar = () => {
     const { loggedIn } = useAuth();
@@ -69,7 +70,7 @@ const Sidebar = () => {
     return (
         <>
             {/* 토글 버튼 */}
-            <BsLayoutSidebar className="sidebar-toggle" onClick={toggleSidebar}/>
+            <PiSidebarSimpleBold className="sidebar-toggle" onClick={toggleSidebar}/>
 
             {/* 사이드바 */}
             <div className={`sidebar ${isOpen ? "open" : ""}`}>

@@ -10,6 +10,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { RiDraggable } from "react-icons/ri";
 import Tooltip from "../../components/tooltip/Tooltip";
 import { TbFolder } from "react-icons/tb";
+import {IoChevronDown, IoChevronUp} from "react-icons/io5";
+import {FaRegFolderOpen} from "react-icons/fa";
 
 const ManagementPanel = ({ updateLink, deleteLink }) => {
     const { links, setLinks } = useLink();
@@ -108,7 +110,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                     <div
                         {...provided.draggableProps}
                         ref={provided.innerRef}
-                        className={`link-item ${expandedLinkId === id ? "expanded" : ""}`}
+                        className={`link-item ${expandedLinkId === id ? "expanded" : ''}`}
                     >
                         <div className="link-header">
                             <div className="link-left">
@@ -120,12 +122,6 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     <span className="drag-icon"><RiDraggable /></span>
                                 </div>
                                 <div className="link-divide">
-                                    <Tooltip text={expandedLinkId === id ? "저장소 닫기" : "저장소 열기"}>
-                                        <TbFolder
-                                            className={`link-add-btn ${expandedLinkId === id ? 'opened' : 'closed'}`}
-                                            onClick={() => setExpandedLinkId((prev) => (prev === id ? null : id))}
-                                        />
-                                    </Tooltip>
                                     <span
                                         ref={(el) => (titleRefs.current[id] = el)}
                                         className={`link-title ${editingId === id ? "editing" : ""}`}
@@ -144,7 +140,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     {title}
 
                                 </span>
-                                    <Tooltip text="저장소 이름 바꾸기">
+                                    <Tooltip text="블록 이름 바꾸기">
                                         <GrEdit className="edit-icon" onClick={() => handleFocus(id)} />
                                     </Tooltip>
 
@@ -152,24 +148,28 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                             </div>
 
                             <div className="link-right">
-                                <button
-                                    onClick={() => handleDeleteLink(link)}
-                                    className="detail-trash-button"
-                                >
-                                    <LuTrash2 />
-                                </button>
-                                <label className="toggle-switch">
-                                    <input
-                                        type="checkbox"
-                                        checked={active}
-                                        onChange={() => handleToggleLink(link)}
-                                    />
-                                    <span className="slider"></span>
-                                </label>
+                                <Tooltip text={expandedLinkId === id ? "블록 닫기" : "블록 열기"}>
+                                    {expandedLinkId === id ? (
+                                        <IoChevronUp
+                                            className="link-add-btn opened"
+                                            onClick={() => setExpandedLinkId(null)}
+                                        />
+                                    ) : (
+                                        <IoChevronDown
+                                            className="link-add-btn closed"
+                                            onClick={() => setExpandedLinkId(id)}
+                                        />
+                                    )}
+                                </Tooltip>
                             </div>
                         </div>
 
-                        {expandedLinkId === id && <DetailManagement link={link} />}
+                        {expandedLinkId === id && <DetailManagement
+                            link={link}
+                            handleToggleLink={handleToggleLink}
+                            handleDeleteLink={handleDeleteLink}
+                            updateLink={updateLink}
+                        />}
                     </div>
                 )}
             </Draggable>
@@ -189,7 +189,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                             {sortedLinks.length === 0 ? (
                                 <div className="no-links-container">
                                     <AiOutlineFrown className="no-links-message-icon"/>
-                                    <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 저장소를 만들어보세요!</p>
+                                    <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 블록를 만들어보세요!</p>
                                 </div>
                             ) : (
                                 sortedLinks.map((link, index) => <LinkItem key={link.id} link={link} index={index}/>)
