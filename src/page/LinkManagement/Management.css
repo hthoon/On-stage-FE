@@ -431,7 +431,7 @@ input:checked + .slider:before {
     width: 95%;
     padding: 10px;
     border-radius: 10px;
-    animation: fadeIn 1.0s ease;
+    /*animation: fadeIn 1.0s ease;*/
 }
 
 
@@ -561,6 +561,7 @@ input:checked + .slider:before {
 
 .block-type-buttons {
     display: flex;
+    justify-content: center;
     gap: 10px;
     margin: 10px 0;
 }
@@ -584,7 +585,7 @@ input:checked + .slider:before {
     font-weight: bold;
 }
 
-.block-type-button.active {
+.block-type-button.active, .block-type-button.selected {
     background-color: #6e79ff;
     color: white;
     font-weight: bold;
@@ -595,10 +596,9 @@ input:checked + .slider:before {
     background-color: #e2e2e2;
 }
 
-.block-type-button.active:hover {
+.block-type-button.active:hover, .block-type-button.selected:hover {
     background-color: #6e79ff;
 }
-
 
 /* 팝업 오버레이 */
 .popup-overlay {

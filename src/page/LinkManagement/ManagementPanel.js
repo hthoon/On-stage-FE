@@ -168,6 +168,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                             link={link}
                             handleToggleLink={handleToggleLink}
                             handleDeleteLink={handleDeleteLink}
+                            updateLink={updateLink}
                         />}
                     </div>
                 )}

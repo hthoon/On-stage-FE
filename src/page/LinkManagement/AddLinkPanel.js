@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
-import {TbFolderPlus} from "react-icons/tb";
-import Joyride from "react-joyride";
 import {PiMusicNotesBold, PiPlusBold, PiSelectionPlusBold} from "react-icons/pi";
 import {MdOutlineFolder} from "react-icons/md";
 
@@ -23,6 +21,7 @@ const AddLinkPanel = ({updateLink, createLink}) => {
             username: socialLink.username,
             thumbnail: null,
             prevLinkId: null, // 새 링크는 맨 앞에
+            padding: 10,
             layout: "CLASSIC",
             active: true,
             details: [],

@@ -50,15 +50,15 @@ const LinkDisplay = () => {
     return (
         <div className="linktree-container">
             <div
-                className="linktree-background" style={{ backgroundImage: `url(${background})` }}>
+                className="linktree-background" style={{backgroundImage: `url(${background})`}}>
                 <div className="linktree-share">
-                    <h6 className="linktree-share-icon"><CiStar /></h6>
-                    <h6 className="linktree-share-icon"><CiShare1 /></h6>
+                    <h6 className="linktree-share-icon"><CiStar/></h6>
+                    <h6 className="linktree-share-icon"><CiShare1/></h6>
                 </div>
 
                 {/*프로필 섹션*/}
                 <div className="profile-container">
-                    <img src={profileImage} alt="Profile" className="profile-image" />
+                    <img src={profileImage} alt="Profile" className="profile-image"/>
                 </div>
 
                 <h5 className="linktree-name">{profile.nickname}</h5>
@@ -73,7 +73,14 @@ const LinkDisplay = () => {
                                 <div
                                     key={index}
                                     rel="noopener noreferrer"
-                                    className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""} ${link.blockType === "BLANK" ? "blank-transparent" : ""}`} // BLANK 타입일 경우 transparent 클래스 추가
+                                    className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""} ${
+                                        link.blockType === "BLANK" ? "blank-transparent" : ""
+                                    }`} // borderType에 따른 클래스 추가
+                                    style={{
+                                        ...(link.blockType === "BLANK"
+                                            ? {"--contentHeight": `${link.padding}px`} // padding 값을 --contentHeight 변수에 반영
+                                            : {}),
+                                    }}
                                     onClick={() => handleToggleExpand(link.id)}
                                 >
                                     <p className="linktree-detail-title">{link.title}</p>
@@ -110,9 +117,9 @@ const LinkDisplay = () => {
                                                                 onClick={() => window.open(detail.url, "_blank", "noopener,noreferrer")}
                                                                 className="linktree-detail-item"
                                                             >
-                                                                <span className="linktree-service-icon">
-                                                                    {mapServiceTypeToIcon(detail.platform)}
-                                                                </span>
+                                                <span className="linktree-service-icon">
+                                                    {mapServiceTypeToIcon(detail.platform)}
+                                                </span>
                                                                 <p>
                                                                     {mapServiceTypeToKorean(detail.platform)}
                                                                 </p>
