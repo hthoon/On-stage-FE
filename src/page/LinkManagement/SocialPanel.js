@@ -1,18 +1,71 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./SocialPanel.css";
 import AddSocialLinkModal from "./AddSocialLinkModal";
 import { useLink } from "../../context/LinkContext";
 import { FaInstagram, FaYoutube, FaTwitter, FaSpotify, FaGithub } from "react-icons/fa";
-import {IoMdAddCircle} from "react-icons/io";
+import { IoMdAddCircle } from "react-icons/io";
 import Joyride from "react-joyride";
+import Tooltip from "../../components/tooltip/Tooltip";
+import { GrEdit } from "react-icons/gr";
+import { useAxios } from "../../context/AxiosContext";
 
-const SocialPanel = ({ runTutorial, steps }) => {
-    const { socialLink, setSocialLink } = useLink();
+// EditableField 컴포넌트로 contentEditable 처리
+const EditableField = ({ field, value, onSave, children }) => {
+    const ref = useRef(null);
+    const [isEditing, setIsEditing] = useState(false);
+
+    const handleFocus = () => {
+        setIsEditing(true);
+        setTimeout(() => {
+            if (ref.current) {
+                const element = ref.current;
+                const range = document.createRange();
+                const selection = window.getSelection();
+                range.selectNodeContents(element);
+                range.collapse(false);
+                selection.removeAllRanges();
+                selection.addRange(range);
+                element.focus();
+            }
+        }, 0);
+    };
+
+    const handleBlur = (e) => {
+        setIsEditing(false);
+        onSave(field, e.target.textContent.trim());
+    };
+
+    return (
+        <div className={`editable-field ${field} ${isEditing ? "editing" : ""}`}>
+            <span
+                ref={ref}
+                contentEditable
+                suppressContentEditableWarning
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        e.preventDefault();
+                        e.target.blur();
+                    }
+                }}
+            >
+                {children || value}
+            </span>
+            {!isEditing && (
+                <Tooltip text={`${field === "nickname" ? "저장소 이름" : "설명"} 바꾸기`}>
+                    <GrEdit className="edit-icon" onClick={handleFocus}/>
+                </Tooltip>
+            )}
+        </div>
+    );
+};
+
+const SocialPanel = ({runTutorial, steps}) => {
+    const { axiosInstance } = useAxios();
+    const { socialLink, setSocialLink, profile } = useLink();
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleOpenModal = () => setIsModalOpen(true);
-    const handleCloseModal = () => setIsModalOpen(false);
 
     const socialPlatforms = [
         { name: "Instagram", icon: <FaInstagram />, key: "instagram" },
@@ -22,18 +75,42 @@ const SocialPanel = ({ runTutorial, steps }) => {
         { name: "GitHub", icon: <FaGithub />, key: "github" },
     ];
 
+    const handleOpenModal = () => setIsModalOpen(true);
+    const handleCloseModal = () => setIsModalOpen(false);
+
+    // 공통된 API 호출 로직
+    const updateProfileField = async (field, newValue) => {
+        try {
+            const response = await axiosInstance.patch(`/api/user/${field}`, { value: newValue });
+            if (response.status === 200) {
+                console.log(`${field} updated successfully:`, newValue);
+            }
+        } catch (error) {
+            console.error(`Error updating ${field}:`, error);
+            alert(`${field} 업데이트 중 오류가 발생했습니다.`);
+        }
+    };
+
+
     return (
         <div>
-            <Joyride
-                steps={steps}
-                run={runTutorial} // 실행 여부 전달
-                continuous={true}
-                showSkipButton={true}
-            />
+            <Joyride steps={steps} run={runTutorial} continuous={true} showSkipButton={true} />
             <div>
                 <img src={profileImage} alt="Profile" className="social-panel-profile-image" />
-                <h5 className="social-panel-name">Winter</h5>
-                <h6 className="social-panel-description">카리나는요?</h6>
+                <div className="social-panel-name">
+                    <EditableField
+                        field="nickname"
+                        value={profile.nickname}
+                        onSave={updateProfileField}
+                    />
+                </div>
+                <div className="social-panel-description">
+                    <EditableField
+                        field="description"
+                        value={profile.description}
+                        onSave={updateProfileField}
+                    />
+                </div>
             </div>
 
             <div className="social-panel">
@@ -41,14 +118,12 @@ const SocialPanel = ({ runTutorial, steps }) => {
                     {socialPlatforms.map((platform) => (
                         <div
                             key={platform.key}
-                            className={`social-icon ${
-                                socialLink[platform.key] ? "active" : "inactive"
-                            }`}
+                            className={`social-icon ${socialLink[platform.key] ? "active" : "inactive"}`}
                         >
                             {platform.icon}
                         </div>
                     ))}
-                    <IoMdAddCircle className={`social-icon-add-btn`} onClick={handleOpenModal} />
+                    <IoMdAddCircle className="social-icon-add-btn" onClick={handleOpenModal} />
                 </div>
             </div>
 

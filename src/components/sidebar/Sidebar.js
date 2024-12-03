@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./Sidebar.css";
-import {BsBarChart, BsGear, BsHouse, BsLayoutSidebar, BsLink} from "react-icons/bs";
+import {BsBarChart, BsGear, BsHouse, BsLayoutSidebar, BsLink, BsSpeaker} from "react-icons/bs";
 import {MdOutlineContactSupport} from "react-icons/md";
 import {FiUser} from "react-icons/fi";
 import {ImCoinDollar} from "react-icons/im";
@@ -10,10 +10,16 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useAuth} from "../../context/AuthContext";
 import { useAxios} from "../../context/AxiosContext";
 import Cookies from "js-cookie";
+import {FaStaylinked} from "react-icons/fa";
+import {SiGoogleanalytics} from "react-icons/si";
+import {LuMusic4} from "react-icons/lu";
+import {RiSettings4Fill} from "react-icons/ri";
+import {useLink} from "../../context/LinkContext";
 
 const Sidebar = () => {
     const { loggedIn } = useAuth();
     const { axiosInstance } = useAxios();
+    const { profile } = useLink();
     const location = useLocation();
     const navigate = useNavigate();
     const isVisitPage = location.pathname.startsWith('/page/');
@@ -69,18 +75,18 @@ const Sidebar = () => {
             <div className={`sidebar ${isOpen ? "open" : ""}`}>
                 <div className="sidebar-empty-space"/>
                 <div className="sidebar-menu">
-                    <div className="sidebar-menu-item"><a href="/management">링크</a></div>
-                    <div className="sidebar-menu-item"><a href="#services">분석</a></div>
-                    <div className="sidebar-menu-item"><a href="#services">아티스트정보</a></div>
-                    <div className="sidebar-menu-item"><a href="#services">공연정보</a></div>
-                    <div className="sidebar-menu-item"><a href="#contact">설정</a></div>
+                    <div className="sidebar-menu-item"><FaStaylinked /><a href="/management">링크 관리</a></div>
+                    <div className="sidebar-menu-item"><SiGoogleanalytics /><a href="#services">분석</a></div>
+                    <div className="sidebar-menu-item"><LuMusic4 /><a href="#services">아티스트</a></div>
+                    <div className="sidebar-menu-item"><BsSpeaker /><a href="#services">공연</a></div>
+                    <div className="sidebar-menu-item"><RiSettings4Fill /><a href="#contact">설정</a></div>
                 </div>
 
                 {/* 회원 이미지 (로그인 상태에 따라 다르게 표시) */}
                 {loggedIn ? (
                     <div className="sidebar-profile" onClick={toggleModal}>
                         <img src={profileImage} alt="Profile" className="sidebar-profile-image" />
-                        <h4>Winter</h4>
+                        <h4>{profile.nickname}</h4>
                     </div>
                 ) : (
                     <div className="sidebar-profile">
@@ -106,8 +112,8 @@ const Sidebar = () => {
                                 className="modal-profile-image"
                             />
                             <div className="profile-modal-text-container">
-                                <h3>Winter</h3>
-                                <h5>onstage.winter</h5>
+                                <h3>{profile.nickname}</h3>
+                                <h5>onstage.{profile.nickname}</h5>
                             </div>
                         </div>
 
