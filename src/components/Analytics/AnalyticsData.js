@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchAnalyticsData } from './api'; // API 함수 임포트
+import { fetchAnalyticsData } from './AnalyticsApi'; // API 함수 임포트
 
 const AnalyticsData = ({ startDate, endDate }) => {
   const [analyticsData, setAnalyticsData] = useState([]);

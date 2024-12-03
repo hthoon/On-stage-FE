@@ -4,8 +4,10 @@ import Management from "../page/LinkManagement/Management";
 //TODO map 테스트
 import KakaoMap from '../components/MapDisplay/MapDisplay';
 import Home from "../page/home/Home";
-import Login from "../page/home/Login";
+import Login from "../page/login/Login";
 import VisitPage from "../page/LinkManagement/VisitPage";
+import Analytics from "../page/Analytics/Analytics";
+import MyPage from "../page/mypage/MyPage";
 
 function AppRouter() {
     return (
