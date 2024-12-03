@@ -16,6 +16,7 @@ function AppRouter() {
             <Route path="/page/:nickname" element={<VisitPage />} />
             <Route path="/map" element={<KakaoMap />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/analytics" element={<Analytics />} />
         </Routes>
           
     )
