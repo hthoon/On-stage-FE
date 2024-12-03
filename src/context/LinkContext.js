@@ -4,60 +4,74 @@ import { useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 const LinkContext = createContext();
-export const useLink = () => {
-    return useContext(LinkContext);
-};
+export const useLink = () => useContext(LinkContext);
 
 export const LinkProvider = ({ children }) => {
     const { axiosInstance } = useAxios();
     const location = useLocation();
-    const { pathname } = useLocation();
-    const username = pathname.split('/')[2];
+    const { pathname } = location;
+    const nickname = decodeURIComponent(pathname.split('/')[2]);
 
-    const managementWhitelistPaths = ['/management'];  // 관리 페이지 화이트리스트 경로
-    const visitWhitelistPaths = ['/page/:username']; // 방문 페이지 화이트리스트 경로
+    const managementPath = ['/management'];
+    const visitPath = '/page/';
 
     const [links, setLinks] = useState([]);
     const [socialLink, setSocialLink] = useState({});
     const [theme, setTheme] = useState({});
+    const [profile, setProfile] = useState({});
     const [backgroundImage, setBackgroundImage] = useState("");
 
     const updateTheme = (newTheme) => {
         setTheme((prevTheme) => ({ ...prevTheme, ...newTheme }));
     };
 
-    useEffect(() => {
-        // 관리 페이지 화이트리스트 경로에 해당하는 경우
-        if (managementWhitelistPaths.includes(location.pathname)) {
-            axiosInstance.get(`/api/link`)
-                .then((response) => {
-                    setLinks(response.data.link);
-                    setSocialLink(response.data.socialLink);
-                    setTheme(response.data.theme);
-                    Cookies.set("username", response.data.theme.username);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+    // API 호출 함수
+    const fetchManagement = async () => {
+        try {
+            const res = await axiosInstance.get(`/api/link`);
+            setLinks(res.data.link);
+            setSocialLink(res.data.socialLink);
+            setTheme(res.data.theme);
+            Cookies.set("username", res.data.theme.username);
 
-        // 방문 페이지 화이트리스트 경로에서 username이 있을 경우
-        if (username &&  visitWhitelistPaths.some(path => pathname.startsWith(path.split(':')[0]))) {
-            axiosInstance.get(`/api/link/${username}`)
-                .then((response) => {
-                    setLinks(response.data.link);
-                    setSocialLink(response.data.socialLink);
-                    setTheme(response.data.theme);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            const userResponse = await axiosInstance.get(`/api/user`);
+            setProfile(userResponse.data);
+        } catch (error) {
+            console.error("Error fetching management data:", error);
         }
-    }, [axiosInstance, location.pathname]);
+    };
+
+    const fetchVisit = async () => {
+        try {
+            if (!nickname) return;
+
+            const convert = await axiosInstance.get(`/api/user/convert/${nickname}`);
+            const username = convert.data;
+
+            const res = await axiosInstance.get(`/api/link/${username}`);
+            setLinks(res.data.link);
+            setSocialLink(res.data.socialLink);
+            setTheme(res.data.theme);
+
+            const profileResponse = await axiosInstance.get(`/api/user/${username}`);
+            setProfile(profileResponse.data);
+        } catch (error) {
+            console.error("Error fetching visit data:", error);
+        }
+    };
+
+    // 데이터 로드 처리
+    useEffect(() => {
+        if (managementPath.includes(pathname)) {
+            fetchManagement();
+        } else if (pathname.startsWith(visitPath)) {
+            fetchVisit();
+        }
+    }, [pathname]);
 
     return (
         <LinkContext.Provider value={{
-            links, setLinks, socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage
+            links, setLinks, socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage, profile
         }}>
             {children}
         </LinkContext.Provider>

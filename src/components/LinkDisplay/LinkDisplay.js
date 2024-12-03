@@ -11,7 +11,7 @@ import { mapServiceTypeToIcon, mapServiceTypeToKorean } from "../../utils/Analys
 
 const LinkDisplay = () => {
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
-    const { links, socialLink, theme } = useLink();
+    const { links, socialLink, theme, profile } = useLink();
     const [background, setBackground] = useState("");
 
     const sortedLinks = sortLinksByPrevId(links);
@@ -61,8 +61,8 @@ const LinkDisplay = () => {
                     <img src={profileImage} alt="Profile" className="profile-image" />
                 </div>
 
-                <h5 className="linktree-name">Winter</h5>
-                <h6 className="linktree-description"> 카리나는요? </h6>
+                <h5 className="linktree-name">{profile.nickname}</h5>
+                <h6 className="linktree-description"> {profile.description} </h6>
 
                 {/*메인 섹션*/}
                 <div className="linktree-content">
