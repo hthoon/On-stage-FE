@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { fetchAnalyticsData } from './api'; // API 함수 임포트
+import { fetchAnalyticsData } from './AnalyticsApi'; // API 함수 임포트
 
 const AnalyticsGraph = ({ startDate, endDate }) => {
   const [data, setData] = useState(null);
