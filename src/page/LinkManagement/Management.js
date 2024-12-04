@@ -11,7 +11,6 @@ import AddLinkPanel from "./AddLinkPanel";
 import SocialPanel from "./SocialPanel";
 import ThemeSwitcher from "./ThemeSwitcher";
 import {FaChevronUp, FaLink} from "react-icons/fa";
-import {BiSolidFlagCheckered} from "react-icons/bi";
 import {PiShareNetworkBold} from "react-icons/pi";
 
 const Management = () => {

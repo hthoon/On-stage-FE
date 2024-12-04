@@ -63,7 +63,7 @@ const EditableField = ({ field, value, onSave, children }) => {
 
 const SocialPanel = ({runTutorial, steps}) => {
     const { axiosInstance } = useAxios();
-    const { socialLink, setSocialLink, profile } = useLink();
+    const { socialLink, setSocialLink, profile, setProfile } = useLink();
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
     const [isModalOpen, setIsModalOpen] = useState(false);
 

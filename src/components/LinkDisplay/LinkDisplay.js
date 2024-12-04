@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import "./LinkDisplay.css";
 import { useLink } from "../../context/LinkContext";
 import { FaGithub, FaInstagram } from "react-icons/fa";
@@ -13,7 +13,7 @@ const LinkDisplay = () => {
     const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
     const { links, socialLink, theme, profile } = useLink();
     const [background, setBackground] = useState("");
-
+    const [isManagementPage, setIsManagementPage] = useState(false);
     const sortedLinks = sortLinksByPrevId(links);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
 
@@ -40,25 +40,28 @@ const LinkDisplay = () => {
     };
 
     useEffect(() => {
+        // Check if we're on the management page
+        setIsManagementPage(window.location.pathname.includes("/management"));
+
         if (theme.backgroundImage) {
             setBackground(theme.backgroundImage); // backgroundImage가 있을 때만 설정
         } else {
             setBackground("https://s3-on-stage.s3.ap-northeast-2.amazonaws.com/backgroundImages/20.png"); // 배경이 없다면 빈 문자열 설정
         }
-    },[theme])
+    }, [theme]);
 
     return (
         <div className="linktree-container">
             <div
-                className="linktree-background" style={{backgroundImage: `url(${background})`}}>
+                className="linktree-background" style={{ backgroundImage: `url(${background})` }}>
                 <div className="linktree-share">
-                    <h6 className="linktree-share-icon"><CiStar/></h6>
-                    <h6 className="linktree-share-icon"><CiShare1/></h6>
+                    <h6 className="linktree-share-icon"><CiStar /></h6>
+                    <h6 className="linktree-share-icon"><CiShare1 /></h6>
                 </div>
 
                 {/*프로필 섹션*/}
                 <div className="profile-container">
-                    <img src={profileImage} alt="Profile" className="profile-image"/>
+                    <img src={profileImage} alt="Profile" className="profile-image" />
                 </div>
 
                 <h5 className="linktree-name">{profile.nickname}</h5>
@@ -70,68 +73,97 @@ const LinkDisplay = () => {
                         {sortedLinks
                             .filter((link) => link.active) // 활성화된 링크만 필터링
                             .map((link, index) => (
-                                <div
-                                    key={index}
-                                    rel="noopener noreferrer"
-                                    className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""} ${
-                                        link.blockType === "BLANK" ? "blank-transparent" : ""
-                                    }`} // borderType에 따른 클래스 추가
-                                    style={{
-                                        ...(link.blockType === "BLANK"
-                                            ? {"--contentHeight": `${link.padding}px`} // padding 값을 --contentHeight 변수에 반영
-                                            : {}),
-                                    }}
-                                    onClick={() => handleToggleExpand(link.id)}
-                                >
-                                    <p className="linktree-detail-title">{link.title}</p>
-                                    {expandedLinkId === link.id && (
-                                        <div
-                                            className="linktree-details"
-                                            onClick={(e) => e.stopPropagation()} // 이벤트 버블링 방지
-                                        >
-                                            {(() => {
-                                                // 스포티파이 URL 검색
-                                                const spotifyDetail = link.details.find(detail =>
-                                                    detail.url.includes("spotify.com")
-                                                );
+                                link.blockType === "MUSIC" ? (
+                                    // For MUSIC block type, directly render the music iframe without the linktree-button wrapper
+                                    <div
+                                        key={index}
+                                        className="linktree-details" // Directly render the details without the button wrapper
+                                    >
+                                        {link.url && (
+                                            <iframe
+                                                src={getSpotifyEmbedUrl(link.url)}
+                                                className="linktree-spotify-embed"
+                                                allow="encrypted-media"
+                                            ></iframe>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div
+                                        key={index}
+                                        rel="noopener noreferrer"
+                                        className={`linktree-button ${expandedLinkId === link.id ? "expanded" : ""} ${
+                                            link.blockType === "BLANK" ? "blank-transparent" : ""
+                                        } ${link.blockType === "FOLDER" && !link.details.length ? (isManagementPage ? "folder-transparent-management" : "folder-transparent-visitor") : ""}`}
+                                        style={{
+                                            ...(link.blockType === "BLANK"
+                                                ? { "--contentHeight": `${link.padding}px` } // padding 값을 --contentHeight 변수에 반영
+                                                : {}),
+                                        }}
+                                        onClick={() => handleToggleExpand(link.id)}
+                                    >
+                                        <p className="linktree-detail-title">{link.title}</p>
+                                        {expandedLinkId === link.id && (
+                                            <div
+                                                className="linktree-details"
+                                                onClick={(e) => e.stopPropagation()} // 이벤트 버블링 방지
+                                            >
+                                                {(() => {
+                                                    if (link.blockType === "MUSIC" && link.url) {
+                                                        const spotifyEmbedUrl = getSpotifyEmbedUrl(link.url);
 
-                                                // 스포티파이 임베드 URL 생성
-                                                const spotifyEmbedUrl = spotifyDetail
-                                                    ? getSpotifyEmbedUrl(spotifyDetail.url)
-                                                    : null;
-
-                                                return (
-                                                    <>
-                                                        {/* 스포티파이 플레이어 */}
-                                                        {spotifyEmbedUrl && (
+                                                        return spotifyEmbedUrl ? (
                                                             <iframe
                                                                 src={spotifyEmbedUrl}
-                                                                className="linktree-spotify-embed"
                                                                 allow="encrypted-media"
                                                             ></iframe>
-                                                        )}
-                                                        {/* 다른 세부 정보 */}
-                                                        {link.details.map((detail, detailIndex) => (
-                                                            <div
-                                                                key={detailIndex}
-                                                                onClick={() => window.open(detail.url, "_blank", "noopener,noreferrer")}
-                                                                className="linktree-detail-item"
-                                                            >
+                                                        ) : (
+                                                            <div className="linktree-detail-item">
+                                                                <p>Unable to embed this music link.</p>
+                                                            </div>
+                                                        );
+                                                    } else {
+                                                        const spotifyDetail = link.details.find(detail =>
+                                                            detail.url.includes("spotify.com")
+                                                        );
+
+                                                        const spotifyEmbedUrl = spotifyDetail
+                                                            ? getSpotifyEmbedUrl(spotifyDetail.url)
+                                                            : null;
+
+                                                        return (
+                                                            <>
+                                                                {spotifyEmbedUrl && (
+                                                                    <iframe
+                                                                        src={spotifyEmbedUrl}
+                                                                        className="linktree-spotify-embed"
+                                                                        allow="encrypted-media"
+                                                                    ></iframe>
+                                                                )}
+                                                                {link.details.map((detail, detailIndex) => (
+                                                                    <div
+                                                                        key={detailIndex}
+                                                                        onClick={() => window.open(detail.url, "_blank", "noopener,noreferrer")}
+                                                                        className="linktree-detail-item"
+                                                                    >
                                                 <span className="linktree-service-icon">
                                                     {mapServiceTypeToIcon(detail.platform)}
                                                 </span>
-                                                                <p>
-                                                                    {mapServiceTypeToKorean(detail.platform)}
-                                                                </p>
-                                                            </div>
-                                                        ))}
-                                                    </>
-                                                );
-                                            })()}
-                                        </div>
-                                    )}
-                                </div>
+                                                                        <p>
+                                                                            {mapServiceTypeToKorean(detail.platform)}
+                                                                        </p>
+                                                                    </div>
+                                                                ))}
+                                                            </>
+                                                        );
+                                                    }
+                                                })()}
+                                            </div>
+                                        )}
+                                    </div>
+                                )
                             ))}
+
+
                     </div>
                 </div>
 
