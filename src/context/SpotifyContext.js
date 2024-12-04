@@ -45,6 +45,15 @@ const SpotifyProvider = ({ children }) => {
         return null;
     };
 
+    // 아티스트 ID 추출
+    const extractArtistId = (url) => {
+        const parts = url.split("/artist/");
+        if (parts.length > 1) {
+            return parts[1].split("?")[0];
+        }
+        return null;
+    };
+
     const getTrackInfo = async (url) => {
         try {
             const token = await fetchAccessToken();
@@ -66,16 +75,44 @@ const SpotifyProvider = ({ children }) => {
                 throw new Error("Failed to fetch track info");
             }
 
-            const data = await response.json();
-            return data;
+            return await response.json();
         } catch (error) {
             console.error("Error fetching track info:", error);
             throw error;
         }
     };
 
+    // 아티스트 정보 가져오기
+    const getArtistInfo = async (url) => {
+        try {
+            const token = await fetchAccessToken();
+            const artistId = extractArtistId(url);
+
+            if (!artistId) {
+                throw new Error("Invalid Spotify artist URL");
+            }
+
+            const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Spotify API error:", errorData);
+                throw new Error("Failed to fetch artist info");
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error("Error fetching artist info:", error);
+            throw error;
+        }
+    };
+
     return (
-        <SpotifyContext.Provider value={{ getTrackInfo }}>
+        <SpotifyContext.Provider value={{ getTrackInfo, getArtistInfo }}>
             {children}
         </SpotifyContext.Provider>
     );

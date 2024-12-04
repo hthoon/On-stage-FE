@@ -5,24 +5,34 @@ import { PiMusicNotesBold, PiPlusBold, PiSelectionPlusBold } from "react-icons/p
 import { MdOutlineFolder } from "react-icons/md";
 import { useSpotify } from "../../context/SpotifyContext";
 
-
 const AddLinkPanel = ({ updateLink, createLink }) => {
     const { links, setLinks, socialLink } = useLink();
     const [showForm, setShowForm] = useState(false);
     const [newLink, setNewLink] = useState({ title: "", blockType: "FOLDER" });
     const [isClosing, setIsClosing] = useState(false);
+    const [urlError, setUrlError] = useState("");  // URL 에러 상태 추가
     const { getTrackInfo } = useSpotify();
 
     // Spotify API 호출 시 데이터 초기화 및 호출
     useEffect(() => {
-        if (newLink.blockType === "MUSIC" && newLink.title) {
+        if (newLink.blockType === "MUSIC" && newLink.url) {
+            // URL 검증 로직 추가
+            const isValidSpotifyUrl = /^(https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9_-]+)(\?si=[a-zA-Z0-9]+)?$/.test(newLink.url);
+
+            if (!isValidSpotifyUrl) {
+                setUrlError("유효한 Spotify 트랙 URL을 입력해주세요.");
+                return;
+            } else {
+                setUrlError(""); // URL이 유효한 경우 에러 메시지 초기화
+            }
+
             const fetchTrackDetails = async () => {
                 try {
-                    const trackDetails = await getTrackInfo(newLink.title); // Spotify URL에서 곡 정보 가져오기
+                    const trackDetails = await getTrackInfo(newLink.url); // Spotify URL에서 곡 정보 가져오기
                     if (trackDetails) {
                         setNewLink((prev) => ({
                             ...prev,
-                            url: newLink.title,
+                            url: newLink.url,
                             title: trackDetails.name, // 곡 제목
                             albumCover: trackDetails.album.images[0]?.url || "", // 앨범 커버
                             artist: trackDetails.artists.map(artist => artist.name).join(", "), // 아티스트
@@ -32,7 +42,7 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
                         alert("유효하지 않은 Spotify URL입니다.");
                     }
                 } catch (error) {
-
+                    console.error(error);
                 }
             };
             fetchTrackDetails();
@@ -48,12 +58,17 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
                 views: null,
             }));
         }
-
-    }, [newLink.title, newLink.blockType, getTrackInfo]);
+    }, [newLink.url, newLink.blockType, getTrackInfo]);
 
     const handleAddLink = async () => {
         if (!newLink.title && newLink.blockType !== "BLANK") {
             alert("Please fill in all fields.");
+            return;
+        }
+
+        // 음악 URL이 유효한지 체크
+        if (newLink.blockType === "MUSIC" && urlError) {
+            alert(urlError);  // 에러 메시지 표시
             return;
         }
 
@@ -90,6 +105,9 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
 
     // 링크 생성 취소 할때 토글 닫음
     const handleCancel = () => {
+        setNewLink({ title: "", url: "", blockType: "FOLDER" });
+
+
         setIsClosing(true);
         setTimeout(() => {
             setShowForm(false);
@@ -174,10 +192,11 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
                                 <input
                                     type="text"
                                     placeholder="음악 URL을 입력하세요"
-                                    value={newLink.title}
-                                    onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
+                                    value={newLink.url}
+                                    onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
                                     className="add-link-form-input"
                                 />
+                                {urlError && <p className="error-message">{urlError}</p>} {/* URL 오류 메시지 표시 */}
                                 {newLink.albumCover && (
                                     <div className="track-info">
                                         <img src={newLink.albumCover} alt="Album Cover" className="add-link-album-cover" />
