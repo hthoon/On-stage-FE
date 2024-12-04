@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import "./Management.css";
 import { useLink } from "../../context/LinkContext";
-import { LuTrash2 } from "react-icons/lu";
+import {LuFolder, LuTrash2} from "react-icons/lu";
 import { sortLinksByPrevId } from "../../utils/sortLinks";
 import DetailManagement from "./DetailManagement";
 import { AiOutlineFrown } from "react-icons/ai";
@@ -12,6 +12,8 @@ import Tooltip from "../../components/tooltip/Tooltip";
 import { TbFolder } from "react-icons/tb";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5";
 import {FaRegFolderOpen} from "react-icons/fa";
+import {PiMusicNotesBold, PiSelectionPlusBold} from "react-icons/pi";
+import {MdMusicNote, MdOutlineFolder} from "react-icons/md";
 
 const ManagementPanel = ({ updateLink, deleteLink }) => {
     const { links, setLinks } = useLink();
@@ -118,10 +120,24 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     {...provided.dragHandleProps} // 드래그 핸들러는 여기 적용
                                     className="drag-handle" // 스타일 적용을 위해 클래스 추가
                                 >
-                                    {/* 드래그 핸들 아이콘 (선택 사항) */}
                                     <span className="drag-icon"><RiDraggable /></span>
                                 </div>
+
                                 <div className="link-divide">
+                                    {/* 아이콘 표시 영역 */}
+                                    <div className="link-block-type-icon">
+                                        {(() => {
+                                            switch (link.blockType) {
+                                                case "FOLDER":
+                                                    return <LuFolder className="link-block-type-folder"/>;
+                                                case "MUSIC":
+                                                    return <PiMusicNotesBold className="link-block-type-music"/>;
+                                                case "BLANK":
+                                                default:
+                                                    return <PiSelectionPlusBold className="link-block-type-blank"/>;
+                                            }
+                                        })()}
+                                    </div>
                                     <span
                                         ref={(el) => (titleRefs.current[id] = el)}
                                         className={`link-title ${editingId === id ? "editing" : ""}`}
@@ -140,10 +156,12 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     {title}
 
                                 </span>
-                                    <Tooltip text="블록 이름 바꾸기">
-                                        <GrEdit className="edit-icon" onClick={() => handleFocus(id)} />
-                                    </Tooltip>
-
+                                    {/* 블록 타입이 EMPTY가 아닐 경우에만 편집 아이콘 표시 */}
+                                    {link.blockType !== "BLANK" && (
+                                        <Tooltip text="블록 이름 바꾸기">
+                                            <GrEdit className="edit-icon" onClick={() => handleFocus(id)}/>
+                                        </Tooltip>
+                                    )}
                                 </div>
                             </div>
 

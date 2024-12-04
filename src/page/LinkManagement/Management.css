@@ -151,10 +151,33 @@
     color: #888; /* 드래그 아이콘 색상 */
 }
 
+.link-block-type-icon{
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.link-block-type-folder{
+    padding: 7px;
+    border-radius: 10px;
+    background-color: #d6d8ff;
+}
+
+.link-block-type-blank{
+    padding: 7px;
+    border-radius: 10px;
+    background-color: #ececec;
+}
+
+.link-block-type-music{
+    padding: 7px;
+    border-radius: 10px;
+    background-color: rgb(255, 242, 192);
+}
+
+
 .link-divide {
     display: flex;
     align-items: center;
-    justify-content: center;
 
     margin-left: 5px;
     padding: 5px;
@@ -164,18 +187,12 @@
     display: flex;
     align-items: center;
 
-    font-size: 19px;
-    padding: 10px;
+    font-size: 20px;
 
     font-weight: bold;
     cursor: pointer;
 }
 
-.link-url {
-    padding: 7px;
-    font-size: 14px;
-    cursor: pointer;
-}
 
 .link-title,
 .link-url {
