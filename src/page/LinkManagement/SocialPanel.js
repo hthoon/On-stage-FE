@@ -85,6 +85,10 @@ const SocialPanel = ({runTutorial, steps}) => {
                 params: { field, value: newValue },
             });
             if (response.status === 200) {
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
+                    [field]: newValue, // 업데이트된 값을 반영
+                }));
                 console.log(`${field} updated successfully:`, newValue);
             }
         } catch (error) {
