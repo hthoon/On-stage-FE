@@ -432,6 +432,8 @@ input:checked + .slider:before {
 
 .add-link-album-cover{
     width: 70%;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 .add-link-music-info-title{
