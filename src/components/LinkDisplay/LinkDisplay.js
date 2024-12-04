@@ -10,7 +10,6 @@ import { mapServiceTypeToIcon, mapServiceTypeToKorean } from "../../utils/Analys
 
 
 const LinkDisplay = () => {
-    const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
     const { links, socialLink, theme, profile } = useLink();
     const [background, setBackground] = useState("");
     const [isManagementPage, setIsManagementPage] = useState(false);
@@ -61,7 +60,7 @@ const LinkDisplay = () => {
 
                 {/*프로필 섹션*/}
                 <div className="profile-container">
-                    <img src={profileImage} alt="Profile" className="profile-image" />
+                    <img src={profile.profileImage} alt="Profile" className="profile-image" />
                 </div>
 
                 <h5 className="linktree-name">{profile.nickname}</h5>

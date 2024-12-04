@@ -64,7 +64,6 @@ const EditableField = ({ field, value, onSave, children }) => {
 const SocialPanel = ({runTutorial, steps}) => {
     const { axiosInstance } = useAxios();
     const { socialLink, setSocialLink, profile, setProfile } = useLink();
-    const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
@@ -126,7 +125,7 @@ const SocialPanel = ({runTutorial, steps}) => {
         <div>
             <div>
                 <img
-                    src={profile.image || profileImage} // 기본 이미지
+                    src={profile.profileImage} // 기본 이미지
                     alt="Profile"
                     className="social-panel-profile-image"
                     onClick={() => setIsImageModalOpen(true)}
