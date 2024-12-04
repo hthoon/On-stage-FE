@@ -71,7 +71,7 @@ export const LinkProvider = ({ children }) => {
 
     return (
         <LinkContext.Provider value={{
-            links, setLinks, socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage, profile
+            links, setLinks, socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage, profile, setProfile
         }}>
             {children}
         </LinkContext.Provider>
