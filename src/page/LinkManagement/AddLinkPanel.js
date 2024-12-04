@@ -1,20 +1,41 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import "./Management.css";
 import {useLink} from "../../context/LinkContext";
 import {PiMusicNotesBold, PiPlusBold, PiSelectionPlusBold} from "react-icons/pi";
 import {MdOutlineFolder} from "react-icons/md";
+import {useSpotify} from "../../context/SpotifyContext";
+
 
 const AddLinkPanel = ({updateLink, createLink}) => {
     const {links, setLinks, socialLink} = useLink();
     const [showForm, setShowForm] = useState(false);
     const [newLink, setNewLink] = useState({title: "", blockType: "FOLDER"});
     const [isClosing, setIsClosing] = useState(false);
+    const { getTrackInfo } = useSpotify()
 
     const handleAddLink = async () => {
         if (!newLink.title && newLink.blockType !== "BLANK") {
             alert("Please fill in all fields.");
             return;
         }
+
+        // 음악 블록인 경우 Spotify API 호출
+        if (newLink.blockType === "MUSIC") {
+            try {
+                const trackDetails = await getTrackInfo(newLink.title); // Spotify URL에서 곡 정보 가져오기
+                if (trackDetails) {
+                    newLink.title = trackDetails.name; // 곡 제목을 title로 설정
+                } else {
+                    alert("유효하지 않은 Spotify URL입니다.");
+                    return;
+                }
+            } catch (error) {
+                alert("Spotify 정보 불러오기에 실패했습니다.");
+                console.error(error);
+                return;
+            }
+        }
+
         // 1. 새 링크 생성 API 호출
         const createdLink = await createLink({
             title: newLink.title,
@@ -57,12 +78,29 @@ const AddLinkPanel = ({updateLink, createLink}) => {
 
     // 블록 타입 설정
     const handleBlockTypeChange = (blockType) => {
-        setNewLink((prevLink) => ({
-            ...prevLink,
+        let placeholderTitle = "";
+
+        // 블록 타입별 기본값 설정
+        switch (blockType) {
+            case "FOLDER":
+                placeholderTitle = "";
+                break;
+            case "BLANK":
+                placeholderTitle = "여백";
+                break;
+            case "MUSIC":
+                placeholderTitle = "";
+                break;
+            default:
+                placeholderTitle = "";
+        }
+
+        // 기본값으로 title 업데이트
+        setNewLink({
+            ...newLink,
             blockType,
-            // 블록 타입이 "BLANK"일 때만 title을 "여백"으로 설정
-            title: blockType === "BLANK" ? "여백" : prevLink.title
-        }));
+            title: placeholderTitle,
+        });
     };
 
 
@@ -100,12 +138,21 @@ const AddLinkPanel = ({updateLink, createLink}) => {
                                 <PiMusicNotesBold className="block-type-icon" /> 음악 (WIP)
                             </button>
                         </div>
-                        {newLink.blockType !== "BLANK" && (
+                        {newLink.blockType === "FOLDER" && (
                             <input
                                 type="text"
                                 placeholder="블록 이름을 입력하세요"
                                 value={newLink.title}
                                 onChange={(e) => setNewLink({...newLink, title: e.target.value})}
+                                className="add-link-form-input"
+                            />
+                        )}
+                        {newLink.blockType === "MUSIC" && (
+                            <input
+                                type="text"
+                                placeholder="음악 URL을 입력하세요"
+                                value={newLink.title}
+                                onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
                                 className="add-link-form-input"
                             />
                         )}
