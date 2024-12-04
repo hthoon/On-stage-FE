@@ -33,8 +33,6 @@ const Sidebar = () => {
         return null;
     }
 
-    const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
-
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
@@ -86,7 +84,7 @@ const Sidebar = () => {
                 {/* 회원 이미지 (로그인 상태에 따라 다르게 표시) */}
                 {loggedIn ? (
                     <div className="sidebar-profile" onClick={toggleModal}>
-                        <img src={profileImage} alt="Profile" className="sidebar-profile-image" />
+                        <img src={profile.profileImage} alt="Profile" className="sidebar-profile-image" />
                         <h4>{profile.nickname}</h4>
                     </div>
                 ) : (
@@ -108,7 +106,7 @@ const Sidebar = () => {
                     >
                         <div className="profile-modal-container">
                             <img
-                                src={profileImage}
+                                src={profile.profileImage}
                                 alt="Profile"
                                 className="modal-profile-image"
                             />

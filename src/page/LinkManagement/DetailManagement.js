@@ -9,8 +9,9 @@ import {useLink} from "../../context/LinkContext";
 import {LuTrash2} from "react-icons/lu";
 import {FiEdit3} from "react-icons/fi";
 import Tooltip from "../../components/tooltip/Tooltip";
+import {useSpotify} from "../../context/SpotifyContext";
 
-const DetailManagement = ({updateLink, handleDeleteLink, handleToggleLink, link}) => {
+const DetailManagement = ({updateLink, handleDeleteLink, handleToggleLink, link, musicBlock}) => {
     const {axiosInstance} = useAxios();
     const { setLinks } = useLink();
     const [linkId, setLinkId] = useState(link.id);
@@ -175,7 +176,7 @@ const DetailManagement = ({updateLink, handleDeleteLink, handleToggleLink, link}
     return (
         <div className="link-details">
             <div className="link-control-container">
-                <p className="link-details-message">방문자에게 다양한 서비스 링크를 제공해보세요!</p>
+                <p className="link-details-message">다양한 서비스 링크를 제공해보세요!</p>
                 <div className="link-control-button-container">
                 <button
                     onClick={() => handleDeleteLink(link)}
@@ -237,7 +238,7 @@ const DetailManagement = ({updateLink, handleDeleteLink, handleToggleLink, link}
                         max={50}
                         className="theme-border-radius-slider"
                     />
-                    <p>{padding}px</p>
+                    <p>{link.padding}px</p>
                     <button
                         className="management-add-service-button"
                         onClick={handleSaveSettings}
@@ -245,15 +246,27 @@ const DetailManagement = ({updateLink, handleDeleteLink, handleToggleLink, link}
                     >
                         {isSaving ? "저장 중..." : "저장"}
                     </button>
-
                 </div>
-            ) : (
+            ) : link.blockType === "FOLDER" ? (
                 <div>
                     <button className="management-add-service-button" onClick={() => openModal()}>
                         <HiPlus className="add-link-icon"/> URL 추가
                     </button>
                 </div>
-            )}
+            ) : link.blockType === "MUSIC" ? (
+                <div className="music-block">
+                    {musicBlock ? (
+                        <div className="track-info">
+                            <img src={musicBlock.albumCover} alt="Album Cover" className="add-link-album-cover"/>
+                            <p className="add-link-music-info-title">{musicBlock.title}</p>
+                            <p className="add-link-music-info">아티스트: {musicBlock.artist}</p>
+                            <p className="add-link-music-info">앨범: {musicBlock.album}</p>
+                        </div>
+                    ) : (
+                        <p>Spotify URL 정보가 없습니다.</p> // Fallback text if musicBlock is null
+                    )}
+                </div>
+            ) : null}
 
             {/* 모달 창 */}
             {isModalOpen && (
