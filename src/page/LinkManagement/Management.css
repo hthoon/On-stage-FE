@@ -422,6 +422,13 @@ input:checked + .slider:before {
     transform: translateX(14px);
 }
 
+.add-link-choose-desc{
+    font-size: 18px;
+    font-weight: bold;
+    color: #0e0e0e;
+    margin-bottom: 2px;
+}
+
 
 .add-link-album-cover{
     width: 70%;
@@ -656,7 +663,7 @@ input:checked + .slider:before {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     transform: translateY(100%);
-    animation: slideUp 0.5s ease forwards;
+    animation: slideDown 0.5s ease forwards;
     transition: opacity 1s ease-in-out;
 }
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "./Management.css";
 import { useLink } from "../../context/LinkContext";
 import {LuFolder, LuTrash2} from "react-icons/lu";
@@ -9,11 +9,9 @@ import { GrEdit } from "react-icons/gr";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { RiDraggable } from "react-icons/ri";
 import Tooltip from "../../components/tooltip/Tooltip";
-import { TbFolder } from "react-icons/tb";
 import {IoChevronDown, IoChevronUp} from "react-icons/io5";
-import {FaRegFolderOpen} from "react-icons/fa";
 import {PiMusicNotesBold, PiSelectionPlusBold} from "react-icons/pi";
-import {MdMusicNote, MdOutlineFolder} from "react-icons/md";
+import {useSpotify} from "../../context/SpotifyContext";
 
 const ManagementPanel = ({ updateLink, deleteLink }) => {
     const { links, setLinks } = useLink();
@@ -21,6 +19,8 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
     const [expandedLinkId, setExpandedLinkId] = useState(null);
     const sortedLinks = sortLinksByPrevId(links);
     const titleRefs = useRef({});
+    const { getTrackInfo } = useSpotify();
+    const [musicBlock, setMusicBlock] = useState(null);
 
     // 공통 핸들러: 링크 업데이트
     const updateLinkState = async (updatedLink) => {
@@ -28,6 +28,29 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
             prevLinks.map((link) => (link.id === updatedLink.id ? updatedLink : link))
         );
         await updateLink(updatedLink);
+    };
+
+    // 링크를 열 때 음악 블록인지 확인하고, 음악 정보 가져오기
+    const handleExpandLink = async (link) => {
+        if (link.blockType === "MUSIC" && link.url) {
+            const trackDetails = await getTrackInfo(link.url);
+            if (trackDetails) {
+                setMusicBlock({
+                    title: trackDetails.name,
+                    artist: trackDetails.artists.map(artist => artist.name).join(", "),
+                    album: trackDetails.album.name,
+                    albumCover: trackDetails.album.images[0]?.url || "",
+                });
+            } else {
+                setMusicBlock(null); // 정보가 없으면 음악 블록 초기화
+            }
+        }
+        setExpandedLinkId(link.id); // 블록 확장
+    };
+
+    const handleCloseLink = () => {
+        setMusicBlock(null);
+      setExpandedLinkId(null);
     };
 
     // 드래그 종료 핸들러
@@ -46,7 +69,6 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
         for (let i = 0; i < updatedLinks.length; i++) {
             updatedLinks[i].prevLinkId = i === 0 ? null : updatedLinks[i - 1].id;
         }
-
         setLinks(updatedLinks);
 
         // 서버에 업데이트된 순서 반영
@@ -73,7 +95,6 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
             const updatedNextLink = { ...nextLink, prevLinkId: null };
             await updateLinkState(updatedNextLink);
         }
-
         await deleteLink(id);
         setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
     };
@@ -170,12 +191,12 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     {expandedLinkId === id ? (
                                         <IoChevronUp
                                             className="link-add-btn opened"
-                                            onClick={() => setExpandedLinkId(null)}
+                                            onClick={() => handleCloseLink(null)}
                                         />
                                     ) : (
                                         <IoChevronDown
                                             className="link-add-btn closed"
-                                            onClick={() => setExpandedLinkId(id)}
+                                            onClick={() => handleExpandLink(link)} // 클릭 시 음악 정보 가져오기
                                         />
                                     )}
                                 </Tooltip>
@@ -187,6 +208,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                             handleToggleLink={handleToggleLink}
                             handleDeleteLink={handleDeleteLink}
                             updateLink={updateLink}
+                            musicBlock={musicBlock}
                         />}
                     </div>
                 )}

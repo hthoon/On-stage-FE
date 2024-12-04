@@ -13,7 +13,7 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
     const [isClosing, setIsClosing] = useState(false);
     const { getTrackInfo } = useSpotify();
 
-    // Effect to call Spotify API when URL changes
+    // Spotify API 호출 시 데이터 초기화 및 호출
     useEffect(() => {
         if (newLink.blockType === "MUSIC" && newLink.title) {
             const fetchTrackDetails = async () => {
@@ -22,24 +22,34 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
                     if (trackDetails) {
                         setNewLink((prev) => ({
                             ...prev,
-                            title: trackDetails.name, // 곡 제목을 title로 설정
+                            url: newLink.title,
+                            title: trackDetails.name, // 곡 제목
                             albumCover: trackDetails.album.images[0]?.url || "", // 앨범 커버
                             artist: trackDetails.artists.map(artist => artist.name).join(", "), // 아티스트
                             album: trackDetails.album.name, // 앨범 이름
-                            views: trackDetails.popularity, // 조회수 (popularity)
                         }));
                     } else {
                         alert("유효하지 않은 Spotify URL입니다.");
                     }
                 } catch (error) {
-                    alert("Spotify 정보 불러오기에 실패했습니다.");
-                    console.error(error);
+
                 }
             };
-
             fetchTrackDetails();
         }
-    }, [newLink.title, newLink.blockType, getTrackInfo]); // Only run when title or blockType changes
+
+        // URL이 비었을 때 데이터를 초기화
+        if (newLink.blockType !== "MUSIC" || !newLink.title) {
+            setNewLink((prev) => ({
+                ...prev,
+                albumCover: "",
+                artist: "",
+                album: "",
+                views: null,
+            }));
+        }
+
+    }, [newLink.title, newLink.blockType, getTrackInfo]);
 
     const handleAddLink = async () => {
         if (!newLink.title && newLink.blockType !== "BLANK") {
@@ -51,7 +61,7 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
         const createdLink = await createLink({
             title: newLink.title,
             username: socialLink.username,
-            thumbnail: null,
+            url: newLink.url,
             prevLinkId: null, // 새 링크는 맨 앞에
             padding: 10,
             layout: "CLASSIC",
@@ -74,7 +84,7 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
         )]);
 
         // 입력 폼 초기화 및 닫기
-        setNewLink({ title: "", blockType: "FOLDER" });
+        setNewLink({ title: "", url: "", blockType: "FOLDER" });
         setShowForm(false);
     };
 
@@ -127,7 +137,8 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
                 )}
                 {showForm && (
                     <div className={`add-link-form ${isClosing ? "hide" : ""}`}>
-                        <p>블록의 타입을 선택해 주세요</p>
+                        <p className="add-link-choose-desc">블록의 <span className="highlight-gradient">타입</span>을 선택해 주세요
+                        </p>
                         <div className="block-type-buttons">
                             <button
                                 className={`block-type-button ${newLink.blockType === "FOLDER" ? "active" : ""}`}
@@ -145,7 +156,7 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
                                 className={`block-type-button ${newLink.blockType === "MUSIC" ? "active" : ""}`}
                                 onClick={() => handleBlockTypeChange("MUSIC")}
                             >
-                                <PiMusicNotesBold className="block-type-icon" /> 음악 (WIP)
+                                <PiMusicNotesBold className="block-type-icon" /> 음악
                             </button>
                         </div>
                         {newLink.blockType === "FOLDER" && (
@@ -163,7 +174,7 @@ const AddLinkPanel = ({ updateLink, createLink }) => {
                                 <input
                                     type="text"
                                     placeholder="음악 URL을 입력하세요"
-                                    value={newLink.url}
+                                    value={newLink.title}
                                     onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
                                     className="add-link-form-input"
                                 />
