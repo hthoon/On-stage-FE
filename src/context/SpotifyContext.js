@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {createContext, useContext, useState} from "react";
 
 const SpotifyContext = createContext();
 
@@ -40,8 +40,7 @@ const SpotifyProvider = ({ children }) => {
     const extractTrackId = (url) => {
         const parts = url.split("/track/");
         if (parts.length > 1) {
-            const trackPart = parts[1].split("?")[0];
-            return trackPart;
+            return parts[1].split("?")[0];
         }
         return null;
     };

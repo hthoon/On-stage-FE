@@ -422,6 +422,24 @@ input:checked + .slider:before {
     transform: translateX(14px);
 }
 
+
+.add-link-album-cover{
+    width: 70%;
+}
+
+.add-link-music-info-title{
+    font-size: 22px;
+    font-weight: bold;
+    color: #0e0e0e;
+    margin-bottom: 2px;
+}
+
+.add-link-music-info{
+    font-size: 14px;
+    font-weight: bold;
+    color: #424242;
+}
+
 .link-bottom-icons {
     display: flex;
     margin-top: 5px;
