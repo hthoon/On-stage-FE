@@ -1,78 +1,81 @@
-import React, { useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "./SocialPanel.css";
 import AddSocialLinkModal from "./AddSocialLinkModal";
 import { useLink } from "../../context/LinkContext";
-import { FaInstagram, FaYoutube, FaTwitter, FaSpotify, FaGithub } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
 import Tooltip from "../../components/tooltip/Tooltip";
 import { GrEdit } from "react-icons/gr";
 import ProfileImageModal from "./ProfileImageModal";
 import { useAxios } from "../../context/AxiosContext";
+import {base64ToBlob} from "../../utils/BlobConverter";
+import {socialPlatforms} from "../../utils/AnalysisURL";
 
 const EditableField = ({ field, value, onSave, children }) => {
     const ref = useRef(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [inputValue, setInputValue] = useState(value); // 입력 값 관리
 
     const handleFocus = () => {
-        setIsEditing(true);
-        setTimeout(() => {
+        setIsEditing(true);  // 편집 모드로 진입
+        setTimeout(() => {   // setTimeout을 사용하여 렌더링 이후에 포커스를 설정
             if (ref.current) {
-                const element = ref.current;
-                const range = document.createRange();
-                const selection = window.getSelection();
-                range.selectNodeContents(element);
-                range.collapse(false);
-                selection.removeAllRanges();
-                selection.addRange(range);
-                element.focus();
+                const inputElement = ref.current;
+                inputElement.focus();  // 입력 필드에 포커스를 설정
+
+                // 커서를 끝으로 이동
+                const length = inputElement.value.length;
+                inputElement.setSelectionRange(length, length);  // 커서를 끝으로
             }
         }, 0);
     };
 
-    const handleBlur = (e) => {
+    const handleBlur = () => {
         setIsEditing(false);
-        onSave(field, e.target.textContent.trim());
+        onSave(field, inputValue.trim());
     };
 
+    const handleChange = (e) => {
+        setInputValue(e.target.value); // 입력 값 업데이트
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            e.target.blur(); // 엔터 입력 시 포커스를 잃음
+        }
+    };
+
+    const dynamicClass = `${field}-editing`;
+
     return (
-        <div className={`editable-field ${field} ${isEditing ? "editing" : ""}`}>
-            <span
-                ref={ref}
-                contentEditable
-                suppressContentEditableWarning
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        e.preventDefault();
-                        e.target.blur();
-                    }
-                }}
-            >
-                {children || value}
-            </span>
+        <div className={`editable-field ${dynamicClass} ${isEditing ? "editing" : ""}`}>
+            {isEditing ? (
+                <input
+                    ref={ref}
+                    value={inputValue}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                />
+            ) : (
+                <span>{children || value}</span>
+            )}
             {!isEditing && (
                 <Tooltip text={`${field === "nickname" ? "블록 이름" : "설명"} 바꾸기`}>
-                    <GrEdit className="edit-icon" onClick={handleFocus}/>
+                    <GrEdit className="edit-icon" onClick={handleFocus} />
                 </Tooltip>
             )}
         </div>
     );
 };
 
+
 const SocialPanel = ({runTutorial, steps}) => {
     const { axiosInstance } = useAxios();
     const { socialLink, setSocialLink, profile, setProfile } = useLink();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-
-    const socialPlatforms = [
-        { name: "Instagram", icon: <FaInstagram />, key: "instagram" },
-        { name: "YouTube", icon: <FaYoutube />, key: "youtube" },
-        { name: "X (Twitter)", icon: <FaTwitter />, key: "x" },
-        { name: "Spotify", icon: <FaSpotify />, key: "spotify" },
-        { name: "GitHub", icon: <FaGithub />, key: "github" },
-    ];
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
@@ -89,34 +92,30 @@ const SocialPanel = ({runTutorial, steps}) => {
                     [field]: newValue, // 업데이트된 값을 반영
                 }));
             }
+
         } catch (error) {
-            console.error(`Error updating ${field}:`, error);
-            alert(`${field} 업데이트 중 오류가 발생했습니다.`);
+            if (error.status !== 304) {
+                console.error(error);
+                alert(`업데이트 중 오류가 발생했습니다.`);
+            }
         }
     };
 
+// API 호출: 이미지 업로드
     const handleImageSave = async (newImageFile) => {
+        const blob = base64ToBlob(newImageFile, "image/jpeg");
         const formData = new FormData();
-        // Base64 문자열을 Blob으로 변환
-        const base64 = newImageFile.split(',')[1]; // 데이터 앞의 "data:image/jpeg;base64," 제거
-        const byteCharacters = atob(base64);
-        const byteNumbers = new Array(byteCharacters.length).fill().map((_, i) => byteCharacters.charCodeAt(i));
-        const byteArray = new Uint8Array(byteNumbers);
-        // Blob 생성
-        const blob = new Blob([byteArray], { type: 'image/jpeg' }); // 이미지 MIME 타입은 필요에 따라 변경
-
         formData.append("profileImage", blob, "profile.jpg");
+
         try {
             const response = await axiosInstance.patch(`/api/user/profile`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: { "Content-Type": "multipart/form-data" },
             });
             if (response.status === 200) {
                 const updatedProfile = response.data;
                 setProfile((prevProfile) => ({
                     ...prevProfile,
-                    profileImage: `${updatedProfile.profileImage}?t=${new Date().getTime()}`, // 캐시 방지를 위한 타임스탬프 추가
+                    profileImage: `${updatedProfile.profileImage}?t=${Date.now()}`,
                 }));
             }
         } catch (error) {
