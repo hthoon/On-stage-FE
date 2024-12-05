@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useRef, useState} from "react";
 import "./SocialPanel.css";
 import AddSocialLinkModal from "./AddSocialLinkModal";
 import { useLink } from "../../context/LinkContext";
@@ -13,35 +13,58 @@ import {socialPlatforms} from "../../utils/AnalysisURL";
 const EditableField = ({ field, value, onSave, children }) => {
     const ref = useRef(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [inputValue, setInputValue] = useState(value); // 입력 값 관리
+    const [inputValue, setInputValue] = useState(value);
+    const [error, setError] = useState("");
 
+    // 입력 값 검증 함수
+    const validate = (value) => {
+        if (value.trim().length < 1) {
+            return "한글자 정도는 입력하셔야죠";
+        }
+
+        if (value.trim().length > 20) {
+            return "너무 길어요";
+        }
+
+        return ""; // 유효한 값이면 빈 문자열 반환
+    };
+
+    // 포커스 시 편집 모드로 전환
     const handleFocus = () => {
-        setIsEditing(true);  // 편집 모드로 진입
-        setTimeout(() => {   // setTimeout을 사용하여 렌더링 이후에 포커스를 설정
+        setIsEditing(true);
+        setTimeout(() => {
             if (ref.current) {
                 const inputElement = ref.current;
-                inputElement.focus();  // 입력 필드에 포커스를 설정
-
-                // 커서를 끝으로 이동
-                const length = inputElement.value.length;
-                inputElement.setSelectionRange(length, length);  // 커서를 끝으로
+                inputElement.focus();
+                inputElement.setSelectionRange(inputElement.value.length, inputElement.value.length);
             }
         }, 0);
     };
 
-    const handleBlur = () => {
-        setIsEditing(false);
-        onSave(field, inputValue.trim());
-    };
-
+    // 입력 값 변경 처리
     const handleChange = (e) => {
-        setInputValue(e.target.value); // 입력 값 업데이트
+        setInputValue(e.target.value);
     };
 
+    // 엔터키 입력 시 포커스 해제
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            e.target.blur(); // 엔터 입력 시 포커스를 잃음
+            e.target.blur();
+        }
+    };
+
+    // 블러 시 검증 및 저장 처리
+    const handleBlur = () => {
+        setIsEditing(false);
+
+        const validationError = validate(inputValue.trim());
+        if (validationError) {
+            setError(validationError);
+            alert(validationError); // 에러 메시지 알림
+        } else {
+            setError("");
+            onSave(field, inputValue.trim()); // 저장
         }
     };
 
@@ -66,10 +89,10 @@ const EditableField = ({ field, value, onSave, children }) => {
                     <GrEdit className="edit-icon" onClick={handleFocus} />
                 </Tooltip>
             )}
+            {error && <div className="error-message">{error}</div>} {/* 오류 메시지 표시 */}
         </div>
     );
 };
-
 
 const SocialPanel = ({runTutorial, steps}) => {
     const { axiosInstance } = useAxios();
