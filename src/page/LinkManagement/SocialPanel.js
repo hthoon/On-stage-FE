@@ -1,62 +1,95 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState} from "react";
 import "./SocialPanel.css";
 import AddSocialLinkModal from "./AddSocialLinkModal";
 import { useLink } from "../../context/LinkContext";
-import { FaInstagram, FaYoutube, FaTwitter, FaSpotify, FaGithub } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
 import Tooltip from "../../components/tooltip/Tooltip";
 import { GrEdit } from "react-icons/gr";
 import ProfileImageModal from "./ProfileImageModal";
 import { useAxios } from "../../context/AxiosContext";
+import {base64ToBlob} from "../../utils/BlobConverter";
+import {socialPlatforms} from "../../utils/AnalysisURL";
 
-// EditableField 컴포넌트로 contentEditable 처리
 const EditableField = ({ field, value, onSave, children }) => {
     const ref = useRef(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [inputValue, setInputValue] = useState(value);
+    const [error, setError] = useState("");
 
+    // 입력 값 검증 함수
+    const validate = (value) => {
+        if (value.trim().length < 1) {
+            return "한글자 정도는 입력하셔야죠";
+        }
+
+        if (value.trim().length > 20) {
+            return "너무 길어요";
+        }
+
+        return ""; // 유효한 값이면 빈 문자열 반환
+    };
+
+    // 포커스 시 편집 모드로 전환
     const handleFocus = () => {
         setIsEditing(true);
         setTimeout(() => {
             if (ref.current) {
-                const element = ref.current;
-                const range = document.createRange();
-                const selection = window.getSelection();
-                range.selectNodeContents(element);
-                range.collapse(false);
-                selection.removeAllRanges();
-                selection.addRange(range);
-                element.focus();
+                const inputElement = ref.current;
+                inputElement.focus();
+                inputElement.setSelectionRange(inputElement.value.length, inputElement.value.length);
             }
         }, 0);
     };
 
-    const handleBlur = (e) => {
-        setIsEditing(false);
-        onSave(field, e.target.textContent.trim());
+    // 입력 값 변경 처리
+    const handleChange = (e) => {
+        setInputValue(e.target.value);
     };
 
+    // 엔터키 입력 시 포커스 해제
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            e.target.blur();
+        }
+    };
+
+    // 블러 시 검증 및 저장 처리
+    const handleBlur = () => {
+        setIsEditing(false);
+
+        const validationError = validate(inputValue.trim());
+        if (validationError) {
+            setError(validationError);
+            alert(validationError); // 에러 메시지 알림
+        } else {
+            setError("");
+            onSave(field, inputValue.trim()); // 저장
+        }
+    };
+
+    const dynamicClass = `${field}-editing`;
+
     return (
-        <div className={`editable-field ${field} ${isEditing ? "editing" : ""}`}>
-            <span
-                ref={ref}
-                contentEditable
-                suppressContentEditableWarning
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        e.preventDefault();
-                        e.target.blur();
-                    }
-                }}
-            >
-                {children || value}
-            </span>
+        <div className={`editable-field ${dynamicClass} ${isEditing ? "editing" : ""}`}>
+            {isEditing ? (
+                <input
+                    ref={ref}
+                    value={inputValue}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                />
+            ) : (
+                <span>{children || value}</span>
+            )}
             {!isEditing && (
                 <Tooltip text={`${field === "nickname" ? "블록 이름" : "설명"} 바꾸기`}>
-                    <GrEdit className="edit-icon" onClick={handleFocus}/>
+                    <GrEdit className="edit-icon" onClick={handleFocus} />
                 </Tooltip>
             )}
+            {error && <div className="error-message">{error}</div>} {/* 오류 메시지 표시 */}
         </div>
     );
 };
@@ -66,14 +99,6 @@ const SocialPanel = ({runTutorial, steps}) => {
     const { socialLink, setSocialLink, profile, setProfile } = useLink();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-
-    const socialPlatforms = [
-        { name: "Instagram", icon: <FaInstagram />, key: "instagram" },
-        { name: "YouTube", icon: <FaYoutube />, key: "youtube" },
-        { name: "X (Twitter)", icon: <FaTwitter />, key: "x" },
-        { name: "Spotify", icon: <FaSpotify />, key: "spotify" },
-        { name: "GitHub", icon: <FaGithub />, key: "github" },
-    ];
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
@@ -89,37 +114,38 @@ const SocialPanel = ({runTutorial, steps}) => {
                     ...prevProfile,
                     [field]: newValue, // 업데이트된 값을 반영
                 }));
-                console.log(`${field} updated successfully:`, newValue);
             }
+
         } catch (error) {
-            console.error(`Error updating ${field}:`, error);
-            alert(`${field} 업데이트 중 오류가 발생했습니다.`);
+            if (error.status !== 304) {
+                console.error(error);
+                alert(`업데이트 중 오류가 발생했습니다.`);
+            }
         }
     };
 
+// API 호출: 이미지 업로드
     const handleImageSave = async (newImageFile) => {
+        const blob = base64ToBlob(newImageFile, "image/jpeg");
+        const formData = new FormData();
+        formData.append("profileImage", blob, "profile.jpg");
+
         try {
-            const formData = new FormData();
-            formData.append("profileImage", newImageFile);
-
             const response = await axiosInstance.patch(`/api/user/profile`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: { "Content-Type": "multipart/form-data" },
             });
-
             if (response.status === 200) {
-                const updatedProfile = response.data; // 서버에서 반환된 새로운 프로필 정보
-                setProfile(updatedProfile); // 상태 업데이트
-                console.log("Image updated successfully:", updatedProfile.image);
+                const updatedProfile = response.data;
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
+                    profileImage: `${updatedProfile.profileImage}?t=${Date.now()}`,
+                }));
             }
         } catch (error) {
             console.error("Error updating image:", error);
             alert("이미지 업데이트 중 오류가 발생했습니다.");
         }
     };
-
-
 
     return (
         <div>
@@ -170,7 +196,7 @@ const SocialPanel = ({runTutorial, steps}) => {
 
             {isImageModalOpen && (
                 <ProfileImageModal
-                    currentImage={profile.image}
+                    currentImage={profile.profileImage}
                     onClose={() => setIsImageModalOpen(false)}
                     onSave={handleImageSave} // 저장 시 호출
                 />
@@ -178,5 +204,4 @@ const SocialPanel = ({runTutorial, steps}) => {
         </div>
     );
 };
-
 export default SocialPanel;
