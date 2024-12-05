@@ -114,7 +114,10 @@ const SocialPanel = ({runTutorial, steps}) => {
             });
             if (response.status === 200) {
                 const updatedProfile = response.data;
-                setProfile(updatedProfile);
+                setProfile((prevProfile) => ({
+                    ...prevProfile,
+                    profileImage: `${updatedProfile.profileImage}?t=${new Date().getTime()}`, // 캐시 방지를 위한 타임스탬프 추가
+                }));
             }
         } catch (error) {
             console.error("Error updating image:", error);
