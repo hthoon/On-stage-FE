@@ -76,7 +76,7 @@ const Sidebar = () => {
                 <div className="sidebar-menu">
                     <div className="sidebar-menu-item"><FaStaylinked /><a href="/management">링크 관리</a></div>
                     <div className="sidebar-menu-item"><SiGoogleanalytics /><a href="#services">분석</a></div>
-                    <div className="sidebar-menu-item"><LuMusic4 /><a href="#services">아티스트</a></div>
+                    <div className="sidebar-menu-item"><LuMusic4 /><a href="/news">아티스트</a></div>
                     <div className="sidebar-menu-item"><BsSpeaker /><a href="#services">공연</a></div>
                     <div className="sidebar-menu-item"><RiSettings4Fill /><a href="#contact">설정</a></div>
                 </div>

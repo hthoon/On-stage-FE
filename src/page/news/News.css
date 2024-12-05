@@ -1,0 +1,48 @@
+.news-container {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.news-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.news-item {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 60%;
+    text-align: left;
+}
+
+/* 페이지 이동 */
+.pagination {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* 페이지 이동 버튼 */
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #8089ff;
+    color: white;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+button:hover:enabled {
+    background-color: #0056b3;
+}
