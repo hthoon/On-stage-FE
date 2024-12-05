@@ -23,7 +23,9 @@
 }
 
 .linktree-background {
+    min-width: 250px;
     width: 300px;
+    max-width: 430px;
     height: 700px;
     padding: 15px;
     border-radius: 15px;
@@ -205,6 +207,11 @@
     width: 90%;
     height: 360px;
     border: transparent;
+}
+
+.linktree-spotify-embed-main{
+    width: 40%;
+    height: 330px;
 }
 
 

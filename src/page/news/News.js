@@ -64,12 +64,12 @@ const News = () => {
         <div className="news-container">
             <h1>{"최신 소식"}</h1>
             <NewsList summaries={summaries} />
-            <div className="pagination">
-                <button onClick={movePrevPage} disabled={page === 0}>
+            <div className="news-pagination">
+                <button className="news-page-move-btn" onClick={movePrevPage} disabled={page === 0}>
                     전
                 </button>
                 <span className="current-page">{page + 1}</span> / {totalPages}
-                <button onClick={moveNextPage} disabled={page === totalPages - 1}>
+                <button className="news-page-move-btn" onClick={moveNextPage} disabled={page === totalPages - 1}>
                     다음
                 </button>
             </div>

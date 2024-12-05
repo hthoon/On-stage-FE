@@ -2,17 +2,17 @@ import React, {createContext, useContext, useState} from "react";
 
 const SpotifyContext = createContext();
 
+// TODO 토큰은 환경변수에 넣기
 const CLIENT_ID = "9bb17edad574476c8b250810bc46a174";
 const CLIENT_SECRET = "d2801f3a66bf4711bca971ad2501989c";
 
 const encodeToBase64 = (string) => btoa(unescape(encodeURIComponent(string)));
 
-const SpotifyProvider = ({ children }) => {
+const SpotifyProvider = ({children}) => {
     const [accessToken, setAccessToken] = useState(null);
 
     const fetchAccessToken = async () => {
         if (accessToken) return accessToken;
-
         try {
             const authString = encodeToBase64(`${CLIENT_ID}:${CLIENT_SECRET}`);
             const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -23,12 +23,10 @@ const SpotifyProvider = ({ children }) => {
                 },
                 body: "grant_type=client_credentials",
             });
-
             const data = await response.json();
             if (!data.access_token) {
                 throw new Error("Access token not retrieved");
             }
-
             setAccessToken(data.access_token);
             return data.access_token;
         } catch (error) {
@@ -54,6 +52,7 @@ const SpotifyProvider = ({ children }) => {
         return null;
     };
 
+    // 트랙 정보 가져오기
     const getTrackInfo = async (url) => {
         try {
             const token = await fetchAccessToken();
@@ -110,9 +109,8 @@ const SpotifyProvider = ({ children }) => {
             throw error;
         }
     };
-
     return (
-        <SpotifyContext.Provider value={{ getTrackInfo, getArtistInfo }}>
+        <SpotifyContext.Provider value={{getTrackInfo, getArtistInfo}}>
             {children}
         </SpotifyContext.Provider>
     );
@@ -121,5 +119,4 @@ const SpotifyProvider = ({ children }) => {
 const useSpotify = () => {
     return useContext(SpotifyContext);
 };
-
-export { SpotifyProvider, useSpotify };
+export {SpotifyProvider, useSpotify};

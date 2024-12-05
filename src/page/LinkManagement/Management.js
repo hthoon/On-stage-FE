@@ -17,7 +17,6 @@ const Management = () => {
     const {axiosInstance} = useAxios();
     const { setLinks, profile } = useLink();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
     const [isLinkVisible, setIsLinkVisible] = useState(false);
     const nickname = profile.nickname;
     const shareURL = `http://localhost:3000/page/${nickname}`; // todo 도메인 변경
