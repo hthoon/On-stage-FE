@@ -96,7 +96,7 @@ const DetailManagement = ({updateLink, handleDeleteLink, handleToggleLink, link,
         setServiceType(type);
         setTranslatedServiceType(mapServiceTypeToKorean(type));
         setServiceIcon(mapServiceTypeToIcon(type));
-        setIsValidURL(type !== "INVALID" && type !== "NULL");
+        setIsValidURL(type !== "INVALID");
     };
 
     const handleDeleteDetail = async (detailId) => {

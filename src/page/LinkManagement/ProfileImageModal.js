@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import "./ProfileImageModal.css";
 import {HiCamera, HiChevronLeft} from "react-icons/hi";
 import {IoMdClose} from "react-icons/io";
-import {FaCamera} from "react-icons/fa";
-import {useLink} from "../../context/LinkContext";
 
 const ProfileImageModal = ({ currentImage, onClose, onSave }) => {
     const [image, setImage] = useState(currentImage);
-
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];

@@ -20,7 +20,7 @@
 }
 
 /* 페이지 이동 */
-.pagination {
+.news-pagination {
     margin-top: 1rem;
     display: flex;
     justify-content: center;
@@ -29,7 +29,7 @@
 }
 
 /* 페이지 이동 버튼 */
-button {
+.news-page-move-btn {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 5px;
@@ -38,11 +38,12 @@ button {
     cursor: pointer;
 }
 
-button:disabled {
+.news-page-move-btn:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
 }
 
-button:hover:enabled {
+.news-page-move-btn:hover:enabled {
+
     background-color: #0056b3;
 }

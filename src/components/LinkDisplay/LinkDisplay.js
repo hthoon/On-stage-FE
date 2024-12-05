@@ -113,6 +113,7 @@ const LinkDisplay = () => {
                                                         return spotifyEmbedUrl ? (
                                                             <iframe
                                                                 src={spotifyEmbedUrl}
+                                                                className="linktree-spotify-embed-main"
                                                                 allow="encrypted-media"
                                                             ></iframe>
                                                         ) : (
