@@ -10,7 +10,7 @@ import {
     FaTwitch,
     FaGithub
 } from "react-icons/fa";
-import {SiNotion, SiSoundcloud} from "react-icons/si";
+import {SiGitlab, SiNotion, SiSoundcloud, SiTistory, SiVelog, SiYoutube, SiYoutubemusic} from "react-icons/si";
 import {AiOutlineFrown} from "react-icons/ai";
 import {PiLinkBold} from "react-icons/pi";
 import React from "react";
@@ -32,6 +32,11 @@ export const getDomainType = (url) => {
         if (domain.includes("twitch.tv")) return "TWITCH";
         if (domain.includes("chzzk.naver.com")) return "CHZZK";
         if (domain.includes("github")) return "GITHUB";
+        if (domain.includes("music.youtube.com")) return "YOUTUBE_MUSIC";
+        if (domain.includes("tistory.com")) return "TISTORY";
+        if (domain.includes("velog.io")) return "VELOG";
+        if (domain.includes("gitlab")) return "GITLAB";
+
 
 
         return "NULL";
@@ -56,9 +61,15 @@ export const mapServiceTypeToKorean = (type) => {
         TWITCH: "트위치",
         CHZZK: "치지직",
         GITHUB: "깃허브",
+        YOUTUBE_MUSIC: "유튜브 뮤직",
+        TISTORY: "티스토리",
+        VELOG: "벨로그",
+        GITLAB: "깃랩",
 
 
-        NULL: "알 수 없음",
+
+
+        NULL: "링크",
         INVALID: "잘못된 URL 형식"
     };
     return typeToKorean[type] || "지원하지 않는 서비스";
@@ -78,8 +89,14 @@ export const mapServiceTypeToIcon = (platform) => {
         TWITCH: <FaTwitch />,
         CHZZK: <FaTwitch />,
         GITHUB: <FaGithub />,
+        YOUTUBE_MUSIC: <SiYoutubemusic />,
+        TISTORY: <SiTistory />,
+        VELOG: <SiVelog />,
+        GITLAB: <SiGitlab />,
 
-        NULL: <PiLinkBold />, // 기본 아이콘 (TIKTOK) 또는 "알 수 없음" 아이콘
+
+
+        NULL: <PiLinkBold />, // "알 수 없음" 아이콘
         INVALID: <AiOutlineFrown />, // 잘못된 URL을 위한 아이콘
     };
 

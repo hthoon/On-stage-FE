@@ -33,7 +33,8 @@
     position: fixed; /* 오른쪽 고정을 위해 사용 */
     right: 6%; /* 오른쪽 여백 설정 */
     top: 10%; /* 상단 여백 */
-    width: 300px;
+    min-width: 300px;
+    max-width: 430px;
     min-height: 70vh;
     background-color: #ffffff;
     padding: 20px;
@@ -55,7 +56,7 @@
 }
 
 /* 화면 너비가 768px 이하일 때 패널 숨기기 */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1250px) {
 
     .display-panel {
         display: none; /* 오른쪽 패널 숨기기 */
@@ -70,7 +71,7 @@
     }
 }
 
-@media screen and (max-width: 390px) {
+@media screen and (max-width: 430px) {
     .display-panel {
         display: none;
     }
