@@ -8,6 +8,7 @@ import Login from "../page/login/Login";
 import VisitPage from "../page/LinkManagement/VisitPage";
 import Analytics from "../page/Analytics/Analytics";
 import MyPage from "../page/mypage/MyPage";
+import News from "../page/news/News";
 
 function AppRouter() {
     return (
@@ -20,6 +21,7 @@ function AppRouter() {
             <Route path="/login" element={<Login />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/news" element={<News />} />
         </Routes>
           
     )
