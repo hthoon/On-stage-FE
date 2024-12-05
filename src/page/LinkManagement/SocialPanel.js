@@ -9,7 +9,6 @@ import { GrEdit } from "react-icons/gr";
 import ProfileImageModal from "./ProfileImageModal";
 import { useAxios } from "../../context/AxiosContext";
 
-// EditableField 컴포넌트로 contentEditable 처리
 const EditableField = ({ field, value, onSave, children }) => {
     const ref = useRef(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -89,7 +88,6 @@ const SocialPanel = ({runTutorial, steps}) => {
                     ...prevProfile,
                     [field]: newValue, // 업데이트된 값을 반영
                 }));
-                console.log(`${field} updated successfully:`, newValue);
             }
         } catch (error) {
             console.error(`Error updating ${field}:`, error);
@@ -98,28 +96,31 @@ const SocialPanel = ({runTutorial, steps}) => {
     };
 
     const handleImageSave = async (newImageFile) => {
-        try {
-            const formData = new FormData();
-            formData.append("profileImage", newImageFile);
+        const formData = new FormData();
+        // Base64 문자열을 Blob으로 변환
+        const base64 = newImageFile.split(',')[1]; // 데이터 앞의 "data:image/jpeg;base64," 제거
+        const byteCharacters = atob(base64);
+        const byteNumbers = new Array(byteCharacters.length).fill().map((_, i) => byteCharacters.charCodeAt(i));
+        const byteArray = new Uint8Array(byteNumbers);
+        // Blob 생성
+        const blob = new Blob([byteArray], { type: 'image/jpeg' }); // 이미지 MIME 타입은 필요에 따라 변경
 
+        formData.append("profileImage", blob, "profile.jpg");
+        try {
             const response = await axiosInstance.patch(`/api/user/profile`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
-
             if (response.status === 200) {
-                const updatedProfile = response.data; // 서버에서 반환된 새로운 프로필 정보
-                setProfile(updatedProfile); // 상태 업데이트
-                console.log("Image updated successfully:", updatedProfile.image);
+                const updatedProfile = response.data;
+                setProfile(updatedProfile);
             }
         } catch (error) {
             console.error("Error updating image:", error);
             alert("이미지 업데이트 중 오류가 발생했습니다.");
         }
     };
-
-
 
     return (
         <div>
@@ -170,7 +171,7 @@ const SocialPanel = ({runTutorial, steps}) => {
 
             {isImageModalOpen && (
                 <ProfileImageModal
-                    currentImage={profile.image}
+                    currentImage={profile.profileImage}
                     onClose={() => setIsImageModalOpen(false)}
                     onSave={handleImageSave} // 저장 시 호출
                 />
@@ -178,5 +179,4 @@ const SocialPanel = ({runTutorial, steps}) => {
         </div>
     );
 };
-
 export default SocialPanel;
