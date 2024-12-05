@@ -13,6 +13,7 @@ import {
 import {SiNotion, SiSoundcloud} from "react-icons/si";
 import {AiOutlineFrown} from "react-icons/ai";
 import {PiLinkBold} from "react-icons/pi";
+import React from "react";
 
 // URL 분석 함수
 export const getDomainType = (url) => {
@@ -84,3 +85,11 @@ export const mapServiceTypeToIcon = (platform) => {
 
     return platformToIcon[platform] || platformToIcon["NULL"]; // 기본값은 "NULL"
 };
+
+export const socialPlatforms = [
+    { name: "Instagram", icon: <FaInstagram />, key: "instagram" },
+    { name: "YouTube", icon: <FaYoutube />, key: "youtube" },
+    { name: "X (Twitter)", icon: <FaTwitter />, key: "x" },
+    { name: "Spotify", icon: <FaSpotify />, key: "spotify" },
+    { name: "GitHub", icon: <FaGithub />, key: "github" },
+];

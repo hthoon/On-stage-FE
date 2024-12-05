@@ -8,11 +8,14 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
     padding: 20px;
     z-index: 1000;
+
+    animation: fadeIn 0.3s ease-out;
 }
 
 .modal-content {
     text-align: center;
     box-shadow: none;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .profile-image-container {
