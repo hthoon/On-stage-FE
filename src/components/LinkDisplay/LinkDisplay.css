@@ -4,6 +4,8 @@
     --fontColor: #000000; /* 텍스트 색상 */
     --iconColor: #ffffff;
     --borderRadius: 25px;
+
+    --contentHeight: 10px;
 }
 
 .LinkDisplay{
@@ -21,7 +23,9 @@
 }
 
 .linktree-background {
+    min-width: 250px;
     width: 300px;
+    max-width: 430px;
     height: 700px;
     padding: 15px;
     border-radius: 15px;
@@ -138,7 +142,7 @@
 
 .linktree-details{
     width: 100%;
-    padding: 10px;
+    padding: 5px 0;
 }
 
 .linktree-service-icon{
@@ -169,6 +173,19 @@
     margin-top: 15px;
 }
 
+.blank-transparent{
+    .linktree-detail-item{
+        display: none;
+    }
+    background-color: transparent;
+    color: transparent;
+    pointer-events: none; /* 클릭을 막기 위해 포인터 이벤트를 비활성화 */
+
+    margin: 0;
+    min-height: 0;
+    height: var(--contentHeight);
+}
+
 .social-icon {
     font-size: 22px;
     color: var(--iconColor);
@@ -191,3 +208,19 @@
     height: 360px;
     border: transparent;
 }
+
+.linktree-spotify-embed-main{
+    width: 40%;
+    height: 330px;
+}
+
+
+.folder-transparent-management {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.folder-transparent-visitor{
+    display: none;
+}
+

@@ -1,0 +1,69 @@
+.news-container {
+    width: 90%;
+    margin-left: 150px;
+    text-align: center;
+}
+
+.news-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.news-item {
+    background-color: #f9f9f9;
+    border: #c9c9c9 solid 1px;
+    border-radius: 15px;
+    padding: 16px;
+    width: 60%;
+    text-align: left;
+}
+
+/* 페이지 이동 */
+.news-pagination {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+/* 페이지 이동 버튼 */
+.news-page-move-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #8089ff;
+    color: white;
+    cursor: pointer;
+}
+
+.news-page-move-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.news-page-move-btn:hover:enabled {
+    background-color: #6c77ff;
+}
+
+.news-page-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* 화면 너비가 768px 이하일 때 패널 숨기기 */
+@media screen and (max-width: 1250px) {
+
+    .sidebar{
+        display: none;
+    }
+    .news-container {
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+

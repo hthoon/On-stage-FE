@@ -15,6 +15,7 @@ import {SiGoogleanalytics} from "react-icons/si";
 import {LuMusic4} from "react-icons/lu";
 import {RiSettings4Fill} from "react-icons/ri";
 import {useLink} from "../../context/LinkContext";
+import {PiSidebarSimpleBold} from "react-icons/pi";
 
 const Sidebar = () => {
     const { loggedIn } = useAuth();
@@ -31,8 +32,6 @@ const Sidebar = () => {
     if (whitelistPaths.includes(location.pathname) || isVisitPage) {
         return null;
     }
-
-    const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -69,7 +68,7 @@ const Sidebar = () => {
     return (
         <>
             {/* 토글 버튼 */}
-            <BsLayoutSidebar className="sidebar-toggle" onClick={toggleSidebar}/>
+            <PiSidebarSimpleBold className="sidebar-toggle" onClick={toggleSidebar}/>
 
             {/* 사이드바 */}
             <div className={`sidebar ${isOpen ? "open" : ""}`}>
@@ -77,7 +76,7 @@ const Sidebar = () => {
                 <div className="sidebar-menu">
                     <div className="sidebar-menu-item"><FaStaylinked /><a href="/management">링크 관리</a></div>
                     <div className="sidebar-menu-item"><SiGoogleanalytics /><a href="#services">분석</a></div>
-                    <div className="sidebar-menu-item"><LuMusic4 /><a href="#services">아티스트</a></div>
+                    <div className="sidebar-menu-item"><LuMusic4 /><a href="/news">아티스트</a></div>
                     <div className="sidebar-menu-item"><BsSpeaker /><a href="#services">공연</a></div>
                     <div className="sidebar-menu-item"><RiSettings4Fill /><a href="#contact">설정</a></div>
                 </div>
@@ -85,7 +84,7 @@ const Sidebar = () => {
                 {/* 회원 이미지 (로그인 상태에 따라 다르게 표시) */}
                 {loggedIn ? (
                     <div className="sidebar-profile" onClick={toggleModal}>
-                        <img src={profileImage} alt="Profile" className="sidebar-profile-image" />
+                        <img src={profile.profileImage} alt="Profile" className="sidebar-profile-image" />
                         <h4>{profile.nickname}</h4>
                     </div>
                 ) : (
@@ -107,7 +106,7 @@ const Sidebar = () => {
                     >
                         <div className="profile-modal-container">
                             <img
-                                src={profileImage}
+                                src={profile.profileImage}
                                 alt="Profile"
                                 className="modal-profile-image"
                             />
