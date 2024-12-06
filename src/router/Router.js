@@ -6,6 +6,7 @@ import KakaoMap from '../components/MapDisplay/MapDisplay';
 import Home from "../page/home/Home";
 import Login from "../page/home/Login";
 import VisitPage from "../page/LinkManagement/VisitPage";
+import Analytics from '../page/Analytics/Analytics';
 
 function AppRouter() {
     return (
