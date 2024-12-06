@@ -13,9 +13,9 @@ const News = () => {
     const getUsername = async () => {
         try {
             const response = await axiosInstance.get("/api/user");
-            setUsername(response.data.username); // 사용자 이름 설정
+            setUsername(response.data.username);
         } catch (error) {
-            console.error("Failed to fetch user info:", error);
+            console.error("오류가 발생했습니다:", error);
         }
     };
 
@@ -53,8 +53,8 @@ const News = () => {
         <div className="news-list">
             {summaries.map((summary, index) => (
                 <div key={index} className="news-item">
-                    <p>{summary.title}</p>
-                    <p>{summary.summary}</p>
+                    <p className="news-page-title">{summary.title}</p>
+                    <p className="news-page-summary">{summary.summary}</p>
                 </div>
             ))}
         </div>
