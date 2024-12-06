@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-export const fetchAnalyticsData = async (startDate, endDate) => {
+export const fetchAnalyticsData = async (userName, startDate, endDate) => {
   try {
     const response = await axios.get(`/api/analytics/dashboard`, {
       params: {
+        userName: userName,
         startDate: startDate,
         endDate: endDate,
       },
