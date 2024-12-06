@@ -45,7 +45,7 @@ function Login() {
     }
 
     const mypage = () => {
-        navigate("/mypage");
+        navigate("/management");
     }
 
 
