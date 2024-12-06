@@ -71,7 +71,7 @@ function Login() {
                 <LoginButton
                     src='src'//{github_button}
                     alt="GithubLogin"
-                    authLink={handleOAuth('google')}
+                    authLink={handleOAuth('github')}
                 />
 
                 <div className="user-login-logo text-center mb-5">
