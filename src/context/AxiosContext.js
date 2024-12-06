@@ -1,7 +1,6 @@
 import axios from "axios";
 import {createContext, useContext} from "react";
 import Cookies from 'js-cookie';
-import {jwtDecode} from "jwt-decode";
 import {useNavigate} from "react-router-dom";
 
 const AxiosContext = createContext();
@@ -43,11 +42,8 @@ export const AxiosContextProvider = ({children}) => {
             originalRequest._retry = true;
 
             try {
-                const response = await axiosInstance.post('/api/auth/reissue', {}, {withCredentials: true});
+                await axiosInstance.post('/api/auth/reissue', {}, {withCredentials: true});
                 const newAccessToken = Cookies.get('access');
-
-                const authorizationHeader = response.headers['Authorization'];
-                console.log('retry request');
 
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
