@@ -42,6 +42,8 @@ const ThemeSwitcher = () => {
 
         const formData = new FormData();
         formData.append("file", file);
+        console.log(formData);
+        console.log(file);
 
         try {
             const response = await axiosInstance.put(`/api/theme/${customTheme.username}/background`, formData, {
@@ -50,7 +52,6 @@ const ThemeSwitcher = () => {
             const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
 
             handleThemeChange("backgroundImage", `url(${imageUrl})`);
-            console.log(response.data);
             updateTheme(response.data);
         } catch (error) {
             console.error("Image upload failed:", error);
