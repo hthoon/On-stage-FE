@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAxios } from "../../context/AxiosContext";
+import { useLink} from "../../context/LinkContext";
 import "./News.css";
 
-const News = () => {
+const GuestNews = () => {
     const { axiosInstance } = useAxios();
+    const { nickname } = useLink();
     const [username, setUsername] = useState(""); // 사용자 유저네임
     const [summaries, setSummaries] = useState([]); // 기사 데이터 저장
     const [page, setPage] = useState(0); // 현재 페이지
@@ -11,9 +13,10 @@ const News = () => {
 
     // 사용자 유저네임을 가져오는 함수
     const getUsername = async () => {
+        if (!nickname) return; // nickname이 없으면 요청하지 않음
         try {
-            const response = await axiosInstance.get("/api/user");
-            setUsername(response.data.username);
+            const response = await axiosInstance.get(`/api/user/convert/${nickname}`);
+            setUsername(response.data);
         } catch (error) {
             console.error("오류가 발생했습니다:", error);
         }
@@ -77,5 +80,5 @@ const News = () => {
     );
 };
 
-export default News;
+export default GuestNews;
 
