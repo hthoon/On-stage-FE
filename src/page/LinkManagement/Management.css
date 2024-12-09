@@ -265,9 +265,15 @@
     border-radius: 5px;
 }
 
+.profile-verified-icon{
+    font-size: 22px;
+    margin-left: 5px;
+    color: #50b0ff;
+}
+
 .edit-icon {
     font-size: 14px;
-    margin-left: 5px;
+    margin-left: 3px;
     padding: 7px;
     border-radius: 10px;
 
