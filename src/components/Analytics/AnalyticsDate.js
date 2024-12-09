@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { ko } from 'date-fns/locale'; // 한국어 로케일 가져오기
+import { ko } from 'date-fns/locale'; 
 import { registerLocale } from 'react-datepicker';
+import { Calendar, X } from 'lucide-react';
+import './css/AnalyticsDate.css';
 
-registerLocale('ko', ko); // 한국어 로케일 등록
+registerLocale('ko', ko);
 
-const DateRangeSelector = ({ onDateChange }) => {
+const AnalyticsDate = ({ onDateChange }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
   
@@ -15,45 +17,85 @@ const DateRangeSelector = ({ onDateChange }) => {
       if (endDate && date > endDate) {
         setEndDate(null);
       }
-      onDateChange(date, endDate); // 날짜 변경 시 부모에 전달
+      onDateChange(date, endDate);
     };
   
     const handleEndDateChange = (date) => {
       setEndDate(date);
-      onDateChange(startDate, date); // 날짜 변경 시 부모에 전달
+      onDateChange(startDate, date);
     };
 
-  return (
-    <div>
-      <div>
-        <label>시작 날짜:</label>
-        <DatePicker
-          selected={startDate}
-          onChange={handleStartDateChange}
-          selectsStart
-          startDate={startDate}
-          endDate={endDate}
-          locale="ko"
-          dateFormat="yyyy/MM/dd"
-          placeholderText="시작 날짜 선택"
-        />
+    const handleClearStartDate = () => {
+      setStartDate(null);
+      onDateChange(null, endDate);
+    };
+
+    const handleClearEndDate = () => {
+      setEndDate(null);
+      onDateChange(startDate, null);
+    };
+
+    return (
+      <div className="analytics-date-container">
+        <div className="date-input-wrapper">
+          <label className="date-label">시작 날짜:</label>
+          <div className="date-input-group">
+            <DatePicker
+              selected={startDate}
+              onChange={handleStartDateChange}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+              locale="ko"
+              dateFormat="yyyy/MM/dd"
+              placeholderText="시작 날짜 선택"
+              className="date-input"
+              wrapperClassName="date-picker-wrapper"
+              calendarClassName="custom-calendar"
+            />
+            <Calendar className="date-icon" />
+            {startDate && (
+              <button 
+                className="clear-date-btn" 
+                onClick={handleClearStartDate}
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+        </div>
+        
+        <div className="date-input-wrapper">
+          <label className="date-label">끝 날짜:</label>
+          
+          <div className="date-input-group">
+            <DatePicker
+              selected={endDate}
+              onChange={handleEndDateChange}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+              locale="ko"
+              dateFormat="yyyy/MM/dd"
+              placeholderText="끝 날짜 선택"
+              className="date-input"
+              wrapperClassName="date-picker-wrapper"
+              calendarClassName="custom-calendar"
+            />
+            <Calendar className="date-icon" />
+            {endDate && (
+              <button 
+                className="clear-date-btn" 
+                onClick={handleClearEndDate}
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
-      <div>
-        <label>끝 날짜:</label>
-        <DatePicker
-          selected={endDate}
-          onChange={handleEndDateChange}
-          selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          minDate={startDate}
-          locale="ko"
-          dateFormat="yyyy/MM/dd"
-          placeholderText="끝 날짜 선택"
-        />
-      </div>
-    </div>
-  );
+    );
 };
 
-export default DateRangeSelector;
+export default AnalyticsDate;

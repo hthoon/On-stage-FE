@@ -1,0 +1,30 @@
+.page-view-chart-container {
+    width: 100%;
+    height: 400px; /* 기본 높이 */
+    padding: 1rem;
+    background-color: #ffffff; /* 배경색 */
+    border-radius: 12px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+}
+
+.page-view-chart {
+    width: 100%;
+    height: 100%;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .page-view-chart-container {
+        height: 300px; /* 모바일 화면에서의 높이 조정 */
+        padding: 0.5rem; /* 패딩 조정 */
+    }
+}
+
+@media (max-width: 480px) {
+    .page-view-chart-container {
+        height: 250px; /* 더 작은 화면에서의 높이 조정 */
+    }
+}
