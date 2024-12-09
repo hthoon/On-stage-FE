@@ -133,7 +133,20 @@ const ThemeSwitcher = () => {
 
                         <div className="theme-setting">
                             <label>
-                                버튼 색상:
+                                배경 색상:
+                                <input
+                                    type="color"
+                                    value={customTheme.backgroundColor || "#333333"}
+                                    onChange={(e) =>
+                                        handleThemeChange("backgroundColor", e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
+                            <label>
+                                블록 색상:
                                 <input
                                     type="color"
                                     value={customTheme.buttonColor || "#ffffff"}
@@ -180,18 +193,6 @@ const ThemeSwitcher = () => {
                             </label>
                         </div>
 
-                        <div className="theme-setting">
-                            <label>
-                                배경 색상:
-                                <input
-                                    type="color"
-                                    value={customTheme.backgroundColor || "#333333"}
-                                    onChange={(e) =>
-                                        handleThemeChange("backgroundColor", e.target.value)
-                                    }
-                                />
-                            </label>
-                        </div>
 
                         <div className="theme-setting">
                             <label>
