@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale'; 
@@ -9,13 +9,14 @@ import './css/AnalyticsDate.css';
 registerLocale('ko', ko);
 
 const AnalyticsDate = ({ onDateChange }) => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const today = useMemo(() => new Date(), []);
+    const [startDate, setStartDate] = useState(today);
+    const [endDate, setEndDate] = useState(today);
   
     const handleStartDateChange = (date) => {
       setStartDate(date);
-      if (endDate && date > endDate) {
-        setEndDate(null);
+      if (date > endDate) {
+        setEndDate(date);
       }
       onDateChange(date, endDate);
     };
@@ -26,13 +27,13 @@ const AnalyticsDate = ({ onDateChange }) => {
     };
 
     const handleClearStartDate = () => {
-      setStartDate(null);
-      onDateChange(null, endDate);
+      setStartDate(today);
+      onDateChange(today, endDate);
     };
 
     const handleClearEndDate = () => {
-      setEndDate(null);
-      onDateChange(startDate, null);
+      setEndDate(today);
+      onDateChange(startDate, today);
     };
 
     return (
@@ -52,16 +53,15 @@ const AnalyticsDate = ({ onDateChange }) => {
               className="date-input"
               wrapperClassName="date-picker-wrapper"
               calendarClassName="custom-calendar"
+              maxDate={today}
             />
             <Calendar className="date-icon" />
-            {startDate && (
-              <button 
-                className="clear-date-btn" 
-                onClick={handleClearStartDate}
-              >
-                <X size={16} />
-              </button>
-            )}
+            <button 
+              className="clear-date-btn" 
+              onClick={handleClearStartDate}
+            >
+              <X size={16} />
+            </button>
           </div>
         </div>
         
@@ -76,6 +76,7 @@ const AnalyticsDate = ({ onDateChange }) => {
               startDate={startDate}
               endDate={endDate}
               minDate={startDate}
+              maxDate={today}
               locale="ko"
               dateFormat="yyyy/MM/dd"
               placeholderText="끝 날짜 선택"
@@ -84,14 +85,12 @@ const AnalyticsDate = ({ onDateChange }) => {
               calendarClassName="custom-calendar"
             />
             <Calendar className="date-icon" />
-            {endDate && (
-              <button 
-                className="clear-date-btn" 
-                onClick={handleClearEndDate}
-              >
-                <X size={16} />
-              </button>
-            )}
+            <button 
+              className="clear-date-btn" 
+              onClick={handleClearEndDate}
+            >
+              <X size={16} />
+            </button>
           </div>
         </div>
       </div>
