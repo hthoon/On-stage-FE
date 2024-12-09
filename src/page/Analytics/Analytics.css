@@ -1,0 +1,59 @@
+.analytics-container {
+    width: 90%;
+    max-width: 800px; /* 최대 너비 설정 */
+    margin-left: 30%;
+    padding: 2rem; /* 패딩 추가 */
+    font-family: 'Arial', sans-serif;
+}
+
+.analytics-header {
+    text-align: center; /* 제목 중앙 정렬 */
+    margin-bottom: 2rem; /* 제목과 내용 간 간격 */
+}
+
+.analytics-header h1 {
+    font-size: 28px;
+    color: #333; /* 제목 색상 */
+    margin-bottom: 0.5rem; /* 제목과 서브 제목 간 간격 */
+}
+
+.analytics-header h2 {
+    font-size: 20px;
+    color: #666; /* 서브 제목 색상 */
+    margin-bottom: 1rem; /* 서브 제목과 아래 요소 간 간격 */
+}
+
+.loading, .error {
+    text-align: center; /* 로딩 및 에러 메시지 중앙 정렬 */
+    color: #e74c3c; /* 에러 메시지 색상 */
+    font-weight: bold;
+}
+
+.analytics-date-container {
+    margin-bottom: 2rem; /* 날짜 선택 컴포넌트와 다른 요소 간 간격 */
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 1250px) {
+
+    .sidebar{
+        display: none;
+    }
+
+    .analytics-container{
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .analytics-container {
+        padding: 1rem; /* 모바일에서 패딩 조정 */
+    }
+
+    .analytics-header h1 {
+        font-size: 24px; /* 모바일에서 제목 크기 조정 */
+    }
+
+    .analytics-header h2 {
+        font-size: 18px; /* 모바일에서 서브 제목 크기 조정 */
+    }
+}
