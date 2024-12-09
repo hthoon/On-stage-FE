@@ -4,11 +4,12 @@ import {useLink} from "../../context/LinkContext";
 import {FaGithub, FaInstagram} from "react-icons/fa";
 import {SlSocialSpotify, SlSocialYoutube} from "react-icons/sl";
 import {FaXTwitter} from "react-icons/fa6";
-import {CiStar, CiShare1} from "react-icons/ci";
+import {CiStar} from "react-icons/ci";
 import {sortLinksByPrevId} from "../../utils/sortLinks";
 import {mapServiceTypeToIcon, mapServiceTypeToKorean} from "../../utils/AnalysisURL";
 import {MdVerified} from "react-icons/md";
-
+import {HiChevronLeft, HiDotsHorizontal} from "react-icons/hi";
+import {IoMdClose} from "react-icons/io";
 
 const LinkDisplay = () => {
     const {links, socialLink, theme, profile} = useLink();
@@ -16,6 +17,7 @@ const LinkDisplay = () => {
     const [isManagementPage, setIsManagementPage] = useState(false);
     const sortedLinks = sortLinksByPrevId(links);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const VERIFIED = "VERIFIED"
 
     const handleToggleExpand = (id) => {
@@ -28,7 +30,6 @@ const LinkDisplay = () => {
         const parts = url.split("/");
         const type = parts[3];
         const id = parts[4]?.split("?")[0];
-
         return `https://open.spotify.com/embed/${type}/${id}`;
     };
 
@@ -51,6 +52,10 @@ const LinkDisplay = () => {
 
     }, [theme]);
 
+    const toggleModal = () => {
+        setIsModalOpen((prev) => !prev);
+    };
+
     return (
         <div className="linktree-container">
             <div
@@ -64,7 +69,7 @@ const LinkDisplay = () => {
                     <h6 className="linktree-share-icon-star" style={{color: theme.iconColor || 'var(--iconColor)'}}><CiStar/>
                     </h6>
                     <h6 className="linktree-share-icon" style={{color: theme.iconColor || 'var(--iconColor)'}}>
-                        <CiShare1/></h6>
+                        <HiDotsHorizontal onClick={toggleModal} /></h6>
                 </div>
 
                 {/*프로필 섹션*/}
@@ -205,9 +210,35 @@ const LinkDisplay = () => {
                             </a>
                         ))}
                 </div>
+
+                {/* Modal */}
+                {isModalOpen && (
+                    <div className="link-display-modal-overlay" onClick={toggleModal}>
+                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <div className="detail-modal-close-btn-container">
+                                <HiChevronLeft className="modal-close-btn" onClick={toggleModal}/>
+                                <h2 className="detail-modal-title">{profile.nickname}</h2>
+                                <IoMdClose className="modal-close-btn" onClick={toggleModal}/>
+                            </div>
+                            <div className="profile-container">
+                                <img src={profile.profileImage} alt="Profile" className="profile-image"/>
+                            </div>
+
+                            <div className="link-display-url-section">
+                                <input type="text" value={`on.stage/${profile.nickname}`} readOnly className="link-display-url"/>
+                            </div>
+
+                            <div className="LinkDisplay-modal-button-container">
+                                <button onClick={() => {navigator.clipboard.writeText(window.location.href);alert("URL이 복사되었습니다!");}}>링크 복사하기</button>
+                                <button onClick={() => window.open("/artist-events", "_blank")}>공연 정보</button>
+                                <button onClick={() => window.open("/artist-events", "_blank")}>아티스트 소식</button>
+                            </div>
+                            <button className="link-display-join-button" onClick={() => window.open("/")}>당신도 이런 페이지를 만들고 싶다면?</button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
 };
-
 export default LinkDisplay;

@@ -79,7 +79,6 @@
 
 .linktree-share-icon{
     color: var(--iconColor);
-    display: none;
     font-size: 1.6rem;
     font-weight: bold;
 }
@@ -273,5 +272,75 @@
 
 .linktree-detail-platform-title{
     color: var(--fontColor);
+}
+
+
+/* 모달 배경 스타일 */
+.link-display-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0); /* 초기에는 배경이 투명 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: background-color 0.5s ease-in-out; /* 배경색 변화에 트랜지션 효과 */
+
+}
+
+/* 모달이 열릴 때 배경이 어두워지도록 */
+.link-display-modal-overlay.open {
+    background-color: rgba(0, 0, 0, 0.6); /* 모달이 열리면 배경이 반투명 */
+}
+
+.LinkDisplay-modal-button-container{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+.LinkDisplay-modal-button-container button{
+    border: #a4a4a4 solid 2px;
+    border-radius: 15px;
+    background: none;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+}
+.LinkDisplay-modal-button-container button:hover{
+    scale: 1.03;
+}
+
+.link-display-join-button{
+    border: none;
+    background: none;
+    color: #6e79ff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: all 0.5s ease-in-out;
+}
+
+.link-display-join-button:hover{
+    color: #6e79ff;
+    scale: 1.01;
+}
+
+.link-display-url{
+    text-align: center;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: #5e5e5e;
+    margin: 0 auto;
 }
 

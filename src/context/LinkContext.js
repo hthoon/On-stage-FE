@@ -13,6 +13,7 @@ export const LinkProvider = ({ children }) => {
     const nickname = decodeURIComponent(pathname.split('/')[2]);
 
     const managementPath = ['/management'];
+    const etcPath = ['/analytics', '/news', '/map', '/mypage'];
     const visitPath = '/page/';
 
     const [links, setLinks] = useState([]);
@@ -34,6 +35,15 @@ export const LinkProvider = ({ children }) => {
             setTheme(res.data.theme);
             Cookies.set("username", res.data.theme.username);
 
+            const userResponse = await axiosInstance.get(`/api/user`);
+            setProfile(userResponse.data);
+        } catch (error) {
+            console.error("Error fetching management data:", error);
+        }
+    };
+
+    const fetchETC = async () => {
+        try {
             const userResponse = await axiosInstance.get(`/api/user`);
             setProfile(userResponse.data);
         } catch (error) {
@@ -66,6 +76,9 @@ export const LinkProvider = ({ children }) => {
             fetchManagement();
         } else if (pathname.startsWith(visitPath)) {
             fetchVisit();
+        }
+        else if(etcPath.includes(pathname)){
+            fetchETC();
         }
     }, [pathname]);
 
