@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AnalyticsDate from '../../components/Analytics/AnalyticsDate'; // 날짜 선택 컴포넌트 임포트
 import AnalyticsData from '../../components/Analytics/AnalyticsData'; // 데이터 표시 컴포넌트 임포트
 import AnalyticsGraph from '../../components/Analytics/AnalyticsGraph';
-import Cookies from 'js-cookie';
 import { fetchAnalyticsData } from '../../components/Analytics/AnalyticsApi';
+import { useLink } from '../../context/LinkContext';
 import './Analytics.css';
 
 const Analytics = () => {
+  const { profile } = useLink();
   const [analyticsData, setAnalyticsData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,12 +15,8 @@ const Analytics = () => {
       startDate: null,
       endDate: null
   });
-  const [userName, setUserName] = useState(null);
-
-  useEffect(() => {
-    const userNameFromCookie = Cookies.get('username');
-    setUserName(userNameFromCookie);
-  }, []);
+  
+  const userName = profile.username;
 
   const handleDateChange = async ( startDate, endDate) => {
     setDate({ startDate, endDate });
