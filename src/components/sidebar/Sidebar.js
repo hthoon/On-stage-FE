@@ -78,7 +78,7 @@ const Sidebar = () => {
                     <div className="sidebar-menu-item"><SiGoogleanalytics /><a href="/analytics">분석</a></div>
                     <div className="sidebar-menu-item"><LuMusic4 /><a href="/news">아티스트</a></div>
                     <div className="sidebar-menu-item"><BsSpeaker /><a href="#services">공연</a></div>
-                    <div className="sidebar-menu-item"><RiSettings4Fill /><a href="#contact">설정</a></div>
+                    <div className="sidebar-menu-item"><RiSettings4Fill /><a href="#contact">마이페이지</a></div>
                 </div>
 
                 {/* 회원 이미지 (로그인 상태에 따라 다르게 표시) */}
