@@ -10,31 +10,37 @@ registerLocale('ko', ko);
 
 const AnalyticsDate = ({ onDateChange }) => {
     const today = useMemo(() => new Date(), []);
-    const [startDate, setStartDate] = useState(today);
-    const [endDate, setEndDate] = useState(today);
-  
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
     const handleStartDateChange = (date) => {
       setStartDate(date);
-      if (date > endDate) {
-        setEndDate(date);
+      if (endDate && date > endDate) {
+          setEndDate(null);
       }
-      onDateChange(date, endDate);
-    };
+      // null 체크 후 onDateChange 호출
+      if (date || endDate) {
+          onDateChange(date, endDate);
+      }
+  };
   
-    const handleEndDateChange = (date) => {
+  const handleEndDateChange = (date) => {
       setEndDate(date);
-      onDateChange(startDate, date);
-    };
-
-    const handleClearStartDate = () => {
-      setStartDate(today);
-      onDateChange(today, endDate);
-    };
-
-    const handleClearEndDate = () => {
-      setEndDate(today);
-      onDateChange(startDate, today);
-    };
+      // null 체크 후 onDateChange 호출
+      if (startDate || date) {
+          onDateChange(startDate, date);
+      }
+  };
+  
+  const handleClearStartDate = () => {
+      setStartDate(null);
+      onDateChange(null, endDate); // null을 명시적으로 전달
+  };
+  
+  const handleClearEndDate = () => {
+      setEndDate(null);
+      onDateChange(startDate, null); // null을 명시적으로 전달
+  };
 
     return (
       <div className="analytics-date-container">
@@ -56,18 +62,20 @@ const AnalyticsDate = ({ onDateChange }) => {
               maxDate={today}
             />
             <Calendar className="date-icon" />
-            <button 
-              className="clear-date-btn" 
-              onClick={handleClearStartDate}
-            >
-              <X size={16} />
-            </button>
+            {startDate && (
+              <button 
+                className="clear-date-btn" 
+                onClick={handleClearStartDate}
+              >
+                <X size={16} />
+              </button>
+            )}
           </div>
         </div>
-        
+
         <div className="date-input-wrapper">
           <label className="date-label">끝 날짜:</label>
-          
+
           <div className="date-input-group">
             <DatePicker
               selected={endDate}
@@ -76,21 +84,23 @@ const AnalyticsDate = ({ onDateChange }) => {
               startDate={startDate}
               endDate={endDate}
               minDate={startDate}
-              maxDate={today}
               locale="ko"
               dateFormat="yyyy/MM/dd"
               placeholderText="끝 날짜 선택"
               className="date-input"
               wrapperClassName="date-picker-wrapper"
               calendarClassName="custom-calendar"
+              maxDate={today}
             />
             <Calendar className="date-icon" />
-            <button 
-              className="clear-date-btn" 
-              onClick={handleClearEndDate}
-            >
-              <X size={16} />
-            </button>
+            {endDate && (
+              <button 
+                className="clear-date-btn" 
+                onClick={handleClearEndDate}
+              >
+                <X size={16} />
+              </button>
+            )}
           </div>
         </div>
       </div>

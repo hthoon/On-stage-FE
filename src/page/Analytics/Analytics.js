@@ -18,14 +18,22 @@ const Analytics = () => {
   
   const userName = profile.username;
 
-  const handleDateChange = async ( startDate, endDate) => {
+  const handleDateChange = async (startDate, endDate) => {
+    // 상태를 즉시 업데이트
     setDate({ startDate, endDate });
+
+    // 사용자명, 시작날짜, 종료날짜 모두 존재하는 경우에만 데이터 불러오기
     if (userName && startDate && endDate) {
         setLoading(true);
         setError(null);
         try {
-            const data = await fetchAnalyticsData(userName, date.startDate.toISOString().split('T')[0], date.endDate.toISOString().split('T')[0]);
-            setAnalyticsData(data); // 가져온 데이터 설정
+            // 직접 전달받은 날짜 포맷팅
+            const formattedStartDate = startDate.toISOString().split('T')[0];
+            const formattedEndDate = endDate.toISOString().split('T')[0];
+            
+            // API 호출
+            const data = await fetchAnalyticsData(userName, formattedStartDate, formattedEndDate);
+            setAnalyticsData(data);
         } catch (err) {
             setError(err.message);
         } finally {
