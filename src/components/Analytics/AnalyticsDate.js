@@ -7,21 +7,21 @@ import { registerLocale } from 'react-datepicker';
 registerLocale('ko', ko); // 한국어 로케일 등록
 
 const DateRangeSelector = ({ onDateChange }) => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-    if (endDate && date > endDate) {
-      setEndDate(null);
-    }
-    onDateChange(date, endDate); // 날짜 변경 시 부모에 전달
-  };
-
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-    onDateChange(startDate, date); // 날짜 변경 시 부모에 전달
-  };
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+  
+    const handleStartDateChange = (date) => {
+      setStartDate(date);
+      if (endDate && date > endDate) {
+        setEndDate(null);
+      }
+      onDateChange(date, endDate); // 날짜 변경 시 부모에 전달
+    };
+  
+    const handleEndDateChange = (date) => {
+      setEndDate(date);
+      onDateChange(startDate, date); // 날짜 변경 시 부모에 전달
+    };
 
   return (
     <div>
