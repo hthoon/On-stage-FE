@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "./Management.css";
 import { useLink } from "../../context/LinkContext";
-import { LuTrash2 } from "react-icons/lu";
+import {LuFolder, LuTrash2} from "react-icons/lu";
 import { sortLinksByPrevId } from "../../utils/sortLinks";
 import DetailManagement from "./DetailManagement";
 import { AiOutlineFrown } from "react-icons/ai";
@@ -9,7 +9,9 @@ import { GrEdit } from "react-icons/gr";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { RiDraggable } from "react-icons/ri";
 import Tooltip from "../../components/tooltip/Tooltip";
-import { TbFolder } from "react-icons/tb";
+import {IoChevronDown, IoChevronUp} from "react-icons/io5";
+import {PiMusicNotesBold, PiSelectionPlusBold} from "react-icons/pi";
+import {useSpotify} from "../../context/SpotifyContext";
 
 const ManagementPanel = ({ updateLink, deleteLink }) => {
     const { links, setLinks } = useLink();
@@ -17,6 +19,8 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
     const [expandedLinkId, setExpandedLinkId] = useState(null);
     const sortedLinks = sortLinksByPrevId(links);
     const titleRefs = useRef({});
+    const { getTrackInfo } = useSpotify();
+    const [musicBlock, setMusicBlock] = useState(null);
 
     // 공통 핸들러: 링크 업데이트
     const updateLinkState = async (updatedLink) => {
@@ -24,6 +28,29 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
             prevLinks.map((link) => (link.id === updatedLink.id ? updatedLink : link))
         );
         await updateLink(updatedLink);
+    };
+
+    // 링크를 열 때 음악 블록인지 확인하고, 음악 정보 가져오기
+    const handleExpandLink = async (link) => {
+        if (link.blockType === "MUSIC" && link.url) {
+            const trackDetails = await getTrackInfo(link.url);
+            if (trackDetails) {
+                setMusicBlock({
+                    title: trackDetails.name,
+                    artist: trackDetails.artists.map(artist => artist.name).join(", "),
+                    album: trackDetails.album.name,
+                    albumCover: trackDetails.album.images[0]?.url || "",
+                });
+            } else {
+                setMusicBlock(null); // 정보가 없으면 음악 블록 초기화
+            }
+        }
+        setExpandedLinkId(link.id); // 블록 확장
+    };
+
+    const handleCloseLink = () => {
+        setMusicBlock(null);
+      setExpandedLinkId(null);
     };
 
     // 드래그 종료 핸들러
@@ -42,7 +69,6 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
         for (let i = 0; i < updatedLinks.length; i++) {
             updatedLinks[i].prevLinkId = i === 0 ? null : updatedLinks[i - 1].id;
         }
-
         setLinks(updatedLinks);
 
         // 서버에 업데이트된 순서 반영
@@ -69,7 +95,6 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
             const updatedNextLink = { ...nextLink, prevLinkId: null };
             await updateLinkState(updatedNextLink);
         }
-
         await deleteLink(id);
         setLinks((prevLinks) => prevLinks.filter((link) => link.id !== id));
     };
@@ -108,7 +133,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                     <div
                         {...provided.draggableProps}
                         ref={provided.innerRef}
-                        className={`link-item ${expandedLinkId === id ? "expanded" : ""}`}
+                        className={`link-item ${expandedLinkId === id ? "expanded" : ''}`}
                     >
                         <div className="link-header">
                             <div className="link-left">
@@ -116,16 +141,24 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     {...provided.dragHandleProps} // 드래그 핸들러는 여기 적용
                                     className="drag-handle" // 스타일 적용을 위해 클래스 추가
                                 >
-                                    {/* 드래그 핸들 아이콘 (선택 사항) */}
                                     <span className="drag-icon"><RiDraggable /></span>
                                 </div>
+
                                 <div className="link-divide">
-                                    <Tooltip text={expandedLinkId === id ? "저장소 닫기" : "저장소 열기"}>
-                                        <TbFolder
-                                            className={`link-add-btn ${expandedLinkId === id ? 'opened' : 'closed'}`}
-                                            onClick={() => setExpandedLinkId((prev) => (prev === id ? null : id))}
-                                        />
-                                    </Tooltip>
+                                    {/* 아이콘 표시 영역 */}
+                                    <div className="link-block-type-icon">
+                                        {(() => {
+                                            switch (link.blockType) {
+                                                case "FOLDER":
+                                                    return <LuFolder className="link-block-type-folder"/>;
+                                                case "MUSIC":
+                                                    return <PiMusicNotesBold className="link-block-type-music"/>;
+                                                case "BLANK":
+                                                default:
+                                                    return <PiSelectionPlusBold className="link-block-type-blank"/>;
+                                            }
+                                        })()}
+                                    </div>
                                     <span
                                         ref={(el) => (titleRefs.current[id] = el)}
                                         className={`link-title ${editingId === id ? "editing" : ""}`}
@@ -144,32 +177,39 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                                     {title}
 
                                 </span>
-                                    <Tooltip text="저장소 이름 바꾸기">
-                                        <GrEdit className="edit-icon" onClick={() => handleFocus(id)} />
-                                    </Tooltip>
-
+                                    {/* 블록 타입이 EMPTY가 아닐 경우에만 편집 아이콘 표시 */}
+                                    {link.blockType !== "BLANK" && (
+                                        <Tooltip text="블록 이름 바꾸기">
+                                            <GrEdit className="edit-icon" onClick={() => handleFocus(id)}/>
+                                        </Tooltip>
+                                    )}
                                 </div>
                             </div>
 
                             <div className="link-right">
-                                <button
-                                    onClick={() => handleDeleteLink(link)}
-                                    className="detail-trash-button"
-                                >
-                                    <LuTrash2 />
-                                </button>
-                                <label className="toggle-switch">
-                                    <input
-                                        type="checkbox"
-                                        checked={active}
-                                        onChange={() => handleToggleLink(link)}
-                                    />
-                                    <span className="slider"></span>
-                                </label>
+                                <Tooltip text={expandedLinkId === id ? "블록 닫기" : "블록 열기"}>
+                                    {expandedLinkId === id ? (
+                                        <IoChevronUp
+                                            className="link-add-btn opened"
+                                            onClick={() => handleCloseLink(null)}
+                                        />
+                                    ) : (
+                                        <IoChevronDown
+                                            className="link-add-btn closed"
+                                            onClick={() => handleExpandLink(link)} // 클릭 시 음악 정보 가져오기
+                                        />
+                                    )}
+                                </Tooltip>
                             </div>
                         </div>
 
-                        {expandedLinkId === id && <DetailManagement link={link} />}
+                        {expandedLinkId === id && <DetailManagement
+                            link={link}
+                            handleToggleLink={handleToggleLink}
+                            handleDeleteLink={handleDeleteLink}
+                            updateLink={updateLink}
+                            musicBlock={musicBlock}
+                        />}
                     </div>
                 )}
             </Draggable>
@@ -189,7 +229,7 @@ const ManagementPanel = ({ updateLink, deleteLink }) => {
                             {sortedLinks.length === 0 ? (
                                 <div className="no-links-container">
                                     <AiOutlineFrown className="no-links-message-icon"/>
-                                    <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 저장소를 만들어보세요!</p>
+                                    <p className="no-links-message-text">보여드릴게 없어요. <br/> 우선 새로운 블록를 만들어보세요!</p>
                                 </div>
                             ) : (
                                 sortedLinks.map((link, index) => <LinkItem key={link.id} link={link} index={index}/>)

@@ -1,0 +1,68 @@
+.stat-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: scale(1.02);
+}
+
+.stat-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.stat-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: #34495e;
+}
+
+.stat-value {
+    font-weight: bold;
+}
+
+.page-views {
+    background-color: #e6f2ff;
+}
+
+.page-views .stat-icon {
+    color: #3498db;
+}
+
+.page-views .stat-value {
+    color: #2980b9;
+}
+
+.link-clicks {
+    background-color: #e8f6f3;
+}
+
+.link-clicks .stat-icon {
+    color: #2ecc71;
+}
+
+.link-clicks .stat-value {
+    color: #27ae60;
+}
+
+.click-rate {
+    background-color: #f4ecf7;
+}
+
+.click-rate .stat-icon {
+    color: #9b59b6;
+}
+
+.click-rate .stat-value {
+    color: #8e44ad;
+}

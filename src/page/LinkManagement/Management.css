@@ -8,6 +8,7 @@
     padding: 20px;
     gap: 20px;
     position: relative;
+    animation: fadeIn 0.7s ease-out;
 }
 
 /* 왼쪽 패널 */
@@ -21,10 +22,6 @@
     min-height: 80vh;
     margin-right: 10%;
     padding: 20px;
-
-
-    /*border-left: #d5d5d5 solid 1px;*/
-    /*border-right: #d5d5d5 solid 1px;*/
 }
 
 /* 오른쪽 패널 */
@@ -36,14 +33,30 @@
     position: fixed; /* 오른쪽 고정을 위해 사용 */
     right: 6%; /* 오른쪽 여백 설정 */
     top: 10%; /* 상단 여백 */
-    width: 300px;
+    min-width: 300px;
+    max-width: 430px;
     min-height: 70vh;
     background-color: #ffffff;
     padding: 20px;
 }
 
+.link-control-container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.link-control-button-container{
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 0 10px;
+    border-radius: 15px;
+    border: #cccccc 2px solid;
+}
+
 /* 화면 너비가 768px 이하일 때 패널 숨기기 */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1250px) {
 
     .display-panel {
         display: none; /* 오른쪽 패널 숨기기 */
@@ -58,7 +71,7 @@
     }
 }
 
-@media screen and (max-width: 390px) {
+@media screen and (max-width: 430px) {
     .display-panel {
         display: none;
     }
@@ -103,18 +116,15 @@
 .link-item {
     display: flex;
     flex-direction: column;
-    /*justify-content: space-between;*/
     margin-top: 15px;
     margin-bottom: 15px;
-    padding: 7px;
+    padding: 5px;
     border: 1px solid #ddd;
     border-radius: 15px;
     align-items: center;
     position: relative;
-
     transition: min-height 0.4s ease-in-out, padding 0.3s ease-in-out;
-
-    min-height: 100px; /* 기본 높이 */
+    min-height: 30px;
 }
 
 .link-item.expanded {
@@ -126,7 +136,6 @@
 .link-left {
     display: flex;
     align-items: center;
-    margin-top: 10px;
 }
 
 .drag-handle {
@@ -134,7 +143,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px 5px 20px;
+    padding: 10px 5px;
     margin-left: 5px;
 }
 
@@ -143,10 +152,33 @@
     color: #888; /* 드래그 아이콘 색상 */
 }
 
+.link-block-type-icon{
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.link-block-type-folder{
+    padding: 7px;
+    border-radius: 10px;
+    background-color: #d6d8ff;
+}
+
+.link-block-type-blank{
+    padding: 7px;
+    border-radius: 10px;
+    background-color: #ececec;
+}
+
+.link-block-type-music{
+    padding: 7px;
+    border-radius: 10px;
+    background-color: rgb(255, 242, 192);
+}
+
+
 .link-divide {
     display: flex;
     align-items: center;
-    justify-content: center;
 
     margin-left: 5px;
     padding: 5px;
@@ -156,18 +188,12 @@
     display: flex;
     align-items: center;
 
-    font-size: 19px;
-    padding: 10px;
+    font-size: 20px;
 
     font-weight: bold;
     cursor: pointer;
 }
 
-.link-url {
-    padding: 7px;
-    font-size: 14px;
-    cursor: pointer;
-}
 
 .link-title,
 .link-url {
@@ -239,9 +265,15 @@
     border-radius: 5px;
 }
 
+.profile-verified-icon{
+    font-size: 22px;
+    margin-left: 5px;
+    color: #50b0ff;
+}
+
 .edit-icon {
     font-size: 14px;
-    margin-left: 5px;
+    margin-left: 3px;
     padding: 7px;
     border-radius: 10px;
 
@@ -254,7 +286,7 @@
 
 .add-link-icon {
     margin-right: 7px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -397,6 +429,33 @@ input:checked + .slider:before {
     transform: translateX(14px);
 }
 
+.add-link-choose-desc{
+    font-size: 18px;
+    font-weight: bold;
+    color: #0e0e0e;
+    margin-bottom: 2px;
+}
+
+
+.add-link-album-cover{
+    width: 70%;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.add-link-music-info-title{
+    font-size: 22px;
+    font-weight: bold;
+    color: #0e0e0e;
+    margin-bottom: 2px;
+}
+
+.add-link-music-info{
+    font-size: 14px;
+    font-weight: bold;
+    color: #424242;
+}
+
 .link-bottom-icons {
     display: flex;
     margin-top: 5px;
@@ -414,7 +473,7 @@ input:checked + .slider:before {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 10px;
+    padding: 5px;
 }
 
 
@@ -423,7 +482,7 @@ input:checked + .slider:before {
     width: 95%;
     padding: 10px;
     border-radius: 10px;
-    animation: fadeIn 1.0s ease;
+    /*animation: fadeIn 1.0s ease;*/
 }
 
 
@@ -457,7 +516,6 @@ input:checked + .slider:before {
 .link-details-message {
     display: flex;
     justify-content: start;
-    margin-top: 5px;
     margin-left: 10px;
     font-size: 16px;
     color: #7e7e7e;
@@ -552,6 +610,47 @@ input:checked + .slider:before {
 
 }
 
+.block-type-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.block-type-icon{
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.block-type-button {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    background-color: #f9f9f9;
+    color: #5e5e5e;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.block-type-button.active, .block-type-button.selected {
+    background-color: #6e79ff;
+    color: white;
+    font-weight: bold;
+    border-color: transparent;
+}
+
+.block-type-button:hover {
+    background-color: #e2e2e2;
+}
+
+.block-type-button.active:hover, .block-type-button.selected:hover {
+    background-color: #6e79ff;
+}
+
 /* 팝업 오버레이 */
 .popup-overlay {
     position: fixed;
@@ -573,7 +672,7 @@ input:checked + .slider:before {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     transform: translateY(100%);
-    animation: slideUp 0.5s ease forwards;
+    animation: slideDown 0.5s ease forwards;
     transition: opacity 1s ease-in-out;
 }
 

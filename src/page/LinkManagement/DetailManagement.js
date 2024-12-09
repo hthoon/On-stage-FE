@@ -9,9 +9,11 @@ import {useLink} from "../../context/LinkContext";
 import {LuTrash2} from "react-icons/lu";
 import {FiEdit3} from "react-icons/fi";
 import Tooltip from "../../components/tooltip/Tooltip";
+import {useSpotify} from "../../context/SpotifyContext";
 
-const DetailManagement = ({link}) => {
+const DetailManagement = ({updateLink, handleDeleteLink, handleToggleLink, link, musicBlock}) => {
     const {axiosInstance} = useAxios();
+    const { setLinks } = useLink();
     const [linkId, setLinkId] = useState(link.id);
     const [details, setDetails] = useState(link.details || []); // 로컬 상태로 관리
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +27,8 @@ const DetailManagement = ({link}) => {
     const UPDATE = "update";
     const [mode, setMode] = useState(CREATE);
     const [selectedDetail, setSelectedDetail] = useState(null); // 수정할 detail
-    const {setLinks} = useLink();
+    const [padding, setPadding] = useState(link.padding); // 여백 크기
+    const [isSaving, setIsSaving] = useState(false);
 
     const openModal = (detail = null) => {
         setIsModalOpen(true);
@@ -66,6 +69,25 @@ const DetailManagement = ({link}) => {
         setLinkId(link.id);
     }, [isModalOpen]);
 
+    const handleSaveSettings = async () => {
+        setIsSaving(true);
+        try {
+            const updatedLink = {
+                ...link,
+                padding,
+            };
+
+            await updateLink(updatedLink);
+
+            alert("설정이 저장되었습니다!");
+        } catch (error) {
+            console.error("Failed to save settings:", error);
+            alert("설정 저장 중 오류가 발생했습니다.");
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
     // URL 변경 시 자동 분석
     const handleInputChange = (event) => {
         const url = event.target.value;
@@ -74,7 +96,7 @@ const DetailManagement = ({link}) => {
         setServiceType(type);
         setTranslatedServiceType(mapServiceTypeToKorean(type));
         setServiceIcon(mapServiceTypeToIcon(type));
-        setIsValidURL(type !== "INVALID" && type !== "NULL");
+        setIsValidURL(type !== "INVALID");
     };
 
     const handleDeleteDetail = async (detailId) => {
@@ -92,6 +114,14 @@ const DetailManagement = ({link}) => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const updatePadding = (newPadding) => {
+        setLinks((prevLinks) =>
+            prevLinks.map((item) =>
+                item.id === link.id ? { ...item, padding: newPadding } : item // 현재 링크의 padding 값만 변경
+            )
+        );
     };
 
     const handleSave = async () => {
@@ -145,7 +175,26 @@ const DetailManagement = ({link}) => {
     };
     return (
         <div className="link-details">
-            <p className="link-details-message">방문자에게 다양한 서비스 링크를 제공해보세요!</p>
+            <div className="link-control-container">
+                <p className="link-details-message">다양한 서비스 링크를 제공해보세요!</p>
+                <div className="link-control-button-container">
+                <button
+                    onClick={() => handleDeleteLink(link)}
+                    className="detail-trash-button"
+                >
+                    <LuTrash2/>
+                </button>
+                <label className="toggle-switch">
+                    <input
+                        type="checkbox"
+                        checked={link.active}
+                        onChange={() => handleToggleLink(link)}
+                    />
+                    <span className="slider"></span>
+                </label>
+                </div>
+            </div>
+
             {details.length === 0 ? (
                 <p></p>
             ) : (
@@ -159,13 +208,13 @@ const DetailManagement = ({link}) => {
                         </div>
                         <div>
                             <Tooltip text="URL 변경">
-                            <button
-                                onClick={() => openModal(detail)}
-                                className="detail-trash-button "
-                            >
-                                <FiEdit3/>
-                            </button>
-                                </Tooltip>
+                                <button
+                                    onClick={() => openModal(detail)}
+                                    className="detail-trash-button "
+                                >
+                                    <FiEdit3/>
+                                </button>
+                            </Tooltip>
                             <button
                                 onClick={() => handleDeleteDetail(detail.id)}
                                 className="detail-trash-button"
@@ -177,13 +226,47 @@ const DetailManagement = ({link}) => {
                     </div>
                 ))
             )}
-            <div>
-                <button
-                    className="management-add-service-button"
-                    onClick={() => openModal()}>
-                    <HiPlus className="add-link-icon"/> URL 추가
-                </button>
-            </div>
+
+            {link.blockType === "BLANK" ? (
+                <div className="blank-link-options">
+                    <p>여백 크기 설정</p>
+                    <input
+                        type="range"
+                        value={link.padding}
+                        onChange={(e) => updatePadding(Number(e.target.value))}
+                        min={0}
+                        max={50}
+                        className="theme-border-radius-slider"
+                    />
+                    <p>{link.padding}px</p>
+                    <button
+                        className="management-add-service-button"
+                        onClick={handleSaveSettings}
+                        disabled={isSaving}
+                    >
+                        {isSaving ? "저장 중..." : "저장"}
+                    </button>
+                </div>
+            ) : link.blockType === "FOLDER" ? (
+                <div>
+                    <button className="management-add-service-button" onClick={() => openModal()}>
+                        <HiPlus className="add-link-icon"/> URL 추가
+                    </button>
+                </div>
+            ) : link.blockType === "MUSIC" ? (
+                <div className="music-block">
+                    {musicBlock ? (
+                        <div className="track-info">
+                            <img src={musicBlock.albumCover} alt="Album Cover" className="add-link-album-cover"/>
+                            <p className="add-link-music-info-title">{musicBlock.title}</p>
+                            <p className="add-link-music-info">아티스트: {musicBlock.artist}</p>
+                            <p className="add-link-music-info">앨범: {musicBlock.album}</p>
+                        </div>
+                    ) : (
+                        <p>Spotify URL 정보가 없습니다.</p> // Fallback text if musicBlock is null
+                    )}
+                </div>
+            ) : null}
 
             {/* 모달 창 */}
             {isModalOpen && (

@@ -1,0 +1,80 @@
+.analytics-date-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.date-input-wrapper {
+    margin-bottom: 1rem;
+}
+
+.date-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.date-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.date-input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.date-input:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.date-icon {
+    position: absolute;
+    left: 10px;
+    color: #888;
+    pointer-events: none;
+}
+
+.clear-date-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.clear-date-btn:hover {
+    color: #333;
+}
+
+/* 리액트 데이트피커 캘린더 커스터마이징 */
+.custom-calendar {
+    font-family: 'Arial', sans-serif;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.custom-calendar .react-datepicker__day--selected {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.custom-calendar .react-datepicker__day:hover {
+    background-color: #4a90e2;
+    color: white;
+}
