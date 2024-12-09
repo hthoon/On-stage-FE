@@ -5,6 +5,7 @@ import {AxiosContextProvider} from "./context/AxiosContext";
 import {LinkProvider} from "./context/LinkContext";
 import Sidebar from "./components/sidebar/Sidebar";
 import {AuthProvider} from "./context/AuthContext";
+import {SpotifyProvider} from "./context/SpotifyContext";
 
 function App() {
     return (
@@ -13,16 +14,16 @@ function App() {
                 <AxiosContextProvider>
                     <AuthProvider>
                         <LinkProvider>
+                            <SpotifyProvider>
 
 
-
-                            <Sidebar/>
-                            <div className="Content">
-                                <AppRouter/>
-                            </div>
-
+                                <Sidebar/>
+                                <div className="Content">
+                                    <AppRouter/>
+                                </div>
 
 
+                            </SpotifyProvider>
                         </LinkProvider>
                     </AuthProvider>
                 </AxiosContextProvider>

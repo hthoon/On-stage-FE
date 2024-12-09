@@ -1,0 +1,140 @@
+.login-wrapper {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* 두 공간이 동일한 높이를 유지하도록 설정 */
+    margin: 10% auto;
+    max-width: 50%;
+    min-width: 280px;
+    min-height: 60vh;
+    border: 2px solid #d9d9d9;
+    border-radius: 8px;
+
+    animation: fadeIn 0.7s ease-out;
+}
+
+.login-left {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c8cdff; /* 좌측 배경색 추가 */
+    overflow: hidden; /* 튀어나오는 콘텐츠 숨김 */
+}
+
+@media screen and (max-width:1200px) {
+    .login-left {
+        display: none;
+    }
+
+    .login-wrapper {
+        max-width: 80%;
+        margin-top: 20%;
+    }
+}
+
+
+.login-image-placeholder {
+    width: 100%;
+    max-width: 600px; /* 최대 크기 제한 */
+    aspect-ratio: 1 / 1; /* 정사각형 유지 */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1); /* 비율 축소 */
+    transform-origin: top; /* 축소 기준점을 중앙으로 설정 */
+}
+
+.login-right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: white;
+
+    border-left: 0; /* 좌측 경계를 없애서 연결된 느낌 구현 */
+}
+
+.login-icon {
+    margin-top: 70px;
+    font-size: 24px;
+}
+
+
+.login-right h1 {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+.login-button {
+    width: 250px;
+    max-height: 60px;
+    transition: transform 0.3s ease-in-out;
+    margin: 10px 0;
+}
+
+.login-button:hover {
+    transform: scale(1.03);
+}
+
+.login-platform-icon-google{
+    font-size: 1.3rem;
+    margin-right: 10px;
+}
+
+
+.login-platform-icon-naver{
+    font-size: 0.9rem;
+    color: #2DB400;
+    margin-right: 10px;
+}
+
+.login-platform-icon-kakao{
+    font-size: 1.5rem;
+    color: #3b3b3b;
+    margin-right: 10px;
+}
+
+.login-custom-button {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    background-color: transparent;
+    padding: 18px;
+    border: 1px solid #d9d9d9;
+    border-radius: 25px;
+
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+    cursor: pointer;
+
+    transition: all 0.4s ease-in-out;
+}
+
+.login-custom-button:hover {
+    transform: scale(1.03);
+    background-color: #f6f6f6;
+}
+
+
+
+.login-forgot-button-container{
+    width: 100%;
+    margin-top: 30px;
+
+}
+
+.login-forgot-btn{
+    color: #4b57ff;
+    font-size: 14px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
