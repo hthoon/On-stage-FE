@@ -14,10 +14,10 @@ function Login() {
 
     return (
         <div className="login-wrapper">
-            <div className="login-left">
-                {/*<img className="login-image-placeholder" src={login} alt="login"/>*/}
+            {/*<div className="login-left">*/}
+            {/*    /!*<img className="login-image-placeholder" src={login} alt="login"/>*!/*/}
 
-            </div>
+            {/*</div>*/}
             <div className="login-right">
                 <FaUser className="login-icon"/>
                 <h1>로그인</h1>
