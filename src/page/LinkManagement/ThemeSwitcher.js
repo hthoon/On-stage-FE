@@ -3,7 +3,7 @@ import "./ThemeSwitcher.css";
 import { useLink } from "../../context/LinkContext";
 import { HiChevronLeft } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
-import {FaImage, FaPalette} from "react-icons/fa";
+import { FaPalette } from "react-icons/fa";
 import { useAxios } from "../../context/AxiosContext";
 
 const ThemeSwitcher = () => {
@@ -42,11 +42,9 @@ const ThemeSwitcher = () => {
 
         const formData = new FormData();
         formData.append("file", file);
-        console.log(formData);
-        console.log(file);
 
         try {
-            const response = await axiosInstance.put(`/api/theme/${customTheme.username}/background`, formData, {
+            const response = await axiosInstance.put(`/api/theme/background`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
@@ -58,6 +56,18 @@ const ThemeSwitcher = () => {
         }
     };
 
+    const clearBackground = async () => {
+
+        try {
+            const response = await axiosInstance.put(`/api/theme/background/clear` )
+            const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
+
+            handleThemeChange("backgroundImage", `url(${imageUrl})`);
+            updateTheme(response.data);
+        } catch (error) {
+            console.error("Image upload failed:", error);
+        }
+    };
     const handleThemeChange = (property, value) => {
         const newTheme = { ...customTheme, [property]: value };
         setCustomTheme(newTheme); // 로컬 상태 업데이트
@@ -91,14 +101,6 @@ const ThemeSwitcher = () => {
                 >
                     <FaPalette className="palette-icon" /> 테마
                 </button>
-
-                {/* 배경 이미지 업로드 버튼 */}
-                <button
-                    className="theme-toggle-button"
-                    onClick={() => handleSectionToggle("background")} // 배경 이미지 업로드 토글
-                >
-                    <FaImage className="palette-icon" /> 배경
-                </button>
             </div>
 
             {/* 테마 설정 영역 */}
@@ -118,8 +120,45 @@ const ThemeSwitcher = () => {
                         </div>
 
                         <div className="theme-setting">
+                            <label className="theme-file-label">
+                                배경 이미지 업로드
+                                <span className="theme-background-image-btn">
+                                    업로드</span>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileUpload}
+                                    className="theme-file-input"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
+                            <label>배경 이미지 제거
+                                <button
+                                    className="theme-background-image-btn"
+                                    onClick={clearBackground}>
+                                    제거
+                                </button>
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
                             <label>
-                                버튼 색상:
+                                배경 색상:
+                                <input
+                                    type="color"
+                                    value={customTheme.backgroundColor || "#333333"}
+                                    onChange={(e) =>
+                                        handleThemeChange("backgroundColor", e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
+                            <label>
+                                블록 색상:
                                 <input
                                     type="color"
                                     value={customTheme.buttonColor || "#ffffff"}
@@ -129,6 +168,7 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
                         <div className="theme-setting">
                             <label>
                                 폰트 색상:
@@ -141,6 +181,7 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
                         <div className="theme-setting">
                             <label>
                                 아이콘 색상:
@@ -155,7 +196,7 @@ const ThemeSwitcher = () => {
                         </div>
                         <div className="theme-setting">
                             <label>
-                                프로필 색상:
+                                프로필 문구 색상:
                                 <input
                                     type="color"
                                     value={customTheme.profileColor || "#000000"}
@@ -165,6 +206,7 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
                         <div className="theme-setting">
                             <label>
                                 모서리 둥글기:
@@ -182,40 +224,10 @@ const ThemeSwitcher = () => {
                             </label>
                         </div>
 
+
                         <button onClick={handleUpdateTheme} className="form-cancel-button">
                             저장
                         </button>
-                    </div>
-                )}
-            </div>
-
-            {/* 배경 이미지 업로드 영역 */}
-            <div className={`theme-switcher ${openSection === "background" ? "open" : "close"}`}>
-                {openSection === "background" && (
-                    <div>
-                        <div className="detail-modal-close-btn-container">
-                            <HiChevronLeft
-                                className="modal-close-btn"
-                                onClick={() => setOpenSection(null)} // 배경 이미지 업로드 닫기
-                            />
-                            <h3>배경 이미지 업로드</h3>
-                            <IoMdClose
-                                className="modal-close-btn"
-                                onClick={() => setOpenSection(null)} // 배경 이미지 업로드 닫기
-                            />
-                        </div>
-
-                        <div className="theme-setting">
-                            <label className="theme-file-label">
-                                <span className="theme-file-button">업로드</span>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileUpload}
-                                    className="theme-file-input"
-                                />
-                            </label>
-                        </div>
                     </div>
                 )}
             </div>
