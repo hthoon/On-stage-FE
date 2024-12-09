@@ -3,7 +3,7 @@ import "./ThemeSwitcher.css";
 import { useLink } from "../../context/LinkContext";
 import { HiChevronLeft } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
-import {FaImage, FaPalette} from "react-icons/fa";
+import { FaPalette } from "react-icons/fa";
 import { useAxios } from "../../context/AxiosContext";
 
 const ThemeSwitcher = () => {
@@ -68,10 +68,6 @@ const ThemeSwitcher = () => {
             console.error("Image upload failed:", error);
         }
     };
-
-
-
-
     const handleThemeChange = (property, value) => {
         const newTheme = { ...customTheme, [property]: value };
         setCustomTheme(newTheme); // 로컬 상태 업데이트
@@ -104,14 +100,6 @@ const ThemeSwitcher = () => {
                     onClick={() => handleSectionToggle("theme")} // 테마 설정 토글
                 >
                     <FaPalette className="palette-icon" /> 테마
-                </button>
-
-                {/* 배경 이미지 업로드 버튼 */}
-                <button
-                    className="theme-toggle-button"
-                    onClick={() => handleSectionToggle("background")} // 배경 이미지 업로드 토글
-                >
-                    <FaImage className="palette-icon" /> 배경
                 </button>
             </div>
 
@@ -193,7 +181,6 @@ const ThemeSwitcher = () => {
                             </label>
                         </div>
 
-
                         <div className="theme-setting">
                             <label>
                                 모서리 둥글기:
@@ -210,41 +197,12 @@ const ThemeSwitcher = () => {
                                 <span>{customTheme.borderRadius}px</span>
                             </label>
                         </div>
-                        <div>
-                            <button
-                                className="theme-file-button"
-                                onClick={clearBackground}>
-                                이미지 제거
-                            </button>
-                        </div>
-
-
-                        <button onClick={handleUpdateTheme} className="form-cancel-button">
-                            저장
-                        </button>
-                    </div>
-                )}
-            </div>
-
-            {/* 배경 이미지 업로드 영역 */}
-            <div className={`theme-switcher ${openSection === "background" ? "open" : "close"}`}>
-                {openSection === "background" && (
-                    <div>
-                        <div className="detail-modal-close-btn-container">
-                            <HiChevronLeft
-                                className="modal-close-btn"
-                                onClick={() => setOpenSection(null)} // 배경 이미지 업로드 닫기
-                            />
-                            <h3>배경 이미지 업로드</h3>
-                            <IoMdClose
-                                className="modal-close-btn"
-                                onClick={() => setOpenSection(null)} // 배경 이미지 업로드 닫기
-                            />
-                        </div>
 
                         <div className="theme-setting">
                             <label className="theme-file-label">
-                                <span className="theme-file-button">이미지 업로드</span>
+                                배경 이미지 업로드
+                                <span className="theme-background-image-btn">
+                                    업로드</span>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -253,6 +211,21 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
+                        <div className="theme-setting">
+                            <label>배경 이미지 제거
+                                <button
+                                    className="theme-background-image-btn"
+                                    onClick={clearBackground}>
+                                    제거
+                                </button>
+                            </label>
+                        </div>
+
+
+                        <button onClick={handleUpdateTheme} className="form-cancel-button">
+                            저장
+                        </button>
                     </div>
                 )}
             </div>
