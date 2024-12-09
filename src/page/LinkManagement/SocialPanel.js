@@ -9,8 +9,9 @@ import ProfileImageModal from "./ProfileImageModal";
 import { useAxios } from "../../context/AxiosContext";
 import {base64ToBlob} from "../../utils/BlobConverter";
 import {socialPlatforms} from "../../utils/AnalysisURL";
+import {MdVerified} from "react-icons/md";
 
-const EditableField = ({ field, value, onSave, children }) => {
+const EditableField = ({ field, value, onSave, children, isVerified }) => {
     const ref = useRef(null);
     const [isEditing, setIsEditing] = useState(false);
     const [inputValue, setInputValue] = useState(value);
@@ -84,6 +85,8 @@ const EditableField = ({ field, value, onSave, children }) => {
             ) : (
                 <span>{children || value}</span>
             )}
+
+            {field === "nickname" && isVerified && !isEditing && <MdVerified  className="profile-verified-icon" />}
             {!isEditing && (
                 <Tooltip text={`${field === "nickname" ? "블록 이름" : "설명"} 바꾸기`}>
                     <GrEdit className="edit-icon" onClick={handleFocus} />
@@ -124,29 +127,6 @@ const SocialPanel = ({runTutorial, steps}) => {
         }
     };
 
-// API 호출: 이미지 업로드
-    const handleImageSave = async (newImageFile) => {
-        const blob = base64ToBlob(newImageFile, "image/jpeg");
-        const formData = new FormData();
-        formData.append("profileImage", blob, "profile.jpg");
-
-        try {
-            const response = await axiosInstance.patch(`/api/user/profile`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-            if (response.status === 200) {
-                const updatedProfile = response.data;
-                setProfile((prevProfile) => ({
-                    ...prevProfile,
-                    profileImage: `${updatedProfile.profileImage}?t=${Date.now()}`,
-                }));
-            }
-        } catch (error) {
-            console.error("Error updating image:", error);
-            alert("이미지 업데이트 중 오류가 발생했습니다.");
-        }
-    };
-
     return (
         <div>
             <div>
@@ -161,6 +141,7 @@ const SocialPanel = ({runTutorial, steps}) => {
                         field="nickname"
                         value={profile.nickname}
                         onSave={updateProfileField}
+                        isVerified={profile.verified === "VERIFIED"}
                     />
                 </div>
                 <div className="social-panel-description">
@@ -168,6 +149,7 @@ const SocialPanel = ({runTutorial, steps}) => {
                         field="description"
                         value={profile.description}
                         onSave={updateProfileField}
+                        profile={profile}
                     />
                 </div>
             </div>
@@ -198,7 +180,7 @@ const SocialPanel = ({runTutorial, steps}) => {
                 <ProfileImageModal
                     currentImage={profile.profileImage}
                     onClose={() => setIsImageModalOpen(false)}
-                    onSave={handleImageSave} // 저장 시 호출
+                    // onSave={handleImageSave} // 저장 시 호출
                 />
             )}
         </div>

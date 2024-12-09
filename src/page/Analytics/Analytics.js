@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import DateRangeSelector from '../../components/Analytics/AnalyticsDate'; // 날짜 선택 컴포넌트 임포트
+import AnalyticsDate from '../../components/Analytics/AnalyticsDate'; // 날짜 선택 컴포넌트 임포트
 import AnalyticsData from '../../components/Analytics/AnalyticsData'; // 데이터 표시 컴포넌트 임포트
 import AnalyticsGraph from '../../components/Analytics/AnalyticsGraph';
 import Cookies from 'js-cookie';
 import { fetchAnalyticsData } from '../../components/Analytics/AnalyticsApi';
+import './Analytics.css';
 
 const Analytics = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
@@ -20,7 +21,7 @@ const Analytics = () => {
     setUserName(userNameFromCookie);
   }, []);
 
-  const handleDateChange = async ( userName, startDate, endDate) => {
+  const handleDateChange = async ( startDate, endDate) => {
     setDate({ startDate, endDate });
     if (userName && startDate && endDate) {
         setLoading(true);
@@ -36,27 +37,25 @@ const Analytics = () => {
     }
 };
 
-  return (
-    <div>
-        <>
-          <h1>{userName}님의 분석 대시보드</h1>
-                    <h2>날짜 범위 선택</h2>
-                    <DateRangeSelector onDateChange={handleDateChange} />
-                    {loading && <p>로딩 중...</p>}
-                    {error && <p>{error}</p>}
-                    {analyticsData && (
-                        <>
-                            <AnalyticsData 
-                                analyticsData={analyticsData} // 모든 데이터를 전달
-                            />
-                            <AnalyticsGraph 
-                                analyticsData={analyticsData} // 모든 데이터를 전달
-                            />
-                        </>
-                    )}
-                </>
+    return (
+        <div className="analytics-container"> {/* 전체 컨테이너에 클래스 추가 */}
+            <div className="analytics-header"> {/* 헤더에 클래스 추가 */}
+                <h1>분석 대시보드</h1>
+                <h2>확인할 날짜를 선택해주세요</h2>
+            </div>
+            <div className="analytics-date-container">
+                <AnalyticsDate onDateChange={handleDateChange} />
+            </div>
+            {loading && <p className="loading">로딩 중...</p>} {/* 로딩 메시지에 클래스 추가 */}
+            {error && <p className="error">{error}</p>} {/* 에러 메시지에 클래스 추가 */}
+            {analyticsData && (
+            <>
+                <AnalyticsData analyticsData={analyticsData} />
+                <AnalyticsGraph analyticsData={analyticsData} />
+            </>
+            )}
         </div>
-  );
+    );
 };
 
 export default Analytics;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
+import './css/SocialLinkClickChart.css'; // CSS 파일 임포트
 
 const SocialLinkClickChart = ({ socialLinkClickStats }) => {
     const chartData = {
@@ -13,11 +14,64 @@ const SocialLinkClickChart = ({ socialLinkClickStats }) => {
                     'rgba(54,162,235,0.6)',
                     'rgba(255,206,86,0.6)',
                 ],
+                borderColor: 'rgba(255, 255, 255, 1)', // 차트 경계 색상
+                borderWidth: 2, // 경계 두께
             }
         ]
     };
 
-    return <Bar data={chartData} />;
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    font: {
+                        size: 14,
+                    }
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: (tooltipItem) => {
+                        return `${tooltipItem.label}: ${tooltipItem.raw} 클릭수`;
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: '클릭수',
+                    font: {
+                        size: 12,
+                    }
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: '소셜 링크 타입',
+                    font: {
+                        size: 12,
+                    }
+                }
+            }
+        }
+    };
+
+    return (
+        <div className="social-link-click-chart-container">
+            <Bar 
+                data={chartData} 
+                options={chartOptions} 
+                className="social-link-click-chart" // 차트에 클래스 추가
+            />
+        </div>
+    );
 };
 
 export default SocialLinkClickChart;
