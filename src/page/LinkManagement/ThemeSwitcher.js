@@ -5,6 +5,7 @@ import { HiChevronLeft } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
 import { FaPalette } from "react-icons/fa";
 import { useAxios } from "../../context/AxiosContext";
+import {VscGraph} from "react-icons/vsc";
 
 const ThemeSwitcher = () => {
     const { axiosInstance } = useAxios();
@@ -99,7 +100,14 @@ const ThemeSwitcher = () => {
                     className="theme-toggle-button"
                     onClick={() => handleSectionToggle("theme")} // 테마 설정 토글
                 >
-                    <FaPalette className="palette-icon" /> 테마
+                    <FaPalette className="palette-icon"/> 테마
+                </button>
+
+                <button
+                    className="theme-toggle-button"
+                    onClick={() => handleSectionToggle("analysis")} // 테마 설정 토글
+                >
+                    <VscGraph className="palette-icon"/> 분석
                 </button>
             </div>
 
@@ -230,6 +238,10 @@ const ThemeSwitcher = () => {
                         </button>
                     </div>
                 )}
+
+                <div className={`theme-switcher ${openSection === "analysis" ? "open" : "close"}`}>
+                    {openSection === "theme" && (<div></div>)}
+                        </div>
             </div>
         </div>
     );
