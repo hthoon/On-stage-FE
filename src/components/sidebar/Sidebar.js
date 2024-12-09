@@ -61,6 +61,10 @@ const Sidebar = () => {
         }
     }
 
+    const mypage = () => {
+        navigate('/mypage');
+    }
+
     const login = () => {
         navigate("/login")
     }
@@ -78,7 +82,7 @@ const Sidebar = () => {
                     <div className="sidebar-menu-item"><SiGoogleanalytics /><a href="/analytics">분석</a></div>
                     <div className="sidebar-menu-item"><LuMusic4 /><a href="/news">아티스트</a></div>
                     <div className="sidebar-menu-item"><BsSpeaker /><a href="#services">공연</a></div>
-                    <div className="sidebar-menu-item"><RiSettings4Fill /><a href="#contact">마이페이지</a></div>
+                    <div className="sidebar-menu-item"><RiSettings4Fill /><a href="/mypage">마이페이지</a></div>
                 </div>
 
                 {/* 회원 이미지 (로그인 상태에 따라 다르게 표시) */}
@@ -118,7 +122,7 @@ const Sidebar = () => {
 
                         <div className="profile-modal-button-container">
                             <h4>Account</h4>
-                            <div className="profile-modal-button"><FiUser className="profile-modal-icon" /> 마이페이지</div>
+                            <div className="profile-modal-button" onClick={mypage}><FiUser className="profile-modal-icon" /> 마이페이지</div>
                             <div className="profile-modal-button"><MdOutlineContactSupport className="profile-modal-icon" /> 고객지원</div>
                             <div className="profile-modal-button"><ImCoinDollar className="profile-modal-icon" /> 요금 정책</div>
                             <h4 />
