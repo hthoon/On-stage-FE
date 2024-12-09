@@ -1,96 +1,48 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
-import { useAxios } from "../../context/AxiosContext";
-import LoginButton from "../../components/button/LoginButton"
-import naver_button from "../../assets/loginbutton/naver_button.png"
-import kakao_button from "../../assets/loginbutton/kakao_button.png"
-import google_button from "../../assets/loginbutton/google_button.svg"
 import "./Login.css";
+import {FaUser} from "react-icons/fa";
+import {FcGoogle} from "react-icons/fc";
+import {SiNaver} from "react-icons/si";
+import {RiKakaoTalkFill} from "react-icons/ri";
+import login from "../../assets/loginbutton/login.jpg";
 
 function Login() {
-    const { axiosInstance } = useAxios();
-    const navigate = useNavigate();
 
     const handleOAuth = (provider) => {
-        return `http://localhost:8080/oauth2/authorization/${provider}`
-    }
-
-    const handleLogout = async() => {
-
-        try {
-            await axiosInstance.post('/logout', null, {
-            });
-            navigate('/login');
-        } catch (error) {
-            console.error('logout error', error)
-        }
-    }
-
-    const handleResponseToken = async () => {
-
-        try {
-            axiosInstance.get('/tokentest', null);
-        } catch (error) {
-            console.error('token error', error);
-        }
-    }
-
-    const handleReissueToken = async () => {
-
-        try {
-            axiosInstance.post('/api/auth/reissue', null);
-        } catch (error) {
-            console.error('reissue error', error);
-        }
-    }
-
-    const mypage = () => {
-        navigate("/management");
-    }
-
+        return `http://localhost:8080/oauth2/authorization/${provider}`;
+    };
 
     return (
-        <div>
-            <div className="login-container">
-                <h1> 로그인 </h1>
-                <LoginButton
-                    src={google_button}
-                    alt="GoogleLogin"
-                    authLink={handleOAuth('google')}
-                />
-                <LoginButton
-                    src={naver_button}
-                    alt="NaverLogin"
-                    authLink={handleOAuth('naver')}
-                />
-                <LoginButton
-                    src={kakao_button}
-                    alt="KakaoLogin"
-                    authLink={handleOAuth('kakao')}
-                />
-                <LoginButton
-                    src='src'//{github_button}
-                    alt="GithubLogin"
-                    authLink={handleOAuth('google')}
-                />
-
-                <div className="user-login-logo text-center mb-5">
-
-                    <button onClick={handleLogout}>로그아웃</button>
-                </div>
-                <div>
-                    <button onClick={handleResponseToken}>토큰 전달</button>
-                </div>
-                <div>
-                    <button onClick={handleReissueToken}>토큰 재발급</button>
-                </div>
-                <div>
-                    <button onClick={mypage}>마이페이지</button>
-                </div>
+        <div className="login-wrapper">
+            <div className="login-left">
+                {/*<img className="login-image-placeholder" src={login} alt="login"/>*/}
 
             </div>
+            <div className="login-right">
+                <FaUser className="login-icon"/>
+                <h1>로그인</h1>
+                <button
+                    className="login-custom-button"
+                    onClick={() => (window.location.href = handleOAuth('google'))}>
+                    <FcGoogle className="login-platform-icon-google"/> 구글로 로그인
+                </button>
+                <button
+                    className="login-custom-button"
+                    onClick={() => (window.location.href = handleOAuth('naver'))}>
+                    <SiNaver className="login-platform-icon-naver"/>네이버로 로그인
+                </button>
+                <button
+                    className="login-custom-button"
+                    onClick={() => (window.location.href = handleOAuth('kakao'))}>
+                    <RiKakaoTalkFill className="login-platform-icon-kakao"/>카카오로 로그인
+                </button>
+                <div className="login-forgot-button-container">
+                    <button className="login-forgot-btn">
+                        계정을 잃어버리셨나요?
+                    </button>
+                </div>
+            </div>
         </div>
-
     );
 }
 

@@ -7,6 +7,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { CiStar, CiShare1 } from "react-icons/ci";
 import { sortLinksByPrevId } from "../../utils/sortLinks";
 import { mapServiceTypeToIcon, mapServiceTypeToKorean } from "../../utils/AnalysisURL";
+import {MdVerified} from "react-icons/md";
 
 
 const LinkDisplay = () => {
@@ -15,6 +16,7 @@ const LinkDisplay = () => {
     const [isManagementPage, setIsManagementPage] = useState(false);
     const sortedLinks = sortLinksByPrevId(links);
     const [expandedLinkId, setExpandedLinkId] = useState(null);
+    const VERIFIED = "VERIFIED"
 
     const handleToggleExpand = (id) => {
         setExpandedLinkId((prevId) => (prevId === id ? null : id));
@@ -63,7 +65,8 @@ const LinkDisplay = () => {
                     <img src={profile.profileImage} alt="Profile" className="profile-image" />
                 </div>
 
-                <h5 className="linktree-name">{profile.nickname}</h5>
+                <h5 className="linktree-name">{profile.nickname}  {profile.verified === VERIFIED  && <MdVerified  className="profile-verified-icon" />}</h5>
+
                 <h6 className="linktree-description"> {profile.description} </h6>
 
                 {/*메인 섹션*/}
