@@ -42,11 +42,9 @@ const ThemeSwitcher = () => {
 
         const formData = new FormData();
         formData.append("file", file);
-        console.log(formData);
-        console.log(file);
 
         try {
-            const response = await axiosInstance.put(`/api/theme/${customTheme.username}/background`, formData, {
+            const response = await axiosInstance.put(`/api/theme/background`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
@@ -57,6 +55,22 @@ const ThemeSwitcher = () => {
             console.error("Image upload failed:", error);
         }
     };
+
+    const clearBackground = async () => {
+
+        try {
+            const response = await axiosInstance.put(`/api/theme/background/clear` )
+            const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
+
+            handleThemeChange("backgroundImage", `url(${imageUrl})`);
+            updateTheme(response.data);
+        } catch (error) {
+            console.error("Image upload failed:", error);
+        }
+    };
+
+
+
 
     const handleThemeChange = (property, value) => {
         const newTheme = { ...customTheme, [property]: value };
@@ -155,7 +169,7 @@ const ThemeSwitcher = () => {
                         </div>
                         <div className="theme-setting">
                             <label>
-                                프로필 색상:
+                                프로필 문구 색상:
                                 <input
                                     type="color"
                                     value={customTheme.profileColor || "#000000"}
@@ -165,6 +179,20 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
+                        <div className="theme-setting">
+                            <label>
+                                배경 색상:
+                                <input
+                                    type="color"
+                                    value={customTheme.backgroundColor || "#333333"}
+                                    onChange={(e) =>
+                                        handleThemeChange("backgroundColor", e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+
                         <div className="theme-setting">
                             <label>
                                 모서리 둥글기:
@@ -181,6 +209,14 @@ const ThemeSwitcher = () => {
                                 <span>{customTheme.borderRadius}px</span>
                             </label>
                         </div>
+                        <div>
+                            <button
+                                className="theme-file-button"
+                                onClick={clearBackground}>
+                                이미지 제거
+                            </button>
+                        </div>
+
 
                         <button onClick={handleUpdateTheme} className="form-cancel-button">
                             저장
@@ -207,7 +243,7 @@ const ThemeSwitcher = () => {
 
                         <div className="theme-setting">
                             <label className="theme-file-label">
-                                <span className="theme-file-button">업로드</span>
+                                <span className="theme-file-button">이미지 업로드</span>
                                 <input
                                     type="file"
                                     accept="image/*"

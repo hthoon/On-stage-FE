@@ -47,25 +47,31 @@ const LinkDisplay = () => {
         if (theme.backgroundImage) {
             setBackground(theme.backgroundImage); // backgroundImage가 있을 때만 설정
         } else {
-            setBackground("https://s3-on-stage.s3.ap-northeast-2.amazonaws.com/backgroundImages/20.png"); // 배경이 없다면 빈 문자열 설정
+            setBackground(null); // 배경이 없다면 빈 문자열 설정
         }
     }, [theme]);
 
     return (
         <div className="linktree-container">
             <div
-                className="linktree-background" style={{ backgroundImage: `url(${background})` }}>
+                className="linktree-background"
+                style={{
+                    backgroundImage: background ? `url(${background})` : undefined,
+                    backgroundColor: background ? undefined : 'var(--backgroundColor)',
+                }}
+            >
                 <div className="linktree-share">
-                    <h6 className="linktree-share-icon"><CiStar /></h6>
-                    <h6 className="linktree-share-icon"><CiShare1 /></h6>
+                    <h6 className="linktree-share-icon"><CiStar/></h6>
+                    <h6 className="linktree-share-icon"><CiShare1/></h6>
                 </div>
 
                 {/*프로필 섹션*/}
                 <div className="profile-container">
-                    <img src={profile.profileImage} alt="Profile" className="profile-image" />
+                    <img src={profile.profileImage} alt="Profile" className="profile-image"/>
                 </div>
 
-                <h5 className="linktree-name">{profile.nickname}  {profile.verified === VERIFIED  && <MdVerified  className="profile-verified-icon" />}</h5>
+                <h5 className="linktree-name">{profile.nickname} {profile.verified === VERIFIED &&
+                    <MdVerified className="profile-verified-icon"/>}</h5>
 
                 <h6 className="linktree-description"> {profile.description} </h6>
 
@@ -98,7 +104,7 @@ const LinkDisplay = () => {
                                         } ${link.blockType === "FOLDER" && !link.details.length ? (isManagementPage ? "folder-transparent-management" : "folder-transparent-visitor") : ""}`}
                                         style={{
                                             ...(link.blockType === "BLANK"
-                                                ? { "--contentHeight": `${link.padding}px` } // padding 값을 --contentHeight 변수에 반영
+                                                ? {"--contentHeight": `${link.padding}px`} // padding 값을 --contentHeight 변수에 반영
                                                 : {}),
                                         }}
                                         onClick={() => handleToggleExpand(link.id)}

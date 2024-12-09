@@ -4,6 +4,7 @@
     --fontColor: #000000; /* 텍스트 색상 */
     --iconColor: #ffffff;
     --borderRadius: 25px;
+    --backgroundColor: #333333;
 
     --contentHeight: 10px;
 }
@@ -23,6 +24,7 @@
 }
 
 .linktree-background {
+    background-color: var(--backgroundColor);
     min-width: 250px;
     width: 300px;
     max-width: 430px;
