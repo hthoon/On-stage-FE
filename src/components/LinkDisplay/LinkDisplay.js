@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import "./LinkDisplay.css";
-import { useLink } from "../../context/LinkContext";
-import { FaGithub, FaInstagram } from "react-icons/fa";
-import { SlSocialSpotify, SlSocialYoutube } from "react-icons/sl";
-import { FaXTwitter } from "react-icons/fa6";
-import { CiStar, CiShare1 } from "react-icons/ci";
-import { sortLinksByPrevId } from "../../utils/sortLinks";
-import { mapServiceTypeToIcon, mapServiceTypeToKorean } from "../../utils/AnalysisURL";
+import {useLink} from "../../context/LinkContext";
+import {FaGithub, FaInstagram} from "react-icons/fa";
+import {SlSocialSpotify, SlSocialYoutube} from "react-icons/sl";
+import {FaXTwitter} from "react-icons/fa6";
+import {CiStar, CiShare1} from "react-icons/ci";
+import {sortLinksByPrevId} from "../../utils/sortLinks";
+import {mapServiceTypeToIcon, mapServiceTypeToKorean} from "../../utils/AnalysisURL";
 import {MdVerified} from "react-icons/md";
 
 
 const LinkDisplay = () => {
-    const { links, socialLink, theme, profile } = useLink();
+    const {links, socialLink, theme, profile} = useLink();
     const [background, setBackground] = useState("");
     const [isManagementPage, setIsManagementPage] = useState(false);
     const sortedLinks = sortLinksByPrevId(links);
@@ -26,43 +26,45 @@ const LinkDisplay = () => {
         if (!url.includes("open.spotify.com")) return null;
 
         const parts = url.split("/");
-        const type = parts[3]; // e.g., "track", "playlist", etc.
-        const id = parts[4]?.split("?")[0]; // Extract ID without query params
+        const type = parts[3];
+        const id = parts[4]?.split("?")[0];
 
         return `https://open.spotify.com/embed/${type}/${id}`;
     };
 
     const socialIcons = {
-        instagram: <FaInstagram />,
-        youtube: <SlSocialYoutube />,
-        x: <FaXTwitter />,
-        spotify: <SlSocialSpotify />,
-        github: <FaGithub />,
+        instagram: <FaInstagram/>,
+        youtube: <SlSocialYoutube/>,
+        x: <FaXTwitter/>,
+        spotify: <SlSocialSpotify/>,
+        github: <FaGithub/>,
     };
 
     useEffect(() => {
-        // Check if we're on the management page
         setIsManagementPage(window.location.pathname.includes("/management"));
-
+        console.log(theme);
         if (theme.backgroundImage) {
-            setBackground(theme.backgroundImage); // backgroundImage가 있을 때만 설정
+            setBackground(theme.backgroundImage);
         } else {
-            setBackground(null); // 배경이 없다면 빈 문자열 설정
+            setBackground(null);
         }
+
     }, [theme]);
 
     return (
         <div className="linktree-container">
             <div
-                className="linktree-background"
+                className={isManagementPage ? "linktree-background-management" : "linktree-background-visit"}
                 style={{
                     backgroundImage: background ? `url(${background})` : undefined,
-                    backgroundColor: background ? undefined : 'var(--backgroundColor)',
+                    backgroundColor: background ? undefined : theme.backgroundColor || 'var(--backgroundColor)',
                 }}
             >
-                <div className="linktree-share">
-                    <h6 className="linktree-share-icon"><CiStar/></h6>
-                    <h6 className="linktree-share-icon"><CiShare1/></h6>
+                <div className={isManagementPage ? "linktree-share" : "linktree-share-visit"}>
+                    <h6 className="linktree-share-icon-star" style={{color: theme.iconColor || 'var(--iconColor)'}}><CiStar/>
+                    </h6>
+                    <h6 className="linktree-share-icon" style={{color: theme.iconColor || 'var(--iconColor)'}}>
+                        <CiShare1/></h6>
                 </div>
 
                 {/*프로필 섹션*/}
@@ -70,19 +72,21 @@ const LinkDisplay = () => {
                     <img src={profile.profileImage} alt="Profile" className="profile-image"/>
                 </div>
 
-                <h5 className="linktree-name">{profile.nickname} {profile.verified === VERIFIED &&
+                <h5 className="linktree-name"
+                    style={{color: theme.profileColor || 'var(--profileColor)'}}>{profile.nickname} {profile.verified === VERIFIED &&
                     <MdVerified className="profile-verified-icon"/>}</h5>
 
-                <h6 className="linktree-description"> {profile.description} </h6>
+                <h6 className="linktree-description"
+                    style={{color: theme.profileColor || 'var(--profileColor)'}}> {profile.description} </h6>
 
                 {/*메인 섹션*/}
-                <div className="linktree-content">
+                <div className={isManagementPage ? "linktree-content" : "linktree-content-visit"}>
                     <div className={`linktree-links`}>
                         {sortedLinks
                             .filter((link) => link.active) // 활성화된 링크만 필터링
                             .map((link, index) => (
                                 link.blockType === "MUSIC" ? (
-                                    // For MUSIC block type, directly render the music iframe without the linktree-button wrapper
+
                                     <div
                                         key={index}
                                         className="linktree-details" // Directly render the details without the button wrapper
@@ -103,6 +107,11 @@ const LinkDisplay = () => {
                                             link.blockType === "BLANK" ? "blank-transparent" : ""
                                         } ${link.blockType === "FOLDER" && !link.details.length ? (isManagementPage ? "folder-transparent-management" : "folder-transparent-visitor") : ""}`}
                                         style={{
+
+                                            color: theme.fontColor || 'var(--fontColor)',
+                                            borderRadius: theme.borderRadius || 'var(--borderRadius)',
+                                            background: theme.buttonColor || 'var(--buttonColor)',
+
                                             ...(link.blockType === "BLANK"
                                                 ? {"--contentHeight": `${link.padding}px`} // padding 값을 --contentHeight 변수에 반영
                                                 : {}),
@@ -126,7 +135,9 @@ const LinkDisplay = () => {
                                                                 allow="encrypted-media"
                                                             ></iframe>
                                                         ) : (
-                                                            <div className="linktree-detail-item">
+                                                            <div className="linktree-detail-item" style={{
+                                                                borderRadius: theme.borderRadius || 'var(--borderRadius)'
+                                                            }}>
                                                                 <p>Unable to embed this music link.</p>
                                                             </div>
                                                         );
@@ -153,11 +164,12 @@ const LinkDisplay = () => {
                                                                         key={detailIndex}
                                                                         onClick={() => window.open(detail.url, "_blank", "noopener,noreferrer")}
                                                                         className="linktree-detail-item"
-                                                                    >
-                                                <span className="linktree-service-icon">
+                                                                        style={{borderRadius: theme.borderRadius || 'var(--borderRadius)'}}>
+                                                <span className="linktree-service-icon" style={{color: theme.fontColor || 'var(--fontColor)'}}>
                                                     {mapServiceTypeToIcon(detail.platform)}
                                                 </span>
-                                                                        <p>
+                                                                        <p className="linktree-detail-platform-title"
+                                                                           style={{color: theme.fontColor || 'var(--fontColor)'}}>
                                                                             {mapServiceTypeToKorean(detail.platform)}
                                                                         </p>
                                                                     </div>
@@ -187,6 +199,7 @@ const LinkDisplay = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="social-icon"
+                                style={{color: theme.iconColor || 'var(--iconColor)'}}
                             >
                                 {socialIcons[platform] || platform}
                             </a>

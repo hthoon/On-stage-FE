@@ -5,16 +5,17 @@
     --iconColor: #ffffff;
     --borderRadius: 25px;
     --backgroundColor: #94a0db;
-
     --contentHeight: 10px;
 }
 
 .LinkDisplay{
-    margin-top: 100px;
+    width: 100%;
+    min-width: 300px;
     animation: fadeIn 0.7s ease-out;
 }
 
 .linktree-container {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +24,7 @@
 
 }
 
-.linktree-background {
+.linktree-background-management {
     background-color: var(--backgroundColor);
     min-width: 250px;
     width: 300px;
@@ -39,6 +40,19 @@
     z-index: 0;
 }
 
+.linktree-background-visit{
+    background-color: var(--backgroundColor);
+    width: 100%;
+
+    height: 100%;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: 0;
+}
+
 
 .profile-container {
     display: flex;
@@ -47,6 +61,16 @@
 }
 
 .linktree-share{
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 20px;
+}
+
+.linktree-share-visit{
+    min-width: 300px;
+    margin: 30px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,7 +79,13 @@
 
 .linktree-share-icon{
     color: var(--iconColor);
+    display: none;
     font-size: 1.6rem;
+    font-weight: bold;
+}
+.linktree-share-icon-star{
+    color: var(--iconColor);
+    font-size: 1.9rem;
     font-weight: bold;
 }
 .linktree-detail-title{
@@ -69,6 +99,19 @@
     border-radius: var(--borderRadius);
     z-index: 1; /* 배경보다 위에 표시 */
 }
+
+.linktree-content-visit{
+    position: relative;
+    max-height: 650px; /* 화면 크기에서 프로필 영역 크기 제외 */
+    overflow-y: scroll; /* 세로 스크롤 활성화 */
+    border-radius: var(--borderRadius);
+    z-index: 1; /* 배경보다 위에 표시 */
+}
+.linktree-content-visit::-webkit-scrollbar {
+    display: none;
+}
+
+
 /* 스크롤바 숨기기 */
 .linktree-content::-webkit-scrollbar {
     width: 0px; /* 가로 스크롤바 숨기기 */
@@ -115,6 +158,7 @@
     max-width: 400px;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
 }
 
 /* 버튼 스타일 */
@@ -148,6 +192,7 @@
 }
 
 .linktree-service-icon{
+    color: var(--fontColor);
     margin-left: 15px;
     margin-right: 10px;
     font-size: 18px;
@@ -224,5 +269,9 @@
 
 .folder-transparent-visitor{
     display: none;
+}
+
+.linktree-detail-platform-title{
+    color: var(--fontColor);
 }
 

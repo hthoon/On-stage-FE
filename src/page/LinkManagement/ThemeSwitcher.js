@@ -120,6 +120,30 @@ const ThemeSwitcher = () => {
                         </div>
 
                         <div className="theme-setting">
+                            <label className="theme-file-label">
+                                배경 이미지 업로드
+                                <span className="theme-background-image-btn">
+                                    업로드</span>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileUpload}
+                                    className="theme-file-input"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
+                            <label>배경 이미지 제거
+                                <button
+                                    className="theme-background-image-btn"
+                                    onClick={clearBackground}>
+                                    제거
+                                </button>
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
                             <label>
                                 배경 색상:
                                 <input
@@ -144,6 +168,7 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
                         <div className="theme-setting">
                             <label>
                                 폰트 색상:
@@ -156,6 +181,7 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
                         <div className="theme-setting">
                             <label>
                                 아이콘 색상:
@@ -195,30 +221,6 @@ const ThemeSwitcher = () => {
                                     }
                                 />
                                 <span>{customTheme.borderRadius}px</span>
-                            </label>
-                        </div>
-
-                        <div className="theme-setting">
-                            <label className="theme-file-label">
-                                배경 이미지 업로드
-                                <span className="theme-background-image-btn">
-                                    업로드</span>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileUpload}
-                                    className="theme-file-input"
-                                />
-                            </label>
-                        </div>
-
-                        <div className="theme-setting">
-                            <label>배경 이미지 제거
-                                <button
-                                    className="theme-background-image-btn"
-                                    onClick={clearBackground}>
-                                    제거
-                                </button>
                             </label>
                         </div>
 
