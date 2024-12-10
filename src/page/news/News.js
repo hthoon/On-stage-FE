@@ -7,8 +7,10 @@ const News = () => {
     const { axiosInstance } = useAxios();
     const [username, setUsername] = useState(""); // 사용자 유저네임
     const [summaries, setSummaries] = useState([]); // 기사 데이터 저장
-    const [page, setPage] = useState(0); // 현재 페이지
-    const [totalPages, setTotalPages] = useState(2); // 전체 페이지 수
+    const [pageInfo, setPageInfo ] = useState({
+        page: 0,
+        totalPages: 2
+    })
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태
 
     // 사용자 유저네임을 가져오는 함수
@@ -29,7 +31,10 @@ const News = () => {
             const response = await axiosInstance.get(`/api/summary/${username}?page=${currentPage}&size=2`);
             const { content, totalPages } = response.data;
             setSummaries(content); // content -> {title, summary}
-            setTotalPages(totalPages);
+            setPageInfo((prevState) => ({
+                ...prevState,
+                totalPages: totalPages, // 전체 페이지 수 업데이트
+            }));
         } catch (error) {
             console.error("오류가 발생했습니다:", error);
         } finally {
@@ -43,15 +48,25 @@ const News = () => {
     }, []);
 
     useEffect(() => {
-        if (username) getSummaries(page);
-    }, [username, page]); // username 또는 page가 변경 시 실행
+        if (username) getSummaries(pageInfo.page);
+    }, [username, pageInfo.page]); // username 또는 page가 변경 시 실행
 
     const moveNextPage = () => {
-        if (page < totalPages - 1) setPage(page + 1); // 다음 페이지로 이동
+        if (pageInfo.page < pageInfo.totalPages - 1){
+            setPageInfo((prevState) => ({
+                ...prevState,
+                page: prevState.page + 1, // 다음 페이지로 이동
+            }));
+        }
     };
 
     const movePrevPage = () => {
-        if (page > 0) setPage(page - 1); // 이전 페이지로 이동
+        if (pageInfo.page > 0) {
+            setPageInfo((prevState) => ({
+                ...prevState,
+                page: prevState.page - 1, // 이전 페이지로 이동
+            }));
+        }
     };
 
     const NewsList = ({ summaries }) => (
@@ -81,12 +96,12 @@ const News = () => {
                     <h1>{"최신 소식"}</h1>
                     <NewsList summaries={summaries}/>
                     <div className="news-pagination">
-                        <button className="news-page-move-btn" onClick={movePrevPage} disabled={page === 0}>
+                        <button className="news-page-move-btn" onClick={movePrevPage} disabled={pageInfo.page === 0}>
                             전
                         </button>
-                        <span className="current-page">{page + 1}</span> / {totalPages}
+                        <span className="current-page">{pageInfo.page + 1}</span> / {pageInfo.totalPages}
                         <button className="news-page-move-btn" onClick={moveNextPage}
-                                disabled={page === totalPages - 1}>
+                                disabled={pageInfo.page === pageInfo.totalPages - 1}>
                             다음
                         </button>
                     </div>
