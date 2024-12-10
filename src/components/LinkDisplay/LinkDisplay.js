@@ -10,6 +10,7 @@ import {mapServiceTypeToIcon, mapServiceTypeToKorean} from "../../utils/Analysis
 import {MdVerified} from "react-icons/md";
 import {HiChevronLeft, HiDotsHorizontal} from "react-icons/hi";
 import {IoMdClose} from "react-icons/io";
+import axios from 'axios';
 
 const LinkDisplay = () => {
     const {links, socialLink, theme, profile} = useLink();
@@ -50,7 +51,41 @@ const LinkDisplay = () => {
             setBackground(null);
         }
 
-    }, [theme]);
+        // 페이지 조회 기록
+        if(!setIsManagementPage){
+            recordPageView(profile.username);
+        }
+
+    }, [theme, profile.username]);
+
+    // 페이지 조회 이벤트 기록
+    const recordPageView = async (username) => {
+        try {
+            const ipResponse = await axios.get('/api/analytics/get-ip');
+            const ipAddress = ipResponse.data;
+            await axios.post('/api/analytics/page', { ipAddress, username });
+        } catch (error) {
+            console.error("Error recording page view:", error);
+        }
+    };
+
+    // 링크 클릭 이벤트 기록
+    const recordLinkClick = async (username, linkId) => {
+        try {
+            await axios.post('/api/link', { username, linkId });
+        } catch (error) {
+            console.error("Error recording link click:", error);
+        }
+    };
+
+    // 소셜 링크 클릭 이벤트 기록
+    const recordSocialLinkClick = async (username, socialLinkType) => {
+        try {
+            await axios.post('/api/socialLink', { username, socialLinkType });
+        } catch (error) {
+            console.error("Error recording social link click:", error);
+        }
+    };
 
     const toggleModal = () => {
         setIsModalOpen((prev) => !prev);
@@ -167,7 +202,10 @@ const LinkDisplay = () => {
                                                                 {link.details.map((detail, detailIndex) => (
                                                                     <div
                                                                         key={detailIndex}
-                                                                        onClick={() => window.open(detail.url, "_blank", "noopener,noreferrer")}
+                                                                        onClick={() => {
+                                                                            recordLinkClick(profile.username, link.id); // 링크 클릭 기록
+                                                                            window.open(detail.url, "_blank", "noopener,noreferrer"); // 링크 열기
+                                                                        }}
                                                                         className="linktree-detail-item"
                                                                         style={{borderRadius: theme.borderRadius || 'var(--borderRadius)'}}>
                                                 <span className="linktree-service-icon" style={{color: theme.fontColor || 'var(--fontColor)'}}>
@@ -204,6 +242,7 @@ const LinkDisplay = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="social-icon"
+                                onClick={() => recordSocialLinkClick(profile.username, platform)} // 소셜 링크 클릭 기록
                                 style={{color: theme.iconColor || 'var(--iconColor)'}}
                             >
                                 {socialIcons[platform] || platform}

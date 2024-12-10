@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AnalyticsDate from '../../components/Analytics/AnalyticsDate'; // 날짜 선택 컴포넌트 임포트
 import AnalyticsData from '../../components/Analytics/AnalyticsData'; // 데이터 표시 컴포넌트 임포트
 import AnalyticsGraph from '../../components/Analytics/AnalyticsGraph';
-import Cookies from 'js-cookie';
 import { fetchAnalyticsData } from '../../components/Analytics/AnalyticsApi';
+import { useLink } from '../../context/LinkContext';
 import './Analytics.css';
 
 const Analytics = () => {
+  const { profile } = useLink();
   const [analyticsData, setAnalyticsData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,21 +15,25 @@ const Analytics = () => {
       startDate: null,
       endDate: null
   });
-  const [userName, setUserName] = useState(null);
+  
+  const userName = profile.username;
 
-  useEffect(() => {
-    const userNameFromCookie = Cookies.get('username');
-    setUserName(userNameFromCookie);
-  }, []);
-
-  const handleDateChange = async ( startDate, endDate) => {
+  const handleDateChange = async (startDate, endDate) => {
+    // 상태를 즉시 업데이트
     setDate({ startDate, endDate });
+
+    // 사용자명, 시작날짜, 종료날짜 모두 존재하는 경우에만 데이터 불러오기
     if (userName && startDate && endDate) {
         setLoading(true);
         setError(null);
         try {
-            const data = await fetchAnalyticsData(userName, date.startDate.toISOString().split('T')[0], date.endDate.toISOString().split('T')[0]);
-            setAnalyticsData(data); // 가져온 데이터 설정
+            // 직접 전달받은 날짜 포맷팅
+            const formattedStartDate = startDate.toISOString().split('T')[0];
+            const formattedEndDate = endDate.toISOString().split('T')[0];
+            
+            // API 호출
+            const data = await fetchAnalyticsData(userName, formattedStartDate, formattedEndDate);
+            setAnalyticsData(data);
         } catch (err) {
             setError(err.message);
         } finally {
