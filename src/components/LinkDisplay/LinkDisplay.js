@@ -52,7 +52,7 @@ const LinkDisplay = () => {
         }
 
         // 페이지 조회 기록
-        if(!setIsManagementPage){
+        if(profile.username){
             recordPageView(profile.username);
         }
 
@@ -72,7 +72,7 @@ const LinkDisplay = () => {
     // 링크 클릭 이벤트 기록
     const recordLinkClick = async (username, linkId) => {
         try {
-            await axios.post('/api/link', { username, linkId });
+            await axios.post('/api/analytics/link', { username, linkId });
         } catch (error) {
             console.error("Error recording link click:", error);
         }
@@ -81,7 +81,7 @@ const LinkDisplay = () => {
     // 소셜 링크 클릭 이벤트 기록
     const recordSocialLinkClick = async (username, socialLinkType) => {
         try {
-            await axios.post('/api/socialLink', { username, socialLinkType });
+            await axios.post('/api/analytics/socialLink', { username, socialLinkType });
         } catch (error) {
             console.error("Error recording social link click:", error);
         }
