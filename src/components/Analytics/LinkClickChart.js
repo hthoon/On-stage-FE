@@ -89,14 +89,14 @@ const LinkClickChart = ({ linkClickStats }) => {
                 title: {
                     display: true,
                     text: '클릭 수',
-                    font: { size: 12 }
+                    font: { size: 14 }
                 }
             },
             x: {
                 title: {
                     display: true,
                     text: '링크',
-                    font: { size: 12 }
+                    font: { size: 14 }
                 }
             }
         },

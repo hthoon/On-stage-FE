@@ -28,8 +28,21 @@ const Analytics = () => {
         setError(null);
         try {
             // 직접 전달받은 날짜 포맷팅
-            const formattedStartDate = startDate.toISOString().split('T')[0];
-            const formattedEndDate = endDate.toISOString().split('T')[0];
+            const formattedStartDate = new Date(
+                Date.UTC(
+                  startDate.getFullYear(), 
+                  startDate.getMonth(), 
+                  startDate.getDate()
+                )
+              ).toISOString().split('T')[0];
+          
+              const formattedEndDate = new Date(
+                Date.UTC(
+                  endDate.getFullYear(), 
+                  endDate.getMonth(), 
+                  endDate.getDate()
+                )
+              ).toISOString().split('T')[0];
             
             // API 호출
             const data = await fetchAnalyticsData(userName, formattedStartDate, formattedEndDate);

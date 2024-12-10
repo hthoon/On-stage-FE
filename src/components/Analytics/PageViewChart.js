@@ -45,7 +45,7 @@ const PageViewChart = ({ pageViewStats }) => {
         }
       ]
     };
-  }, [pageViewStats]);
+  }, [pageViewStats, isValidData]);
 
   const chartOptions = {
     responsive: true,
@@ -71,14 +71,14 @@ const PageViewChart = ({ pageViewStats }) => {
         title: {
           display: true,
           text: '조회수',
-          font: { size: 12 }
+          font: { size: 14 }
         }
       },
       x: {
         title: {
           display: true,
           text: '날짜',
-          font: { size: 12 }
+          font: { size: 14 }
         }
       }
     },

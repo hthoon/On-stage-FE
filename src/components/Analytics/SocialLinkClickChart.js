@@ -77,14 +77,14 @@ const SocialLinkClickChart = ({ socialLinkClickStats }) => {
                 title: {
                     display: true,
                     text: '클릭수',
-                    font: { size: 12 }
+                    font: { size: 14 }
                 }
             },
             x: {
                 title: {
                     display: true,
                     text: '소셜 링크 타입',
-                    font: { size: 12 }
+                    font: { size: 14 }
                 }
             }
         },

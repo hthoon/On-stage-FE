@@ -2,6 +2,7 @@
     width: 90%;
     max-width: 800px; /* 최대 너비 설정 */
     margin-left: 30%;
+    margin-bottom: 10%;
     padding: 2rem; /* 패딩 추가 */
     font-family: 'Arial', sans-serif;
 }
