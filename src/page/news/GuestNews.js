@@ -13,7 +13,7 @@ const GuestNews = () => {
     const [totalPages, setTotalPages] = useState(2); // 전체 페이지 수
     const [isLoading, setIsLoading] = useState(false);
 
-    // 사용자 유저네임을 가져오는 함수
+    // nickname을 이용해 사용자 유저네임을 가져오는 함수
     const getUsername = async () => {
         setIsLoading(true);
         if (!nickname) return; // nickname이 없으면 요청하지 않음
