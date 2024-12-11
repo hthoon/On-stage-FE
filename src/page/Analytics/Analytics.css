@@ -1,15 +1,21 @@
 .analytics-container {
-    width: 90%;
-    max-width: 800px; /* 최대 너비 설정 */
-    margin-left: 30%;
-    margin-bottom: 10%;
-    padding: 2rem; /* 패딩 추가 */
+    width: 60%;
+    padding: 30px;
     font-family: 'Arial', sans-serif;
+
+    margin-left: 28%;
+}
+
+.management-analytics-container{
+    width: 100%;
+    padding: 1px;
+
 }
 
 .analytics-header {
+    margin-top: 60px;
     text-align: center; /* 제목 중앙 정렬 */
-    margin-bottom: 2rem; /* 제목과 내용 간 간격 */
+    margin-bottom: 10px; /* 제목과 내용 간 간격 */
 }
 
 .analytics-header h1 {
@@ -37,17 +43,9 @@
 /* 반응형 디자인 */
 @media screen and (max-width: 1250px) {
 
-    .sidebar{
-        display: none;
-    }
-
     .analytics-container{
         margin: 0 auto;
-        width: 100%;
-    }
-
-    .analytics-container {
-        padding: 1rem; /* 모바일에서 패딩 조정 */
+        width: 90%;
     }
 
     .analytics-header h1 {
@@ -57,4 +55,32 @@
     .analytics-header h2 {
         font-size: 18px; /* 모바일에서 서브 제목 크기 조정 */
     }
+}
+
+.analytics-date-button-container{
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.analytics-date-button-container button{
+    outline: none;
+    padding: 15px;
+    border: transparent;
+    border-radius: 15px;
+    background: #e5e5e5;
+    font-size: 16px;
+    font-weight: bold;
+
+    transition: all 0.4s ease-in-out;
+}
+.analytics-date-button-container button:hover{
+    background: #bac0ff;
+}
+
+.analytics-date-button-container button.selected{
+    background: #bac0ff;
 }

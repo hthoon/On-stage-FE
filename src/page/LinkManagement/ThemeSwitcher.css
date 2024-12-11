@@ -9,7 +9,8 @@
     align-items: center;
     margin: 0 auto;
 }
-.theme-switcher {
+
+.theme-switcher, .analytics-switcher {
     width: 80%;
 
     background-color: #ffffff;
@@ -33,7 +34,7 @@
     color: #6e79ff;
 }
 
-.theme-switcher.open {
+.theme-switcher.open, .analytics-switcher.open {
 
     padding: 15px 30px;
     margin: 10px auto;
@@ -43,7 +44,6 @@
     opacity: 0;
     padding: 10px 30px;
 }
-
 .theme-toggle-button {
 
     cursor: pointer;

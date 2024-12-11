@@ -718,3 +718,9 @@ input:checked + .slider:before {
 /*        opacity: 1;*/
 /*    }*/
 /*}*/
+
+
+.management-analytics-panel{
+    width: 100%;
+
+}

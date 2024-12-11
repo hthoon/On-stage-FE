@@ -16,10 +16,10 @@ const AnalyticsData = ({ analyticsData = {} }) => {
 
     return (
         <div className="analytics-data-container">
-            <div className="analytics-header-section">
-                <TrendingUp className="header-icon" />
-                <h2>분석 결과</h2>
-            </div>
+            {/*<div className="analytics-header-section">*/}
+            {/*    <TrendingUp className="header-icon" />*/}
+            {/*    <h2>분석 결과</h2>*/}
+            {/*</div>*/}
 
             {totalPageViewCount === 0 && totalLinkClickCount === 0 ? (
                 <div className="no-data-message">
@@ -30,7 +30,7 @@ const AnalyticsData = ({ analyticsData = {} }) => {
                     <div className="statistic-card total-page-views-card">
                         <div className="statistic-content">
                             <Eye className="statistic-icon" />
-                            <span className="statistic-label">총 페이지 조회수</span>
+                            <span className="statistic-label">방문</span>
                         </div>
                         <span className="statistic-value">{totalPageViewCount}</span>
                     </div>
@@ -38,7 +38,7 @@ const AnalyticsData = ({ analyticsData = {} }) => {
                     <div className="statistic-card total-link-clicks-card">
                         <div className="statistic-content">
                             <Link2 className="statistic-icon" />
-                            <span className="statistic-label">총 링크 클릭 수</span>
+                            <span className="statistic-label">클릭</span>
                         </div>
                         <span className="statistic-value">{totalLinkClickCount}</span>
                     </div>
@@ -46,7 +46,7 @@ const AnalyticsData = ({ analyticsData = {} }) => {
                     <div className="statistic-card total-click-rate-card">
                         <div className="statistic-content">
                             <TrendingUp className="statistic-icon" />
-                            <span className="statistic-label">총 클릭률</span>
+                            <span className="statistic-label">클릭 비율</span>
                         </div>
                         <span className="statistic-value">{totalClickRate}%</span>
                     </div>

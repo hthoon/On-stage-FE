@@ -37,8 +37,8 @@ const PageViewChart = ({ pageViewStats }) => {
         {
           label: '페이지 조회수',
           data: pageViewStats.map(item => item.pageViewCount),
-          borderColor: 'rgba(75,192,192,1)',
-          backgroundColor: 'rgba(75,192,192,0.2)',
+          borderColor: 'rgb(176,183,255)',
+          backgroundColor: 'rgba(163,164,255,0.15)',
           fill: true,
           pointRadius: 4,
           pointHoverRadius: 6,
