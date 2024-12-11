@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
-import { 
-    Chart as ChartJS, 
-    ArcElement, 
-    Tooltip, 
-    Legend 
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend
 } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -16,7 +17,7 @@ const LocationChart = ({ locationStats }) => {
 
     // 동적 색상 생성
     const dynamicColors = useMemo(() => {
-        return locationStats.map((_, index) => 
+        return locationStats.map((_, index) =>
             `rgba(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},0.6)`
         );
     }, [locationStats]);
@@ -67,8 +68,8 @@ const LocationChart = ({ locationStats }) => {
     // 데이터 없을 때 대체 UI
     if (!isValidData) {
         return (
-            <div 
-                className="no-data-message" 
+            <div
+                className="no-data-message"
                 aria-label="위치별 조회수 데이터 없음"
             >
                 표시할 데이터가 없습니다
@@ -77,12 +78,12 @@ const LocationChart = ({ locationStats }) => {
     }
 
     return (
-        <div 
-            className="location-chart-container" 
-            role="region" 
+        <div
+            className="location-chart-container"
+            role="region"
             aria-label="국가 및 지역별 페이지 조회수 파이 차트"
         >
-            <Pie 
+            <Pie
                 data={chartData}
                 options={chartOptions}
                 aria-describedby="location-chart-description"

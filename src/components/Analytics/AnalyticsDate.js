@@ -43,66 +43,48 @@ const AnalyticsDate = ({ onDateChange }) => {
   };
 
     return (
-      <div className="analytics-date-container">
-        <div className="date-input-wrapper">
-          <label className="date-label">시작 날짜:</label>
-          <div className="date-input-group">
-            <DatePicker
-              selected={startDate}
-              onChange={handleStartDateChange}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-              locale="ko"
-              dateFormat="yyyy/MM/dd"
-              placeholderText="시작 날짜 선택"
-              className="date-input"
-              wrapperClassName="date-picker-wrapper"
-              calendarClassName="custom-calendar"
-              maxDate={today}
-            />
-            <Calendar className="date-icon" />
-            {startDate && (
-              <button 
-                className="clear-date-btn" 
-                onClick={handleClearStartDate}
-              >
-                <X size={16} />
-              </button>
-            )}
-          </div>
-        </div>
+      <div>
+          <div className="date-input-wrapper">
+              {/*<label className="date-label">시작 날짜:</label>*/}
+              <div className="date-input-group">
+                  <DatePicker
+                      selected={startDate}
+                      onChange={handleStartDateChange}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                      locale="ko"
+                      dateFormat="yyyy/MM/dd"
+                      placeholderText="시작 날짜 선택"
+                      className="date-input"
+                      wrapperClassName="date-picker-wrapper"
+                      calendarClassName="custom-calendar"
+                      maxDate={today}
+                   showMonthYearDropdown/>
+                  <Calendar className="date-icon"/>
+              </div>
 
-        <div className="date-input-wrapper">
-          <label className="date-label">끝 날짜:</label>
-
-          <div className="date-input-group">
-            <DatePicker
-              selected={endDate}
-              onChange={handleEndDateChange}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-              locale="ko"
-              dateFormat="yyyy/MM/dd"
-              placeholderText="끝 날짜 선택"
-              className="date-input"
-              wrapperClassName="date-picker-wrapper"
-              calendarClassName="custom-calendar"
-              maxDate={today}
-            />
-            <Calendar className="date-icon" />
-            {endDate && (
-              <button 
-                className="clear-date-btn" 
-                onClick={handleClearEndDate}
-              >
-                <X size={16} />
-              </button>
-            )}
+              <div className="date-input-group">
+                  <DatePicker
+                      selected={endDate}
+                      onChange={handleEndDateChange}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
+                      locale="ko"
+                      dateFormat="yyyy/MM/dd"
+                      placeholderText="끝 날짜 선택"
+                      className="date-input"
+                      wrapperClassName="date-picker-wrapper"
+                      calendarClassName="custom-calendar"
+                      maxDate={today}
+                   showMonthYearDropdown/>
+                  <Calendar className="date-icon"/>
+              </div>
           </div>
-        </div>
+          <button className="data-input-reset-button">초기화</button>
+
       </div>
     );
 };
