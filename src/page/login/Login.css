@@ -36,9 +36,9 @@
 
 .login-right h1 {
     margin-top: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: #333;
 }
 
@@ -56,6 +56,12 @@
 }
 
 .login-platform-icon-kakao{
+    font-size: 1.5rem;
+    color: #3b3b3b;
+    margin-right: 10px;
+}
+
+.login-platform-icon-github{
     font-size: 1.5rem;
     color: #3b3b3b;
     margin-right: 10px;

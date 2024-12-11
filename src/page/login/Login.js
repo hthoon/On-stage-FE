@@ -37,7 +37,7 @@ function Login() {
             }
             <div className="login-right">
                 <FaUser className="login-icon"/>
-                <h1>지금, On Your Stage</h1>
+                <h1>당신의 모든 것을 하나의 <span className="highlight-gradient">링크</span>에</h1>
                 <button
                     className="login-custom-button"
                     onClick={() => (window.location.href = handleOAuth('google'))}>
