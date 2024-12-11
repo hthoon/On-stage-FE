@@ -11,15 +11,20 @@ function MyPage() {
                     <SocialPanel/>
                 </div>
 
+                <h1>즐겨찾기</h1>
+                <div className="mypage-divider">
+
+                </div>
+
                 <h1>인증 배지 신청</h1>
                 <div className="mypage-divider">
                     <form className="badge-application-form">
                         <div>
-                            <label htmlFor="name">이름</label>
-                            <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required/>
+                            {/*<label htmlFor="name">이름</label>*/}
+                            {/*<input type="text" id="name" name="name" placeholder="이름을 입력하세요" required/>*/}
 
-                            <label htmlFor="email">이메일</label>
-                            <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required/>
+                            {/*<label htmlFor="email">이메일</label>*/}
+                            {/*<input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required/>*/}
 
                             <label htmlFor="tel">휴대폰 번호:</label>
                             <input type="tel" id="tel" name="tel" placeholder="'-' 없이 입력하세요" required/>
@@ -33,6 +38,7 @@ function MyPage() {
                         </div>
                     </form>
                 </div>
+
 
                 <h1>요금제 안내</h1>
                 <div className="mypage-divider">
