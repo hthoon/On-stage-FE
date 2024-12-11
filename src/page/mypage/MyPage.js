@@ -1,85 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import { useAxios } from "../../context/AxiosContext";
-import { ToastContainer, toast } from 'react-toastify';
+import React, {useState, useEffect} from 'react';
 import "./MyPage.css";
-import {useLink} from "../../context/LinkContext";
+import SocialPanel from "../LinkManagement/SocialPanel";
 
 function MyPage() {
-    const { profile } = useLink();
-    const { axiosInstance } = useAxios();
-
-    const updateUserProfile = async (field, value) => {
-        try {
-            const response = await axiosInstance.patch(`/api/user?field=${field}`, {
-                [field]: value
-            });
-
-            if (response.status === 200 && {field} === 'nickname') {
-                toast.success('닉네임이 변경되었습니다.', {
-                    position: "top-center",
-                    autoClose: 2000,
-                });
-            } else if (response.status === 304) {
-                toast.success('변경 사항이 없습니다.', {
-                    position: "top-center",
-                    autoClose: 2000,
-                });
-            }
-        } catch (error) {
-            toast.error('업데이트 중 오류가 발생했습니다.', {
-                position: "top-center",
-                autoClose: 2000,
-            });
-        }
-    };
-    console.log(profile);
-
     return (
         <div className="mypage-wrapper">
-            {/*<div className"mypage-left">*/}
-            {/*    /!*<img className"mypage-image-placeholder" src={login} alt="login"/>*!/*/}
-
-            {/*</div>*/}
             <div className="mypage-right">
-                {/*<FaUser className"mypage-icon"/>*/}
-                <h1 className="mypage-right-h1">마이페이지</h1>
-                    <hr className="mypage-hr"/>
-                <h3 className="mypage-index">프로필 정보</h3>
-                <div className="mypage-profile-container">
-                        <img
-                            src={profile.profileImage}
-                            alt="Profile"
-                            className="mypage-profile-image"
-                        />
-                        <div className="mypage-profile-textbox">
-                            <p className="mypage-profile-nickname">{profile.nickname}</p>
-                            <p className="mypage-profile-description">{profile.description}</p>
-                        </div>
-                    </div>
-                <h3 className="mypage-index">인증 정보</h3>
-                <div className="mypage-verification-container">
-                    {/*Todo 딱지*/}
-                    {profile.verified === "VERIFIED" ? (
-                        <div className="mypage-profile-textbox">
-                            <p>인증된 사용자</p>
-                            <p>인증 날짜: {profile.verifiedAt || "정보 없음"}</p>
-                        </div>
-                    ) : (
-                        <p>아직 인증되지 않았습니다.</p>
-                    )}
+                <h1>계정 관리</h1>
+                <div className="mypage-divider">
+                    <SocialPanel/>
                 </div>
-                <button
-                    className="mypage-custom-button">
-                </button>
-                {/*<div className"mypage-forgot-button-container">*/}
-                {/*    <button className"mypage-forgot-btn">*/}
-                {/*        계정을 잃어버리셨나요?*/}
-                {/*    </button>*/}
-                {/*</div>*/}
 
+                <h1>인증 배지 신청</h1>
+                <div className="mypage-divider">
+                    <form className="badge-application-form">
+                        <div>
+                            <label htmlFor="name">이름</label>
+                            <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required/>
+
+                            <label htmlFor="email">이메일</label>
+                            <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required/>
+
+                            <label htmlFor="tel">휴대폰 번호:</label>
+                            <input type="tel" id="tel" name="tel" placeholder="'-' 없이 입력하세요" required/>
+                        </div>
+                        <div>
+                            <label htmlFor="reason">신청 사유</label>
+                            <textarea id="reason" name="reason" placeholder="인증 배지를 신청하는 이유를 입력하세요" required></textarea>
+                        </div>
+                        <div>
+                            <button type="submit">신청하기</button>
+                        </div>
+                    </form>
+                </div>
+
+                <h1>요금제 안내</h1>
+                <div className="mypage-divider">
+                    <div className="pricing-section">
+                        <h2>요금제 선택</h2>
+                        <ul className="pricing-list">
+                            <li>
+                                <h3>무료 플랜</h3>
+                                <p>기본 기능 제공</p>
+                                <h6>월 $0</h6>
+                            </li>
+                            <li>
+                                <h3>프리미엄 플랜</h3>
+                                <p>인증 배지 및 추가 기능 제공</p>
+                                <h6>월 $9.99</h6>
+                            </li>
+                            <li>
+                                <h3>비즈니스 플랜</h3>
+                                <p>팀 기능 및 확장 지원</p>
+                                <h6>월 $29.99</h6>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-
     );
 }
 

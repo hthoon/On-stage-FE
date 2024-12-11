@@ -1,6 +1,6 @@
 .social-panel-profile-image {
-    width: 110px; /* 프로필 이미지 크기 */
-    height: 110px;
+    width: 130px; /* 프로필 이미지 크기 */
+    height: 130px;
     min-width: 110px;
     min-height: 110px;
     border-radius: 50%; /* 원형으로 만들기 */
