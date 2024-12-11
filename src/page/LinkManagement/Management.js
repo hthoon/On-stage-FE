@@ -14,13 +14,15 @@ import {FaChevronUp, FaLink} from "react-icons/fa";
 import {PiShareNetworkBold} from "react-icons/pi";
 import {PuffLoader} from "react-spinners";
 
+
 const Management = () => {
     const {axiosInstance} = useAxios();
     const { setLinks, profile, isLoading } = useLink();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLinkVisible, setIsLinkVisible] = useState(false);
     const nickname = profile.nickname;
-    const shareURL = `http://localhost:3000/page/${nickname}`; // todo 도메인 변경
+    const BASEURL =  process.env.REACT_APP_FRONT;
+    const shareURL = `${BASEURL}/page/${nickname}`;
     
     const updateLink = async (updatedLink) => {
         console.log(updatedLink);

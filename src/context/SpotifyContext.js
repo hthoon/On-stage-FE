@@ -2,9 +2,8 @@ import React, {createContext, useContext, useState} from "react";
 
 const SpotifyContext = createContext();
 
-// TODO 토큰은 환경변수에 넣기
-const CLIENT_ID = "9bb17edad574476c8b250810bc46a174";
-const CLIENT_SECRET = "d2801f3a66bf4711bca971ad2501989c";
+const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+const CLIENT_SECRET = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
 
 const encodeToBase64 = (string) => btoa(unescape(encodeURIComponent(string)));
 
