@@ -94,7 +94,7 @@
 
     transition: all 0.4s ease-in-out;
 }
-.linktree-share-icon-star :hover{
+.linktree-share-icon-star:hover{
     scale: 1.08;
 }
 .linktree-detail-title{
@@ -234,6 +234,7 @@
         display: none;
     }
     background-color: transparent;
+    opacity: 0;
     color: transparent;
     pointer-events: none; /* 클릭을 막기 위해 포인터 이벤트를 비활성화 */
 
