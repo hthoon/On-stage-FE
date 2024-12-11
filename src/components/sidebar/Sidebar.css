@@ -131,7 +131,7 @@ body {
         width: 100%;
         background-color: #ffffff;
         border-top: 1px solid #d5d5d5;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         z-index: 1000;
     }
@@ -144,7 +144,7 @@ body {
         text-decoration: none;
         color: #000000;
         font-size: 1.2rem;
-        padding: 10px 0;
+        padding: 10px 20px;
     }
 
     .bottom-nav-item span {

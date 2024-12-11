@@ -81,7 +81,7 @@ const Sidebar = () => {
                     <div className="sidebar-menu-item"><FaStaylinked /><a href="/management">링크 관리</a></div>
                     <div className="sidebar-menu-item"><SiGoogleanalytics /><a href="/analytics">분석</a></div>
                     <div className="sidebar-menu-item"><LuMusic4 /><a href="/news">아티스트</a></div>
-                    <div className="sidebar-menu-item"><BsSpeaker /><a href="#services">공연</a></div>
+                    <div className="sidebar-menu-item"><BsSpeaker /><a href="/map">공연</a></div>
                     <div className="sidebar-menu-item"><RiSettings4Fill /><a href="/mypage">마이페이지</a></div>
                 </div>
 
@@ -138,24 +138,24 @@ const Sidebar = () => {
             {/* 하단바 */}
             <div className="bottom-nav">
                 <a href="/management" className="bottom-nav-item">
-                    <BsLink/>
+                    <FaStaylinked />
                     <span>링크</span>
                 </a>
-                <a href="#services" className="bottom-nav-item">
-                    <BsBarChart/>
+                <a href="/analytics" className="bottom-nav-item">
+                    <SiGoogleanalytics />
                     <span>분석</span>
                 </a>
-                <a href="/info" className="bottom-nav-item">
-                    <BsBarChart/>
-                    <span>아티스트정보</span>
+                <a href="/news" className="bottom-nav-item">
+                    <LuMusic4 />
+                    <span>아티스트</span>
                 </a>
-                <a href="#info" className="bottom-nav-item">
-                    <BsBarChart/>
+                <a href="/map" className="bottom-nav-item">
+                    <BsSpeaker />
                     <span>공연정보</span>
                 </a>
-                <a href="#contact" className="bottom-nav-item">
-                    <BsGear/>
-                    <span>설정</span>
+                <a href="/mypage" className="bottom-nav-item">
+                    <RiSettings4Fill />
+                    <span>마이페이지</span>
                 </a>
             </div>
         </>
