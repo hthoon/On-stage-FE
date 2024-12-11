@@ -63,12 +63,14 @@ const LinkDisplay = () => {
 
     // 페이지 조회 이벤트 기록
     const recordPageView = async (username) => {
-        try {
-            const ipResponse = await axiosInstance.get('/api/analytics/get-ip');
-            const ipAddress = ipResponse.data;
-            await axios.post('/api/analytics/page', {ipAddress, username});
-        } catch (error) {
-            console.error("Error recording page view:", error);
+        if(isManagementPage) {
+            try {
+                const ipResponse = await axiosInstance.get('/api/analytics/get-ip');
+                const ipAddress = ipResponse.data;
+                await axiosInstance.post('/api/analytics/page', {ipAddress, username});
+            } catch (error) {
+                console.error("Error recording page view:", error);
+            }
         }
     };
 
