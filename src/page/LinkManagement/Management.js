@@ -12,10 +12,11 @@ import SocialPanel from "./SocialPanel";
 import ThemeSwitcher from "./ThemeSwitcher";
 import {FaChevronUp, FaLink} from "react-icons/fa";
 import {PiShareNetworkBold} from "react-icons/pi";
+import {PuffLoader} from "react-spinners";
 
 const Management = () => {
     const {axiosInstance} = useAxios();
-    const { setLinks, profile } = useLink();
+    const { setLinks, profile, isLoading } = useLink();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLinkVisible, setIsLinkVisible] = useState(false);
     const nickname = profile.nickname;
@@ -39,7 +40,6 @@ const Management = () => {
         setIsLinkVisible(false);
     };
 
-
     const createLink = async (link) => {
         const response = await axiosInstance.post(`/api/link`,link);
         return response.data;
@@ -51,78 +51,83 @@ const Management = () => {
 
     return (
         <div className="management-container">
-            <div className="share-button-container">
-                {/* 공유 버튼 */}
-                {!isLinkVisible ? (
-                    <button
-                        onClick={() => setIsLinkVisible(true)}
-                        className="share-btn top-right"
-                    >
-                        <PiShareNetworkBold/>
-                    </button>
-                ) : (
-                    // 링크 표시
-                    <div className="share-link-container">
-                        <input
-                            type="text"
-                            value={shareURL}
-                            readOnly
-                            className="share-link-input"
-                        />
-                        <button onClick={copyToClipboard} className="copy-btn">
-                            <FaLink/> 복사
-                        </button>
-                        <button
-                            onClick={() => setIsLinkVisible(false)}
-                            className="close-btn"
-                        >
-                            닫기
-                        </button>
+            {isLoading ? (
+                <div className="loading-container">
+                    <PuffLoader color="#8089ff" size={100}/>
+                    <p>로딩중...</p>
+                </div>
+            ) : (
+                <>
+                    <div className="share-button-container">
+                        {/* 공유 버튼 */}
+                        {!isLinkVisible ? (
+                            <button
+                                onClick={() => setIsLinkVisible(true)}
+                                className="share-btn top-right"
+                            >
+                                <PiShareNetworkBold/>
+                            </button>
+                        ) : (
+                            // 링크 표시
+                            <div className="share-link-container">
+                                <input
+                                    type="text"
+                                    value={shareURL}
+                                    readOnly
+                                    className="share-link-input"
+                                />
+                                <button onClick={copyToClipboard} className="copy-btn">
+                                    <FaLink/> 복사
+                                </button>
+                                <button
+                                    onClick={() => setIsLinkVisible(false)}
+                                    className="close-btn"
+                                >
+                                    닫기
+                                </button>
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
 
-            <div className="management-panel">
-                <SocialPanel/>
-                <ThemeSwitcher/>
-                {/* 링크 Create 패널 */}
-                <AddLinkPanel
-                    updateLink={updateLink}
-                    createLink={createLink}/>
-                {/* 메인 링크 관리 패널*/}
-                <ManagementPanel
-                    updateLink={updateLink}
-                    deleteLink={deleteLink}
-                />
-            </div>
+                    <div className="management-panel">
+                        <SocialPanel/>
+                        <ThemeSwitcher/>
+                        {/* 링크 Create 패널 */}
+                        <AddLinkPanel
+                            updateLink={updateLink}
+                            createLink={createLink}/>
+                        {/* 메인 링크 관리 패널*/}
+                        <ManagementPanel
+                            updateLink={updateLink}
+                            deleteLink={deleteLink}
+                        />
+                    </div>
 
-            {/* 디스플레이 패널 */}
-            <div className="display-panel">
-                <LinkDisplay/>
-            </div>
-
-            {/* 팝업 버튼 */}
-            <button
-                className="popup-toggle-button"
-                onClick={() => setIsPopupOpen(true)}
-            >
-                <FaChevronUp/>
-            </button>
-
-            {/* 팝업 컴포넌트 */}
-            {isPopupOpen && (
-                <div className="popup-overlay" onClick={() => setIsPopupOpen(false)}>
-                    <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+                    {/* 디스플레이 패널 */}
+                    <div className="display-panel">
                         <LinkDisplay/>
                     </div>
-                </div>
+
+                    {/* 팝업 버튼 */}
+                    <button
+                        className="popup-toggle-button"
+                        onClick={() => setIsPopupOpen(true)}
+                    >
+                        <FaChevronUp/>
+                    </button>
+
+                    {/* 팝업 컴포넌트 */}
+                    {isPopupOpen && (
+                        <div className="popup-overlay" onClick={() => setIsPopupOpen(false)}>
+                            <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+                                <LinkDisplay/>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
-
-            {/* 튜토리얼 관리 모달 */}
         </div>
-
     );
-
 };
 export default Management;
 
