@@ -2,46 +2,22 @@
     font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: stretch; /* 두 공간이 동일한 높이를 유지하도록 설정 */
     margin: 10% auto;
-    max-width: 40%;
+    max-width: 35%;
     min-width: 280px;
     min-height: 60vh;
-    border: 2px solid #d9d9d9;
-    border-radius: 8px;
+    border: 2px solid #e8e8e8;
+    border-radius: 25px;
 
     animation: fadeIn 0.7s ease-out;
 }
 
-.login-left {
-    flex: 3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #c8cdff; /* 좌측 배경색 추가 */
-    overflow: hidden; /* 튀어나오는 콘텐츠 숨김 */
-}
 
 @media screen and (max-width:1200px) {
-    .login-left {
-        display: none;
-    }
-
     .login-wrapper {
         max-width: 80%;
         margin-top: 20%;
     }
-}
-
-
-.login-image-placeholder {
-    width: 100%;
-    max-width: 600px; /* 최대 크기 제한 */
-    aspect-ratio: 1 / 1; /* 정사각형 유지 */
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1); /* 비율 축소 */
-    transform-origin: top; /* 축소 기준점을 중앙으로 설정 */
 }
 
 .login-right {
@@ -50,9 +26,6 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background: white;
-
-    border-left: 0; /* 좌측 경계를 없애서 연결된 느낌 구현 */
 }
 
 .login-icon {
@@ -125,7 +98,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
-    animation: fadeIn 0.7s ease-out;
 }
 
 .login-forgot-btn{
