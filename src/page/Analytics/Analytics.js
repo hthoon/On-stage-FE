@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import AnalyticsDate from '../../components/Analytics/AnalyticsDate'; // 날짜 선택 컴포넌트 임포트
 import AnalyticsData from '../../components/Analytics/AnalyticsData'; // 데이터 표시 컴포넌트 임포트
 import AnalyticsGraph from '../../components/Analytics/AnalyticsGraph';
-import { fetchAnalyticsData } from '../../components/Analytics/AnalyticsApi';
 import { useLink } from '../../context/LinkContext';
 import './Analytics.css';
 import {PuffLoader} from "react-spinners";
 import {useLocation} from "react-router-dom";
+import {useAxios} from "../../context/AxiosContext";
+import {fetchAnalyticsData} from "../../components/Analytics/AnalyticsApi";
+
 
 const Analytics = () => {
     const { profile } = useLink();
@@ -21,6 +23,8 @@ const Analytics = () => {
     const [selectedButton, setSelectedButton] = useState(null);
     const location = useLocation();
     const userName = profile.username;
+    const { axiosInstance } = useAxios();
+
 
     const handleDateChange = async (startDate, endDate) => {
         setDate({ startDate, endDate });
@@ -50,7 +54,7 @@ const Analytics = () => {
                     .toISOString()
                     .split('T')[0];
 
-                const data = await fetchAnalyticsData(userName, formattedStartDate, formattedEndDate);
+                const data = await fetchAnalyticsData(axiosInstance, userName, formattedStartDate, formattedEndDate);
                 setAnalyticsData(data);
             } catch (err) {
                 setError(err.message);

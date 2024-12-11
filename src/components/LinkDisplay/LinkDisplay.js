@@ -10,7 +10,6 @@ import {mapServiceTypeToIcon, mapServiceTypeToKorean} from "../../utils/Analysis
 import {MdVerified} from "react-icons/md";
 import {HiChevronLeft, HiDotsHorizontal} from "react-icons/hi";
 import {IoMdClose} from "react-icons/io";
-import axios from 'axios';
 import {PuffLoader} from "react-spinners";
 import {useAxios} from "../../context/AxiosContext";
 
@@ -22,7 +21,7 @@ const LinkDisplay = () => {
     const [expandedLinkId, setExpandedLinkId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const VERIFIED = "VERIFIED"
-    const { axiosInstance } = useAxios();
+    const {axiosInstance} = useAxios();
 
     const handleToggleExpand = (id) => {
         setExpandedLinkId((prevId) => (prevId === id ? null : id));
@@ -47,30 +46,25 @@ const LinkDisplay = () => {
 
     useEffect(() => {
         setIsManagementPage(window.location.pathname.includes("/management"));
+        if (profile.username && !window.location.pathname.includes("/management")) {
+            recordPageView(profile.username);
+        }
         console.log(theme);
         if (theme.backgroundImage) {
             setBackground(theme.backgroundImage);
         } else {
             setBackground(null);
         }
-
-        // 페이지 조회 기록
-        if (profile.username) {
-            recordPageView(profile.username);
-        }
-
     }, [theme, profile.username]);
 
     // 페이지 조회 이벤트 기록
     const recordPageView = async (username) => {
-        if(isManagementPage) {
-            try {
-                const ipResponse = await axiosInstance.get('/api/analytics/get-ip');
-                const ipAddress = ipResponse.data;
-                await axiosInstance.post('/api/analytics/page', {ipAddress, username});
-            } catch (error) {
-                console.error("Error recording page view:", error);
-            }
+        try {
+            const ipResponse = await axiosInstance.get('/api/analytics/get-ip');
+            const ipAddress = ipResponse.data;
+            await axiosInstance.post('/api/analytics/page', {ipAddress, username});
+        } catch (error) {
+            console.error("Error recording page view:", error);
         }
     };
 
@@ -111,9 +105,12 @@ const LinkDisplay = () => {
                     }}
                 >
                     <div className={isManagementPage ? "linktree-share" : "linktree-share-visit"}>
-                        <h6 className="linktree-share-icon-star" style={{color: theme.iconColor || 'var(--iconColor)'}}>
+                        <button
+                            className="linktree-share-icon-star"
+                            style={{color: theme.iconColor || 'var(--iconColor)'}}
+                        >
                             <CiStar/>
-                        </h6>
+                        </button>
                         <h6 className="linktree-share-icon" style={{color: theme.iconColor || 'var(--iconColor)'}}>
                             <HiDotsHorizontal onClick={toggleModal}/></h6>
                     </div>
