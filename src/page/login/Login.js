@@ -25,7 +25,7 @@ function Login() {
 
     const handleOAuth = (provider) => {
         setIsLoading(true);
-        return process.env.REACT_APP_SERVER_HOST + `/oauth2/authorization/${provider}`;
+        return process.env.REACT_APP_SERVER_HOST + `/login/oauth2/authorization/${provider}`;
     };
 
     return (
