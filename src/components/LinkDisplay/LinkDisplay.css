@@ -94,7 +94,7 @@
 
     transition: all 0.4s ease-in-out;
 }
-.linktree-share-icon-star :hover{
+.linktree-share-icon-star:hover{
     scale: 1.08;
 }
 .linktree-detail-title{
