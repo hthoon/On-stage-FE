@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./Login.css";
 import {FaUser} from "react-icons/fa";
 import {FcGoogle} from "react-icons/fc";
@@ -6,10 +6,12 @@ import {SiNaver} from "react-icons/si";
 import {RiGithubFill, RiKakaoTalkFill} from "react-icons/ri";
 import {useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
+import {PuffLoader} from "react-spinners";
 
 function Login() {
 
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         // 로그인 상태 판단 -> 액세스 토큰이 존재하는가?
@@ -22,15 +24,17 @@ function Login() {
     }, []);
 
     const handleOAuth = (provider) => {
+        setIsLoading(true);
         return `http://localhost:8080/oauth2/authorization/${provider}`;
     };
 
     return (
         <div className="login-wrapper">
-            {/*<div className="login-left">*/}
-            {/*    /!*<img className="login-image-placeholder" src={login} alt="login"/>*!/*/}
-
-            {/*</div>*/}
+            {isLoading &&
+                <div className="login-loading-container">
+                    <PuffLoader color="#8089ff" size={100}/>
+                </div>
+            }
             <div className="login-right">
                 <FaUser className="login-icon"/>
                 <h1>지금, On Your Stage</h1>
@@ -54,13 +58,14 @@ function Login() {
                     onClick={() => (window.location.href = handleOAuth('github'))}>
                     <RiGithubFill className="login-platform-icon-github"/>깃허브로 로그인
                 </button>
-                {/*<div className="login-forgot-button-container">*/}
-                {/*    <button className="login-forgot-btn">*/}
-                {/*        계정을 잃어버리셨나요?*/}
-                {/*    </button>*/}
-                {/*</div>*/}
+                <div className="login-forgot-button-container">
+                    <button className="login-forgot-btn">
+                        계정을 잃어버리셨나요?
+                    </button>
+                </div>
 
             </div>
+
         </div>
 
     );

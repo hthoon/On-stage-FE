@@ -54,7 +54,6 @@ const Management = () => {
             {isLoading ? (
                 <div className="loading-container">
                     <PuffLoader color="#8089ff" size={100}/>
-                    <p>로딩중...</p>
                 </div>
             ) : (
                 <>
