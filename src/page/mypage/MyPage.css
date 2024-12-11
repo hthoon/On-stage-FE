@@ -10,6 +10,7 @@
     border: 2px solid #d9d9d9;
     border-radius: 8px;
 
+
     animation: fadeIn 0.7s ease-out;
 }
 
@@ -85,13 +86,13 @@
     align-content: center;
     justify-content: center;
     align-items: center;
-    width: 90%;
+    width: 55%;
     background-color: transparent;
-    padding: 18px;
+    padding: 10px;
     border: 1px solid #d9d9d9;
-    border-radius: 25px;
+    border-radius: 15px;
 
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
     margin: 10px 0;
     cursor: pointer;
@@ -164,8 +165,75 @@
 
 /* 마이페이지 인증 정보*/
 
-.mypage-verification-container {
+.mypage-verify-container {
     display: flex;
     align-items: start;
     gap: 20px;
+}
+
+.verify-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.verify-container {
+    position: absolute;
+    border: 1px solid #d9d9d9;
+    border-radius: 12px;
+}
+
+.verify-content {
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 4px 6px #0000001a;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    height:500px;
+    padding:20px;
+    width:450px
+}
+
+.verify-container label {
+    display: block; /* 블록 요소로 변경 */
+    text-align: left; /* 왼쪽 정렬 */
+    font-weight: bold; /* 선택적으로 텍스트 강조 */
+    margin-bottom: 5px; /* 간격 추가 */
+}
+
+.verify-input {
+    align-self: center; /* 버튼을 중앙 정렬 */
+    /*margin-top: auto; !* 버튼을 하단으로 이동 *!*/
+    padding: 10px 20px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    width: 150px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.verify-button {
+    align-self: center; /* 버튼을 중앙 정렬 */
+    margin-top: auto; /* 버튼을 하단으로 이동 */
+    padding: 10px 20px;
+    background-color: #f6f6f6;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    width: 100px;
+    text-align: center;
+}
+
+.verify-button:hover {
+    background-color: #6c77ff;
 }
