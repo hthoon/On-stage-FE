@@ -2,21 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useAxios } from "../../context/AxiosContext";
 import { ToastContainer, toast } from 'react-toastify';
 import "./MyPage.css";
+import {useLink} from "../../context/LinkContext";
 
 function MyPage() {
-    const [user, setUser] = useState(null); // 사용자 정보 상태
-    const { axiosInstance } = useAxios(); // Axios 인스턴스 가져오기
-
-
-    // 사용자 프로필 데이터를 가져오는 함수
-    const getProfileData = async () => {
-        try {
-            const response = await axiosInstance.get('/api/user'); // API 호출
-            setUser(response.data); // 상태 업데이트
-        } catch (error) {
-            console.error('Error fetching user profile data:', error);
-        }
-    };
+    const { profile } = useLink();
+    const { axiosInstance } = useAxios();
 
     const updateUserProfile = async (field, value) => {
         try {
@@ -42,73 +32,54 @@ function MyPage() {
             });
         }
     };
-
-    // 컴포넌트가 처음 렌더링될 때 데이터를 가져옵니다.
-    useEffect(() => {
-        getProfileData();
-    }, []);
-
-    if (!user) {
-        // 데이터가 로드되기 전 로딩 메시지 표시
-        return <div>Loading...</div>;
-    }
+    console.log(profile);
 
     return (
+        <div className="mypage-wrapper">
+            {/*<div className"mypage-left">*/}
+            {/*    /!*<img className"mypage-image-placeholder" src={login} alt="login"/>*!/*/}
 
-        <div className="mypage-container">
+            {/*</div>*/}
+            <div className="mypage-right">
+                {/*<FaUser className"mypage-icon"/>*/}
+                <h1 className="mypage-right-h1">마이페이지</h1>
+                    <hr className="mypage-hr"/>
+                <h3 className="mypage-index">프로필 정보</h3>
+                <div className="mypage-profile-container">
+                        <img
+                            src={profile.profileImage}
+                            alt="Profile"
+                            className="mypage-profile-image"
+                        />
+                        <div className="mypage-profile-textbox">
+                            <p className="mypage-profile-nickname">{profile.nickname}</p>
+                            <p className="mypage-profile-description">{profile.description}</p>
+                        </div>
+                    </div>
+                <h3 className="mypage-index">인증 정보</h3>
+                <div className="mypage-verification-container">
+                    {/*Todo 딱지*/}
+                    {profile.verified === "VERIFIED" ? (
+                        <div className="mypage-profile-textbox">
+                            <p>인증된 사용자</p>
+                            <p>인증 날짜: {profile.verifiedAt || "정보 없음"}</p>
+                        </div>
+                    ) : (
+                        <p>아직 인증되지 않았습니다.</p>
+                    )}
+                </div>
+                <button
+                    className="mypage-custom-button">
+                </button>
+                {/*<div className"mypage-forgot-button-container">*/}
+                {/*    <button className"mypage-forgot-btn">*/}
+                {/*        계정을 잃어버리셨나요?*/}
+                {/*    </button>*/}
+                {/*</div>*/}
 
-            <h1>MyPage</h1>
-            <div style={{marginBottom: '20px'}}>
-                <img
-                    src={user.profileImage ? `${process.env.REACT_APP_SERVER_HOST}${user.profileImage}` : '/default-profile.png'}
-                    alt="Profile"
-                    style={{width: '100px', height: '100px', borderRadius: '50%'}}
-                />
             </div>
-
-            <div>
-                <input
-                    type="text"
-                    value={user.nickname}
-                    className="mypage-input"
-                />
-                <button>중복 확인</button>
-                <br/>
-                <button>닉네임 변경</button>
-            </div>
-
-            <div>
-                <input
-                    type="text"
-                    value={user.description}
-                    className="mypage-input"
-                />
-                <button onClick={updateUserProfile}>변경하기</button>
-            </div>
-
-
-
         </div>
 
-        // <div style={{ padding: '20px' }}>
-        //     <h1>My Page</h1>
-        //     <div style={{ marginBottom: '20px' }}>
-        //         <img
-        //             src={user.picture || '/default-profile.png'}
-        //             alt="Profile"
-        //             style={{ width: '100px', height: '100px', borderRadius: '50%' }}
-        //         />
-        //     </div>
-        //     <div>
-        //         <p><strong>Nickname:</strong> {user.nickname}</p>
-        //         <button onClick={() => handleEdit('nickname')}>닉네임 변경</button>
-        //     </div>
-        //
-        //     <div>
-        //         <p><strong>Description:</strong> {user.description}</p>
-        //         <button onClick={() => handleEdit('description')}>소개글 변경</button>
-        //     </div>
-        // </div>
     );
 }
 
