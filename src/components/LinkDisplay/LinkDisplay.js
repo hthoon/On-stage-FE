@@ -12,6 +12,7 @@ import {HiChevronLeft, HiDotsHorizontal} from "react-icons/hi";
 import {IoMdClose} from "react-icons/io";
 import axios from 'axios';
 import {PuffLoader} from "react-spinners";
+import {useAxios} from "../../context/AxiosContext";
 
 const LinkDisplay = () => {
     const {links, socialLink, theme, profile, isLoading} = useLink();
@@ -21,6 +22,7 @@ const LinkDisplay = () => {
     const [expandedLinkId, setExpandedLinkId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const VERIFIED = "VERIFIED"
+    const { axiosInstance } = useAxios();
 
     const handleToggleExpand = (id) => {
         setExpandedLinkId((prevId) => (prevId === id ? null : id));
@@ -62,7 +64,7 @@ const LinkDisplay = () => {
     // 페이지 조회 이벤트 기록
     const recordPageView = async (username) => {
         try {
-            const ipResponse = await axios.get('/api/analytics/get-ip');
+            const ipResponse = await axiosInstance.get('/api/analytics/get-ip');
             const ipAddress = ipResponse.data;
             await axios.post('/api/analytics/page', {ipAddress, username});
         } catch (error) {
@@ -73,7 +75,7 @@ const LinkDisplay = () => {
     // 링크 클릭 이벤트 기록
     const recordLinkClick = async (username, linkId) => {
         try {
-            await axios.post('/api/analytics/link', {username, linkId});
+            await axiosInstance.post('/api/analytics/link', {username, linkId});
         } catch (error) {
             console.error("Error recording link click:", error);
         }
@@ -82,7 +84,7 @@ const LinkDisplay = () => {
     // 소셜 링크 클릭 이벤트 기록
     const recordSocialLinkClick = async (username, socialLinkType) => {
         try {
-            await axios.post('/api/analytics/socialLink', {username, socialLinkType});
+            await axiosInstance.post('/api/analytics/socialLink', {username, socialLinkType});
         } catch (error) {
             console.error("Error recording social link click:", error);
         }

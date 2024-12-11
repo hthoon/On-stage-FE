@@ -12,8 +12,8 @@ export const LinkProvider = ({ children }) => {
     const { pathname } = location;
     const nickname = decodeURIComponent(pathname.split('/')[2]);
 
-    const managementPath = ['/management'];
-    const etcPath = ['/analytics', '/news', '/map', '/mypage'];
+    const managementPath = ['/management', '/mypage'];
+    const etcPath = ['/analytics', '/news', '/map'];
     const visitPath = '/page/';
 
     const [links, setLinks] = useState([]);
