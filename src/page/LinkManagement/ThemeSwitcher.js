@@ -5,7 +5,8 @@ import { HiChevronLeft } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
 import { FaPalette } from "react-icons/fa";
 import { useAxios } from "../../context/AxiosContext";
-import {VscGraph} from "react-icons/vsc";
+import { VscGraph } from "react-icons/vsc";
+import Analytics from "../Analytics/Analytics";
 
 const ThemeSwitcher = () => {
     const { axiosInstance } = useAxios();
@@ -15,6 +16,8 @@ const ThemeSwitcher = () => {
         borderRadius: theme?.borderRadius ? parseInt(theme.borderRadius, 10) : 25, // 초기 설정
     });
     const [openSection, setOpenSection] = useState(null); // 어떤 섹션이 열릴지 관리
+    const ANALYTICS = "analytics";
+    const THEME = "theme";
 
     useEffect(() => {
         // CSS 변수 업데이트
@@ -35,7 +38,6 @@ const ThemeSwitcher = () => {
             borderRadius: theme?.borderRadius ? parseInt(theme.borderRadius, 10) : 25,
         });
     }, [theme]);
-
 
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
@@ -58,9 +60,8 @@ const ThemeSwitcher = () => {
     };
 
     const clearBackground = async () => {
-
         try {
-            const response = await axiosInstance.put(`/api/theme/background/clear` )
+            const response = await axiosInstance.put(`/api/theme/background/clear`);
             const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
 
             handleThemeChange("backgroundImage", `url(${imageUrl})`);
@@ -69,6 +70,7 @@ const ThemeSwitcher = () => {
             console.error("Image upload failed:", error);
         }
     };
+
     const handleThemeChange = (property, value) => {
         const newTheme = { ...customTheme, [property]: value };
         setCustomTheme(newTheme); // 로컬 상태 업데이트
@@ -98,22 +100,22 @@ const ThemeSwitcher = () => {
                 {/* 테마 설정 버튼 */}
                 <button
                     className="theme-toggle-button"
-                    onClick={() => handleSectionToggle("theme")} // 테마 설정 토글
+                    onClick={() => handleSectionToggle(THEME)} // 테마 설정 토글
                 >
                     <FaPalette className="palette-icon"/> 테마
                 </button>
 
                 <button
                     className="theme-toggle-button"
-                    onClick={() => handleSectionToggle("analysis")} // 테마 설정 토글
+                    onClick={() => handleSectionToggle(ANALYTICS)} // 테마 설정 토글
                 >
                     <VscGraph className="palette-icon"/> 분석
                 </button>
             </div>
 
             {/* 테마 설정 영역 */}
-            <div className={`theme-switcher ${openSection === "theme" ? "open" : "close"}`}>
-                {openSection === "theme" && (
+            <div className={`theme-switcher ${openSection === THEME ? "open" : "close"}`}>
+                {openSection === THEME && (
                     <div>
                         <div className="detail-modal-close-btn-container">
                             <HiChevronLeft
@@ -238,10 +240,12 @@ const ThemeSwitcher = () => {
                         </button>
                     </div>
                 )}
+            </div>
+            <div className={`analytics-switcher ${openSection === ANALYTICS ? "open" : "close"}`}>
+                {openSection === ANALYTICS && (
 
-                <div className={`theme-switcher ${openSection === "analysis" ? "open" : "close"}`}>
-                    {openSection === "theme" && (<div></div>)}
-                        </div>
+                    <Analytics className="management-analytics-panel"/>
+                )}
             </div>
         </div>
     );
