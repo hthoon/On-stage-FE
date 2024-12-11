@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import "./LinkDisplay.css";
 import {useLink} from "../../context/LinkContext";
-import {FaGithub, FaInstagram} from "react-icons/fa";
+import {FaGithub, FaInstagram, FaRegStar, FaStar} from "react-icons/fa";
 import {SlSocialSpotify, SlSocialYoutube} from "react-icons/sl";
 import {FaXTwitter} from "react-icons/fa6";
 import {CiStar} from "react-icons/ci";
@@ -21,6 +21,7 @@ const LinkDisplay = () => {
     const [expandedLinkId, setExpandedLinkId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const VERIFIED = "VERIFIED"
+    const [isHovered, setIsHovered] = useState(false);
     const {axiosInstance} = useAxios();
 
     const handleToggleExpand = (id) => {
@@ -107,9 +108,11 @@ const LinkDisplay = () => {
                     <div className={isManagementPage ? "linktree-share" : "linktree-share-visit"}>
                         <button
                             className="linktree-share-icon-star"
-                            style={{color: theme.iconColor || 'var(--iconColor)'}}
+                            style={{color: theme.iconColor || "var(--iconColor)"}}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
                         >
-                            <CiStar/>
+                            {isHovered ? <FaStar/> : <FaRegStar/>}
                         </button>
                         <h6 className="linktree-share-icon" style={{color: theme.iconColor || 'var(--iconColor)'}}>
                             <HiDotsHorizontal onClick={toggleModal}/></h6>
