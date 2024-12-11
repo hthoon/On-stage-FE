@@ -1,13 +1,7 @@
-import axios from 'axios';
-
-export const fetchAnalyticsData = async (userName, startDate, endDate) => {
+export const fetchAnalyticsData = async (axiosInstance, userName, startDate, endDate) => {
   try {
-    const response = await axios.get(`/api/analytics/dashboard`, {
-      params: {
-        userName: userName,
-        startDate: startDate,
-        endDate: endDate,
-      },
+    const response = await axiosInstance.get(`/api/analytics/dashboard`, {
+      params: { userName, startDate, endDate },
     });
     return response.data;
   } catch (error) {
