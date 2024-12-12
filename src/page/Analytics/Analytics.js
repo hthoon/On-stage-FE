@@ -82,7 +82,6 @@ const Analytics = () => {
 
         const prevStartDate = new Date();
         const prevEndDate = new Date();
-
         prevStartDate.setDate(startDate.getDate() - days);
         prevEndDate.setDate(endDate.getDate() - days);
         handleDateChange(prevStartDate, prevEndDate, false);
