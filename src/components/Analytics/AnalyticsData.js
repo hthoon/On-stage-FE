@@ -3,7 +3,7 @@ import { TrendingUp, Link2, Eye } from 'lucide-react';
 import './css/AnalyticsData.css';
 import {TbTriangleFilled, TbTriangleInvertedFilled} from "react-icons/tb";
 
-const AnalyticsData = ({ analyticsData, prevAnalyticsData }) => {
+const AnalyticsData = ({ analyticsData, prevAnalyticsData, selectedButton }) => {
     // 안전한 데이터 처리
     const currentPageViewStats = (analyticsData && analyticsData.pageViewStats) || [];
 
@@ -38,7 +38,7 @@ const AnalyticsData = ({ analyticsData, prevAnalyticsData }) => {
 
             );
         return (
-            <p className="Analytics-data-down">-</p>
+            <p className="Analytics-data-no-change">-</p>
         );
     };
 
@@ -54,7 +54,7 @@ const AnalyticsData = ({ analyticsData, prevAnalyticsData }) => {
 
             );
         return (
-            <p className="Analytics-data-down">-</p>
+            <p className="Analytics-data-no-change">-</p>
         );
     };
 
