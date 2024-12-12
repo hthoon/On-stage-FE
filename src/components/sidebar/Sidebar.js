@@ -81,7 +81,7 @@ const Sidebar = () => {
                     <div className="sidebar-menu-item"><FaStaylinked /><a href="/management">링크 관리</a></div>
                     <div className="sidebar-menu-item"><SiGoogleanalytics /><a href="/analytics">분석</a></div>
                     <div className="sidebar-menu-item"><LuMusic4 /><a href="/news">아티스트</a></div>
-                    <div className="sidebar-menu-item"><BsSpeaker /><a href="/map">공연</a></div>
+                    {/*<div className="sidebar-menu-item"><BsSpeaker /><a href="/map">공연</a></div>*/}
                     <div className="sidebar-menu-item"><RiSettings4Fill /><a href="/mypage">마이페이지</a></div>
                 </div>
 
@@ -149,10 +149,10 @@ const Sidebar = () => {
                     <LuMusic4 />
                     <span>아티스트</span>
                 </a>
-                <a href="/map" className="bottom-nav-item">
-                    <BsSpeaker />
-                    <span>공연정보</span>
-                </a>
+                {/*<a href="/map" className="bottom-nav-item">*/}
+                {/*    <BsSpeaker />*/}
+                {/*    <span>공연정보</span>*/}
+                {/*</a>*/}
                 <a href="/mypage" className="bottom-nav-item">
                     <RiSettings4Fill />
                     <span>마이페이지</span>
