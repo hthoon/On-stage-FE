@@ -5,7 +5,7 @@ import {TbTriangleFilled, TbTriangleInvertedFilled} from "react-icons/tb";
 
 const AnalyticsData = ({ analyticsData, prevAnalyticsData }) => {
     // 안전한 데이터 처리
-    const currentPageViewStats = analyticsData.pageViewStats || [];
+    const currentPageViewStats = (analyticsData && analyticsData.pageViewStats) || [];
 
     // 페이지 조회수, 링크 클릭 수, 클릭률 합산 계산
     const totalPageViewCount = currentPageViewStats.reduce((total, data) => total + (data.pageViewCount || 0), 0);
@@ -15,7 +15,7 @@ const AnalyticsData = ({ analyticsData, prevAnalyticsData }) => {
             ? ((totalLinkClickCount / totalPageViewCount) * 100).toFixed(2)
             : 0;
 
-    const prevPageViewStats = prevAnalyticsData.pageViewStats || [];
+    const prevPageViewStats = (prevAnalyticsData && prevAnalyticsData.pageViewStats) || [];
     const prevTotalPageViewCount = prevPageViewStats.reduce((total, data) => total + (data.pageViewCount || 0), 0);
     const prevTotalLinkClickCount = prevPageViewStats.reduce((total, data) => total + (data.linkClickCount || 0), 0);
 
