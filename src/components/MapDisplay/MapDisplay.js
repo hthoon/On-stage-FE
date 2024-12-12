@@ -88,23 +88,30 @@ const KakaoMap = () => {
               const locPosition = new window.kakao.maps.LatLng(lat, lon);
               displayMarker(kakaoMap, locPosition, "여기에 계신가요?!");
             });
-          } else {
-            const locPosition = new window.kakao.maps.LatLng(
-              currentPosition.lat,
-              currentPosition.lon
-            );
-            displayMarker(kakaoMap, locPosition, "Geolocation을 사용할 수 없어요.");
-          }
-        });
-      };
+        },
+        [positions]
+    );
 
-      return () => {
-        document.head.removeChild(script);
-      };
-    };
+    useEffect(() => {
+        const initializeMap = async () => {
+            const script = document.createElement("script");
+            script.src =
+                "//dapi.kakao.com/v2/maps/sdk.js?appkey=c72248c25fcfe17e7a6934e08908d1f4&autoload=false";
+            script.async = true;
+            document.head.appendChild(script);
 
-    initializeMap();
-  }, [currentPosition.lat, currentPosition.lon]);
+            script.onload = () => {
+                window.kakao.maps.load(() => {
+                    const mapContainer = document.getElementById("map");
+                    const mapOption = {
+                        center: new window.kakao.maps.LatLng(
+                            currentPosition.lat,
+                            currentPosition.lon
+                        ),
+                        level: 3,
+                    };
+                    const kakaoMap = new window.kakao.maps.Map(mapContainer, mapOption);
+                    setMap(kakaoMap);
 
   useEffect(() => {
     console.log("마커찍기");
@@ -113,17 +120,47 @@ const KakaoMap = () => {
     }
   }, [map, addMarkers]);
 
-  // 현재 위치에 마커와 인포윈도우 표시
-  const displayMarker = (kakaoMap, locPosition, message) => {
-    const marker = new window.kakao.maps.Marker({
-      map: kakaoMap,
-      position: locPosition,
-    });
+            return () => {
+                document.head.removeChild(script);
+            };
+        };
 
-    const infowindow = new window.kakao.maps.InfoWindow({
-      content: `<div style="padding:5px;">${message}</div>`,
-      removable: true,
-    });
+        initializeMap();
+    }, [currentPosition.lat, currentPosition.lon]);
+
+    useEffect(() => {
+        if (map) {
+            addMarkers(map);
+        }
+    }, [map, addMarkers]);
+
+    // 현재 위치에 마커와 인포윈도우 표시
+    const displayMarker = (kakaoMap, locPosition, message) => {
+        const marker = new window.kakao.maps.Marker({
+            map: kakaoMap,
+            position: locPosition,
+        });
+
+        const infowindow = new window.kakao.maps.InfoWindow({
+            content: `<div style="padding:5px;">${message}</div>`,
+            removable: true,
+        });
+
+        infowindow.open(kakaoMap, marker);
+        kakaoMap.setCenter(locPosition);
+    };
+
+    return (
+
+            <div
+                id="map"
+                style={{
+                    width: "700px",
+                    height: "700px",
+                    marginTop: "100px",
+                    marginLeft: "40%",
+                }}
+            ></div>
 
     infowindow.open(kakaoMap, marker);
     kakaoMap.setCenter(locPosition);

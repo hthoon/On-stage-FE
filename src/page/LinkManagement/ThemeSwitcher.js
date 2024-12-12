@@ -3,8 +3,10 @@ import "./ThemeSwitcher.css";
 import { useLink } from "../../context/LinkContext";
 import { HiChevronLeft } from "react-icons/hi";
 import { IoMdClose } from "react-icons/io";
-import {FaImage, FaPalette} from "react-icons/fa";
+import { FaPalette } from "react-icons/fa";
 import { useAxios } from "../../context/AxiosContext";
+import { VscGraph } from "react-icons/vsc";
+import Analytics from "../Analytics/Analytics";
 
 const ThemeSwitcher = () => {
     const { axiosInstance } = useAxios();
@@ -14,6 +16,8 @@ const ThemeSwitcher = () => {
         borderRadius: theme?.borderRadius ? parseInt(theme.borderRadius, 10) : 25, // 초기 설정
     });
     const [openSection, setOpenSection] = useState(null); // 어떤 섹션이 열릴지 관리
+    const ANALYTICS = "analytics";
+    const THEME = "theme";
 
     useEffect(() => {
         // CSS 변수 업데이트
@@ -35,7 +39,6 @@ const ThemeSwitcher = () => {
         });
     }, [theme]);
 
-
     const handleFileUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -44,13 +47,24 @@ const ThemeSwitcher = () => {
         formData.append("file", file);
 
         try {
-            const response = await axiosInstance.put(`/api/theme/${customTheme.username}/background`, formData, {
+            const response = await axiosInstance.put(`/api/theme/background`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
 
             handleThemeChange("backgroundImage", `url(${imageUrl})`);
-            console.log(response.data);
+            updateTheme(response.data);
+        } catch (error) {
+            console.error("Image upload failed:", error);
+        }
+    };
+
+    const clearBackground = async () => {
+        try {
+            const response = await axiosInstance.put(`/api/theme/background/clear`);
+            const imageUrl = response.data.backgroundImage; // 서버에서 반환된 이미지 URL
+
+            handleThemeChange("backgroundImage", `url(${imageUrl})`);
             updateTheme(response.data);
         } catch (error) {
             console.error("Image upload failed:", error);
@@ -86,23 +100,22 @@ const ThemeSwitcher = () => {
                 {/* 테마 설정 버튼 */}
                 <button
                     className="theme-toggle-button"
-                    onClick={() => handleSectionToggle("theme")} // 테마 설정 토글
+                    onClick={() => handleSectionToggle(THEME)} // 테마 설정 토글
                 >
-                    <FaPalette className="palette-icon" /> 테마
+                    <FaPalette className="palette-icon"/> 테마
                 </button>
 
-                {/* 배경 이미지 업로드 버튼 */}
                 <button
                     className="theme-toggle-button"
-                    onClick={() => handleSectionToggle("background")} // 배경 이미지 업로드 토글
+                    onClick={() => handleSectionToggle(ANALYTICS)} // 테마 설정 토글
                 >
-                    <FaImage className="palette-icon" /> 배경
+                    <VscGraph className="palette-icon"/> 분석
                 </button>
             </div>
 
             {/* 테마 설정 영역 */}
-            <div className={`theme-switcher ${openSection === "theme" ? "open" : "close"}`}>
-                {openSection === "theme" && (
+            <div className={`theme-switcher ${openSection === THEME ? "open" : "close"}`}>
+                {openSection === THEME && (
                     <div>
                         <div className="detail-modal-close-btn-container">
                             <HiChevronLeft
@@ -117,8 +130,45 @@ const ThemeSwitcher = () => {
                         </div>
 
                         <div className="theme-setting">
+                            <label className="theme-file-label">
+                                배경 이미지 업로드
+                                <span className="theme-background-image-btn">
+                                    업로드</span>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileUpload}
+                                    className="theme-file-input"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
+                            <label>배경 이미지 제거
+                                <button
+                                    className="theme-background-image-btn"
+                                    onClick={clearBackground}>
+                                    제거
+                                </button>
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
                             <label>
-                                버튼 색상:
+                                배경 색상:
+                                <input
+                                    type="color"
+                                    value={customTheme.backgroundColor || "#333333"}
+                                    onChange={(e) =>
+                                        handleThemeChange("backgroundColor", e.target.value)
+                                    }
+                                />
+                            </label>
+                        </div>
+
+                        <div className="theme-setting">
+                            <label>
+                                블록 색상:
                                 <input
                                     type="color"
                                     value={customTheme.buttonColor || "#ffffff"}
@@ -128,6 +178,7 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
                         <div className="theme-setting">
                             <label>
                                 폰트 색상:
@@ -140,6 +191,7 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
                         <div className="theme-setting">
                             <label>
                                 아이콘 색상:
@@ -154,7 +206,7 @@ const ThemeSwitcher = () => {
                         </div>
                         <div className="theme-setting">
                             <label>
-                                프로필 색상:
+                                프로필 문구 색상:
                                 <input
                                     type="color"
                                     value={customTheme.profileColor || "#000000"}
@@ -164,6 +216,7 @@ const ThemeSwitcher = () => {
                                 />
                             </label>
                         </div>
+
                         <div className="theme-setting">
                             <label>
                                 모서리 둥글기:
@@ -181,41 +234,17 @@ const ThemeSwitcher = () => {
                             </label>
                         </div>
 
+
                         <button onClick={handleUpdateTheme} className="form-cancel-button">
                             저장
                         </button>
                     </div>
                 )}
             </div>
+            <div className={`analytics-switcher ${openSection === ANALYTICS ? "open" : "close"}`}>
+                {openSection === ANALYTICS && (
 
-            {/* 배경 이미지 업로드 영역 */}
-            <div className={`theme-switcher ${openSection === "background" ? "open" : "close"}`}>
-                {openSection === "background" && (
-                    <div>
-                        <div className="detail-modal-close-btn-container">
-                            <HiChevronLeft
-                                className="modal-close-btn"
-                                onClick={() => setOpenSection(null)} // 배경 이미지 업로드 닫기
-                            />
-                            <h3>배경 이미지 업로드</h3>
-                            <IoMdClose
-                                className="modal-close-btn"
-                                onClick={() => setOpenSection(null)} // 배경 이미지 업로드 닫기
-                            />
-                        </div>
-
-                        <div className="theme-setting">
-                            <label className="theme-file-label">
-                                <span className="theme-file-button">업로드</span>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileUpload}
-                                    className="theme-file-input"
-                                />
-                            </label>
-                        </div>
-                    </div>
+                    <Analytics className="management-analytics-panel"/>
                 )}
             </div>
         </div>

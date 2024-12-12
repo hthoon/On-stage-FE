@@ -1,0 +1,104 @@
+.analytics-graph-container {
+    width: 100%;
+
+    margin: 30px auto;
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: solid 1px lightgray;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: fadeIn 0.6s;
+}
+
+.analytics-graph-header {
+    background-color: #f4f6f7;
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #e0e6e9;
+}
+
+.analytics-graph-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.graph-nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff;
+}
+
+.graph-nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0.5rem;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #7f8c8d;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.graph-nav-btn svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 0.5rem;
+    color: #95a5a6;
+    transition: color 0.3s ease;
+}
+
+.graph-nav-btn:hover {
+    background-color: #f1f3f4;
+}
+
+.graph-nav-btn.active {
+    border-bottom-color: #6e79ff;
+    color: #6e79ff;
+}
+
+.graph-nav-btn.active svg {
+    color: #6e79ff;
+}
+
+.graph-content {
+    padding: 40px;
+}
+
+.graph-section {
+    animation: fadeIn 0.5s ease;
+}
+
+.graph-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .graph-nav {
+        flex-direction: column;
+    }
+
+    .graph-nav-btn {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 1rem;
+        border-bottom: 1px solid #e0e6e9;
+    }
+
+    .graph-nav-btn svg {
+        margin-right: 0.75rem;
+        margin-bottom: 0;
+    }
+}

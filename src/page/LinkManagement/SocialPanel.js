@@ -1,32 +1,51 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import "./SocialPanel.css";
 import AddSocialLinkModal from "./AddSocialLinkModal";
 import { useLink } from "../../context/LinkContext";
-import { FaInstagram, FaYoutube, FaTwitter, FaSpotify, FaGithub } from "react-icons/fa";
-import {IoMdAddCircle} from "react-icons/io";
+import { IoMdAddCircle } from "react-icons/io";
+import ProfileImageModal from "./ProfileImageModal";
+import { useAxios } from "../../context/AxiosContext";
+import {socialPlatforms} from "../../utils/AnalysisURL";
+import EditableField from "../../components/EditableField";
+import {updateProfileField} from "../../utils/UpdateProfileField";
 
-const SocialPanel = () => {
-    const { socialLink, setSocialLink } = useLink();
-    const profileImage = "https://www.kstarfashion.com/news/photo/202405/215563_131233_4152.jpg";
+const SocialPanel = ( ) => {
+    const { axiosInstance } = useAxios();
+    const { socialLink, setSocialLink, profile, setProfile } = useLink();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
 
-    const socialPlatforms = [
-        { name: "Instagram", icon: <FaInstagram />, key: "instagram" },
-        { name: "YouTube", icon: <FaYoutube />, key: "youtube" },
-        { name: "X (Twitter)", icon: <FaTwitter />, key: "x" },
-        { name: "Spotify", icon: <FaSpotify />, key: "spotify" },
-        { name: "GitHub", icon: <FaGithub />, key: "github" },
-    ];
-
     return (
         <div>
             <div>
-                <img src={profileImage} alt="Profile" className="social-panel-profile-image" />
-                <h5 className="social-panel-name">Winter</h5>
-                <h6 className="social-panel-description">카리나는요?</h6>
+                <img
+                    src={profile.profileImage} // 기본 이미지
+                    alt="Profile"
+                    className="social-panel-profile-image"
+                    onClick={() => setIsImageModalOpen(true)}
+                />
+                <div className="social-panel-name">
+                    <EditableField
+                        field="nickname"
+                        value={profile.nickname}
+                        onSave={updateProfileField}
+                        isVerified={profile.verified === "VERIFIED"}
+                        setProfile={setProfile}
+                        axiosInstance={axiosInstance}
+                    />
+                </div>
+                <div className="social-panel-description">
+                    <EditableField
+                        field="description"
+                        value={profile.description}
+                        onSave={updateProfileField}
+                        setProfile={setProfile}
+                        axiosInstance={axiosInstance}
+                    />
+                </div>
             </div>
 
             <div className="social-panel">
@@ -34,14 +53,12 @@ const SocialPanel = () => {
                     {socialPlatforms.map((platform) => (
                         <div
                             key={platform.key}
-                            className={`social-icon ${
-                                socialLink[platform.key] ? "active" : "inactive"
-                            }`}
+                            className={`social-icon ${socialLink[platform.key] ? "active" : "inactive"}`}
                         >
                             {platform.icon}
                         </div>
                     ))}
-                    <IoMdAddCircle className={`social-icon-add-btn`} onClick={handleOpenModal} />
+                    <IoMdAddCircle className="social-icon-add-btn" onClick={handleOpenModal}/>
                 </div>
             </div>
 
@@ -52,8 +69,15 @@ const SocialPanel = () => {
                     onClose={handleCloseModal}
                 />
             )}
+
+            {isImageModalOpen && (
+                <ProfileImageModal
+                    currentImage={profile.profileImage}
+                    onClose={() => setIsImageModalOpen(false)}
+                    // onSave={handleImageSave} // 저장 시 호출
+                />
+            )}
         </div>
     );
 };
-
 export default SocialPanel;

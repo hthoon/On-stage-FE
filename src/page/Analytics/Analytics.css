@@ -1,0 +1,86 @@
+.analytics-container {
+    width: 60%;
+    padding: 30px;
+    font-family: 'Arial', sans-serif;
+
+    margin-left: 28%;
+}
+
+.management-analytics-container{
+    width: 100%;
+    padding: 1px;
+
+}
+
+.analytics-header {
+    margin-top: 120px;
+    text-align: center; /* 제목 중앙 정렬 */
+    margin-bottom: 10px; /* 제목과 내용 간 간격 */
+}
+
+.analytics-header h1 {
+    font-size: 28px;
+    color: #333; /* 제목 색상 */
+    margin-bottom: 0.5rem; /* 제목과 서브 제목 간 간격 */
+}
+
+.analytics-header h2 {
+    font-size: 20px;
+    color: #666; /* 서브 제목 색상 */
+    margin-bottom: 1rem; /* 서브 제목과 아래 요소 간 간격 */
+}
+
+.loading, .error {
+    text-align: center; /* 로딩 및 에러 메시지 중앙 정렬 */
+    color: #e74c3c; /* 에러 메시지 색상 */
+    font-weight: bold;
+}
+
+.analytics-date-container {
+    margin-bottom: 2rem; /* 날짜 선택 컴포넌트와 다른 요소 간 간격 */
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 1250px) {
+
+    .analytics-container{
+        margin: 0 auto;
+        width: 90%;
+    }
+
+    .analytics-header h1 {
+        font-size: 24px; /* 모바일에서 제목 크기 조정 */
+    }
+
+    .analytics-header h2 {
+        font-size: 18px; /* 모바일에서 서브 제목 크기 조정 */
+    }
+}
+
+.analytics-date-button-container{
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.analytics-date-button-container button{
+    outline: none;
+    padding: 15px;
+    border: transparent;
+    border-radius: 15px;
+    background: #e5e5e5;
+    font-size: 16px;
+    font-weight: bold;
+
+    transition: all 0.4s ease-in-out;
+}
+.analytics-date-button-container button:hover{
+    background: #bac0ff;
+}
+
+.analytics-date-button-container button.selected{
+    background: #bac0ff;
+}

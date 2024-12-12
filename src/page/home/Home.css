@@ -1,0 +1,374 @@
+/* Home.css */
+.home-container {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    color: #333;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    animation: fadeIn 0.7s ease-out;
+}
+
+.home-nav {
+    width: 60%;
+    background-color: #eeeeee;
+    border-radius: 50px;
+    padding: 10px 20px; /* 상단 여백을 늘림 */
+    margin: 0 auto;
+    position: fixed;
+    top: 40px; /* 상단에서의 거리 */
+    left: 50%; /* 화면 너비의 50% */
+    transform: translateX(-50%); /* 본래 너비의 50%만큼 왼쪽으로 이동 */
+    z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+@media screen and (max-width: 1250px) {
+    .home-nav {
+        display: none;
+    }
+}
+
+.home-on-stage-logo{
+    font-size: 40px;
+}
+
+.home-nav ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+    margin: 0;
+}
+
+.home-nav ul li {
+    display: inline-block;
+    margin: 0 20px;  /* 각 항목의 간격 확대 */
+}
+
+.home-nav ul li a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 20px;  /* 텍스트 크기 확대 */
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 15px;
+
+    transition: background-color 0.3s ease-in-out;
+}
+
+.home-nav ul li a:hover {
+    background-color: #eaeaea;
+}
+
+/* 메인 콘텐츠 */
+.home-main-content {
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+
+/* 특징 카드 스타일 */
+.home-feature-area-1 {
+    background-color: #ffffff;
+    width: 100%;
+    height: 600px;
+    padding: 80px 0;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.home-feature-area-2 {
+    background-color: #6e79ff;
+    width: 100%;
+    padding: 200px 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.home-feature-title {
+    text-align: center;
+    font-size: 70px;
+    color: #333; /* 기본 텍스트 색상 */
+}
+
+.highlight-gradient {
+    background: linear-gradient(90deg, #94c0ff, #8c7bfe, #ba7bfe, #8c7bfe, #94c0ff); /* 완전한 루프 */
+    background-size: 400% 400%; /* 더 큰 크기로 설정 */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    animation: gradient-animation 6s linear infinite; /* 애니메이션 길이를 늘려 자연스러움 강조 */
+}
+
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; } /* 원점으로 되돌아가게 설정 */
+}
+
+.home-feature-text{
+    text-align: center;
+    font-size: 20px;
+    color: #919191;
+    margin-bottom: 60px;
+}
+
+.home-login-button{
+    background-color: #6e79ff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    margin-right: 10px;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.home-start-button {
+    background-color: #333;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+.home-start-button:hover {
+    background-color: #555;
+    transform: translateY(-3px);
+}
+
+.home-start-button:active {
+    background-color: #222;
+    transform: translateY(2px);
+}
+
+.home-feature-area h2 {
+    font-size: 28px;  /* 제목 크기 확대 */
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+
+
+.home-feature-area p {
+    font-size: 18px;  /* 텍스트 크기 확대 */
+    line-height: 1.8;
+    color: #666;
+}
+
+.home-feature-area:hover {
+    transform: translateY(-15px);  /* hover 시 더 많은 이동 효과 */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* 애니메이션 효과 (fadeIn) */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* 푸터 */
+.home-footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin-top: auto;
+    font-size: 16px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+    .home-header h1 {
+        font-size: 50px;
+    }
+
+    .home-header p {
+        font-size: 22px;
+    }
+
+    .home-main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .home-feature-area {
+        width: 90%;
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-header h1 {
+        font-size: 40px;
+    }
+
+    .home-main-content {
+        gap: 20px;
+    }
+
+    .home-feature-area {
+        width: 100%;
+    }
+}
+
+
+/* 추가 스타일링 */
+
+/* 특징 카드 레이아웃 */
+.home-features-scrollable {
+    overflow: hidden; /* 스크롤바 숨기기 */
+    position: relative;
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 50px 0;
+}
+
+.home-features-wrapper {
+    display: flex;
+    width: calc(200%); /* 콘텐츠가 두 배 길이로 늘어남 */
+    animation: scroll 20s linear infinite; /* 무한 스크롤 애니메이션 */
+}
+
+/* 호버 시 애니메이션 일시 중지 */
+.home-features-wrapper:hover {
+    animation-play-state: paused; /* 호버 시 애니메이션 중지 */
+}
+
+
+.home-feature-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 0 10px;
+    padding: 30px;
+    width: 30%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 애니메이션 */
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%); /* 콘텐츠의 절반만큼 이동 */
+    }
+}
+
+.feature-icon {
+    font-size: 50px;
+    color: #6e79ff;
+    margin-bottom: 20px;
+}
+
+.home-feature-card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* 사용자 리뷰 */
+.home-testimonials {
+    margin-top: 150px;
+    width: 70%;
+    background-color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.home-testimonials h2 {
+    margin-bottom: 40px;
+    font-size: 32px;
+}
+
+.home-testimonials p {
+    color: #6e6e6e;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.home-testimonial-container{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+.testimonial-card {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 60%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card span {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* CTA 배너 */
+.home-cta {
+    background-color: #a0a7ff;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+    margin-top: 150px;
+}
+
+.home-cta h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.home-cta p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.home-cta .home-start-button {
+    background-color: white;
+    color: #6e79ff;
+    font-size: 18px;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.home-cta .home-start-button:hover {
+    color: #333;
+}

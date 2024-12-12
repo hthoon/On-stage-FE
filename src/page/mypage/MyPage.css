@@ -1,0 +1,241 @@
+.mypage-wrapper {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    min-height: 70vh;
+    margin-left: 33%;
+
+    animation: fadeIn 0.7s ease-out;
+}
+
+.mypage-divider{
+    padding: 20px;
+    border: #d2d2d2 solid 2px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(117, 117, 117, 0.1);
+    margin-bottom: 30px;
+}
+
+@media screen and (max-width:1200px) {
+    .mypage-wrapper {
+        margin: 15% auto;
+        width: 95%;
+    }
+}
+
+.mypage-right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: white;
+    margin-top: 115px;
+
+}
+
+.mypage-icon {
+    margin-top: 70px;
+    font-size: 24px;
+}
+
+.mypage-right h1 {
+    margin: 10px 0;
+    text-align: start;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.mypage-custom-button {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    background-color: transparent;
+    padding: 18px;
+    border: 1px solid #d9d9d9;
+    border-radius: 25px;
+
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+    cursor: pointer;
+
+    transition: all 0.4s ease-in-out;
+}
+
+.mypage-custom-button:hover {
+    transform: scale(1.03);
+    background-color: #f6f6f6;
+}
+
+
+.mypage-index {
+    margin-bottom: 15px;
+}
+
+.mypage-hr {
+    width: 100%;
+    height: 1px; /* 두께 설정 */
+    background-color: #d9d9d9; /* 색상 설정 */
+    border: none;
+}
+
+/* 마이페이지 프로필 정보 */
+
+.mypage-profile-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+
+}
+
+.mypage-profile-textbox {
+    text-align: left;
+}
+
+.mypage-profile-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.mypage-profile-nickname {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.mypage-profile-description {
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    color: #8c8c8c;
+    margin-top: 7px;
+    margin-bottom: 15px;
+}
+
+/* 마이페이지 인증 정보*/
+
+.mypage-verification-container {
+    display: flex;
+    align-items: start;
+    gap: 20px;
+}
+
+
+
+.badge-application-form label {
+    display: block;
+    margin-left: 10%;
+    text-align: start;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+.badge-application-form input{
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.4s ease-in-out;
+}
+.badge-application-form textarea{
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 15px;
+    min-height: 150px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.4s ease-in-out;
+}
+
+.badge-application-form button {
+    background-color: #6e79ff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+
+
+}
+
+
+.badge-application-form :focus {
+    outline: #6e79ff;
+    border: #6e79ff 2px solid;
+}
+
+.pricing-section {
+    text-align: center;
+}
+
+.pricing-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pricing-list li {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px;
+
+    padding: 20px;
+    width: 150px;
+    height: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+}
+
+.pricing-list li:hover {
+    scale: 1.02;
+    background-color: #e9eaff;
+}
+
+.pricing-list h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.pricing-list p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.pricing-list h6 {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
