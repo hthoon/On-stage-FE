@@ -87,6 +87,17 @@ const LinkDisplay = () => {
         }
     };
 
+    // Subscribe
+    const addSubscribe = async (nickname) => {
+        try {
+            const response = await axiosInstance.post(`/api/user/subscribe/${nickname}`);
+            return response.data;
+        } catch (error) {
+            console.error("Error during subscribe", error);
+            throw error;
+        }
+    }
+
     const toggleModal = () => {
         setIsModalOpen((prev) => !prev);
     };
@@ -111,6 +122,7 @@ const LinkDisplay = () => {
                             style={{color: theme.iconColor || "var(--iconColor)"}}
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
+                            onClick={() => addSubscribe(profile.nickname)}
                         >
                             {isHovered ? <FaStar/> : <FaRegStar/>}
                         </button>
