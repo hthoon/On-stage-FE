@@ -59,6 +59,11 @@ const Analytics = () => {
                     const data = await fetchAnalyticsData(axiosInstance, userName, formattedStartDate, formattedEndDate);
 
                     setAnalyticsData(data);
+                    if(selectedButton === 4 ){
+                        setPrevAnalyticsData(data);
+                    }
+                    console.log(analyticsData);
+                    console.log(prevAnalyticsData);
                 }
                 else{
                     const data = await fetchAnalyticsData(axiosInstance, userName, formattedStartDate, formattedEndDate);
@@ -140,7 +145,7 @@ const Analytics = () => {
             {error && <p className="error">{error}</p>}
             {analyticsData && (
                 <>
-                    <AnalyticsData analyticsData={analyticsData} prevAnalyticsData={prevAnalyticsData}/>
+                    <AnalyticsData analyticsData={analyticsData} prevAnalyticsData={prevAnalyticsData} selectedButton={selectedButton}/>
                     <AnalyticsGraph analyticsData={analyticsData}/>
                 </>
             )}
