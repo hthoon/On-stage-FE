@@ -2,16 +2,10 @@ import React, {useState, useEffect} from 'react';
 import "./MyPage.css";
 import SocialPanel from "../LinkManagement/SocialPanel";
 import {IoSettingsSharp} from "react-icons/io5";
-import {FaStar} from "react-icons/fa";
 import {MdVerified} from "react-icons/md";
 import {AiFillDollarCircle} from "react-icons/ai";
-import {GoPeople} from "react-icons/go";
-import {PiDotOutlineFill} from "react-icons/pi";
-import {useLink} from "../../context/LinkContext";
-
 function MyPage() {
 
-    const {following, follower} = useLink();
 
     return (
         <div className="mypage-wrapper">
@@ -19,20 +13,6 @@ function MyPage() {
                 <h1><IoSettingsSharp className="mypage-text-icon" /> 계정 관리</h1>
                 <div className="mypage-divider">
                     <SocialPanel/>
-                </div>
-
-                <h1><FaStar className="mypage-text-icon" /> 팔로우</h1>
-                <div className="mypage-divider">
-                    <div className="mypage-follower-section">
-                        <GoPeople style={{fontSize: "1.2rem" , marginRight: "10px", fontWeight: "bold"}}/>
-                        <p className="mypage-follow-number"> {follower.length} </p>
-                        <p className="mypage-follow-text">followers</p>
-                        <PiDotOutlineFill/>
-                        <p className="mypage-follow-number"> {following.length} </p>
-                        <p className="mypage-follow-text">following</p>
-                    </div>
-
-
                 </div>
 
                 <h1><MdVerified className="mypage-text-icon"/> 인증 배지 신청</h1>
