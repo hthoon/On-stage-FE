@@ -1,31 +1,44 @@
 import React, {useState, useEffect} from 'react';
 import "./MyPage.css";
 import SocialPanel from "../LinkManagement/SocialPanel";
+import {IoSettingsSharp} from "react-icons/io5";
+import {FaStar} from "react-icons/fa";
+import {MdVerified} from "react-icons/md";
+import {AiFillDollarCircle} from "react-icons/ai";
+import {GoPeople} from "react-icons/go";
+import {PiDotOutlineFill} from "react-icons/pi";
+import {useLink} from "../../context/LinkContext";
 
 function MyPage() {
+
+    const {following, follower} = useLink();
+
     return (
         <div className="mypage-wrapper">
             <div className="mypage-right">
-                <h1>계정 관리</h1>
+                <h1><IoSettingsSharp className="mypage-text-icon" /> 계정 관리</h1>
                 <div className="mypage-divider">
                     <SocialPanel/>
                 </div>
 
-                <h1>즐겨찾기</h1>
+                <h1><FaStar className="mypage-text-icon" /> 팔로우</h1>
                 <div className="mypage-divider">
+                    <div className="mypage-follower-section">
+                        <GoPeople style={{fontSize: "1.2rem" , marginRight: "10px", fontWeight: "bold"}}/>
+                        <p className="mypage-follow-number"> {follower.length} </p>
+                        <p className="mypage-follow-text">followers</p>
+                        <PiDotOutlineFill/>
+                        <p className="mypage-follow-number"> {following.length} </p>
+                        <p className="mypage-follow-text">following</p>
+                    </div>
+
 
                 </div>
 
-                <h1>인증 배지 신청</h1>
+                <h1><MdVerified className="mypage-text-icon"/> 인증 배지 신청</h1>
                 <div className="mypage-divider">
-                    <form className="badge-application-form">
+                <form className="badge-application-form">
                         <div>
-                            {/*<label htmlFor="name">이름</label>*/}
-                            {/*<input type="text" id="name" name="name" placeholder="이름을 입력하세요" required/>*/}
-
-                            {/*<label htmlFor="email">이메일</label>*/}
-                            {/*<input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required/>*/}
-
                             <label htmlFor="tel">휴대폰 번호:</label>
                             <input type="tel" id="tel" name="tel" placeholder="'-' 없이 입력하세요" required/>
                         </div>
@@ -40,7 +53,7 @@ function MyPage() {
                 </div>
 
 
-                <h1>요금제 안내</h1>
+                <h1><AiFillDollarCircle className="mypage-text-icon" />요금제 안내</h1>
                 <div className="mypage-divider">
                     <div className="pricing-section">
                         <h2>요금제 선택</h2>
