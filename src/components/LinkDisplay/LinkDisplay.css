@@ -164,10 +164,18 @@
 
 .linktree-links {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+}
+
+@media screen and (max-width: 1250px) {
+    .linktree-links {
+        max-width: 400px;
+    }
+
+
 }
 
 /* 버튼 스타일 */
