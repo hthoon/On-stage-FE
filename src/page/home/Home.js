@@ -59,8 +59,8 @@ const Home = () => {
                         </div>
                         <div className="home-feature-card">
                             <FaMicrophoneLines className="feature-icon"/>
-                            <h3>공연 정보 제공</h3>
-                            <p>당신의 콘서트 정보를 자동으로 추가해줍니다.</p>
+                            <h3>꼭 아티스트가 아니어도 괜찮아요</h3>
+                            <p>나만의 작은 블로그로 꾸며도 괜찮고, <br/>덕질을 위한 공간으로 만들 수 도 있어요</p>
                         </div>
                         <div className="home-feature-card">
                             <GrArticle className="feature-icon"/>
@@ -76,7 +76,7 @@ const Home = () => {
                         <div className="home-feature-card">
                             <VscGraph className="feature-icon"/>
                             <h3>강력한 통계</h3>
-                            <p>클릭, 유입 경로 등 다양한 데이터를 제공합니다.</p>
+                            <p>조회수, 클릭, 유입 경로 등 다양한 데이터를 제공합니다.</p>
                         </div>
                     </div>
                 </section>
