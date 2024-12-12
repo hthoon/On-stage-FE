@@ -22,6 +22,8 @@ export const LinkProvider = ({ children }) => {
     const [profile, setProfile] = useState({});
     const [backgroundImage, setBackgroundImage] = useState("");
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태
+    const [following, setFollowing] = useState({})
+    const [follower, setFollower] = useState({})
 
     const updateTheme = (newTheme) => {
         setTheme((prevTheme) => ({ ...prevTheme, ...newTheme }));
@@ -39,7 +41,15 @@ export const LinkProvider = ({ children }) => {
 
             const userResponse = await axiosInstance.get(`/api/user`);
             setProfile(userResponse.data);
+
+            const followingResponse = await axiosInstance.get(`/api/user/subscribe/list`);
+            setFollowing(followingResponse.data);
+
+            const followerResponse = await axiosInstance.get(`/api/user/subscribed/list`);
+            setFollower(followerResponse.data);
+
             setIsLoading(false);
+
         } catch (error) {
             console.error("Error fetching management data:", error);
         }
@@ -87,7 +97,7 @@ export const LinkProvider = ({ children }) => {
 
     return (
         <LinkContext.Provider value={{
-            links, setLinks, socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage, profile, setProfile, nickname, isLoading
+            links, setLinks, socialLink, setSocialLink, theme, updateTheme, backgroundImage, setBackgroundImage, profile, setProfile, nickname, isLoading, following,follower
         }}>
             {children}
         </LinkContext.Provider>

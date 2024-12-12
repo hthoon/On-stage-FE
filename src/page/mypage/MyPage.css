@@ -42,9 +42,19 @@
 .mypage-right h1 {
     margin: 10px 0;
     text-align: start;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    align-content: center;
     font-size: 24px;
     font-weight: bold;
     color: #333;
+}
+
+.mypage-text-icon{
+    font-size: 1.4rem;
+    margin-right: 10px;
+    margin-bottom: 2px;
 }
 
 .mypage-custom-button {
@@ -239,3 +249,23 @@
     font-size: 14px;
     color: #666;
 }
+
+
+.mypage-follower-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.mypage-follow-text{
+    font-weight: bold;
+    margin-right: 5px;
+    color: #838383;
+}
+
+.mypage-follow-number{
+    font-weight: bold;
+    margin-right: 5px;
+}
+

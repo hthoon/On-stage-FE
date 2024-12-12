@@ -8,10 +8,12 @@ import { useAxios } from "../../context/AxiosContext";
 import {socialPlatforms} from "../../utils/AnalysisURL";
 import EditableField from "../../components/EditableField";
 import {updateProfileField} from "../../utils/UpdateProfileField";
+import {GoPeople} from "react-icons/go";
+import {PiDotOutlineFill} from "react-icons/pi";
 
 const SocialPanel = ( ) => {
     const { axiosInstance } = useAxios();
-    const { socialLink, setSocialLink, profile, setProfile } = useLink();
+    const { socialLink, setSocialLink, profile, setProfile ,follower, following } = useLink();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
@@ -46,6 +48,15 @@ const SocialPanel = ( ) => {
                         axiosInstance={axiosInstance}
                     />
                 </div>
+            </div>
+
+            <div className="mypage-follower-section">
+                <GoPeople style={{fontSize: "1.2rem", marginRight: "10px", fontWeight: "bold"}}/>
+                <p className="mypage-follow-number"> {follower.length} </p>
+                <p className="mypage-follow-text">followers</p>
+                <PiDotOutlineFill/>
+                <p className="mypage-follow-number"> {following.length} </p>
+                <p className="mypage-follow-text">following</p>
             </div>
 
             <div className="social-panel">
