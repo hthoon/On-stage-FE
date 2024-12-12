@@ -116,6 +116,7 @@ const LinkDisplay = () => {
                         backgroundColor: background ? undefined : theme.backgroundColor || 'var(--backgroundColor)',
                     }}
                 >
+                    {isManagementPage ? (<> </>) : (
                     <div className={isManagementPage ? "linktree-share" : "linktree-share-visit"}>
                         <button
                             className="linktree-share-icon-star"
@@ -129,6 +130,7 @@ const LinkDisplay = () => {
                         <h6 className="linktree-share-icon" style={{color: theme.iconColor || 'var(--iconColor)'}}>
                             <HiDotsHorizontal onClick={toggleModal}/></h6>
                     </div>
+                    )}
 
                     {/*프로필 섹션*/}
                     <div className="profile-container">
