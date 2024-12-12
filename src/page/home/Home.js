@@ -27,8 +27,7 @@ const Home = () => {
                     <li><a href="/contact">문의하기</a></li>
                 </ul>
                 <div>
-                    <button className="home-login-button" onClick={login}>로그인</button>
-                    <button className="home-start-button" onClick={login}>회원가입</button>
+                    <button className="home-start-button" onClick={login}>시작하기</button>
                 </div>
             </nav>
 
