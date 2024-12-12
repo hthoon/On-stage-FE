@@ -90,7 +90,7 @@ const PageViewChart = ({ pageViewStats }) => {
             const originalLabels = ChartJS.defaults.plugins.legend.labels.generateLabels(chart);
             return originalLabels.map(label => ({
               ...label,
-              text: `페이지 조회수: ${label.text}`
+              // text: `페이지 조회수: ${label.text}`
             }));
           }
         }

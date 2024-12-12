@@ -84,3 +84,42 @@
 .analytics-date-button-container button.selected{
     background: #bac0ff;
 }
+
+.Analytics-data-up{
+    font-size: 14px;
+    font-weight: bold;
+    color: #51a938;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+    align-content: center;
+    margin: 5px;
+}
+
+
+.Analytics-data-down{
+    font-size: 16px;
+    font-weight: bold;
+    color: #c72b2b;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+    align-content: center;
+    margin: 5px;
+}
+
+.Analytics-data-no-change{
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+    align-content: center;
+    margin: 5px;
+}

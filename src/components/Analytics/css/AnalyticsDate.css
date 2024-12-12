@@ -1,5 +1,5 @@
 .analytics-date-container {
-    width: 65%;
+    width: 80%;
 
     margin: 0 auto;
     padding: 20px 30px;
@@ -34,7 +34,7 @@
 }
 
 .date-input {
-    width: 50%;
+    width: 40%;
     padding: 10px 60px;
     border: 2px solid #ddd;
     border-radius: 8px;
@@ -53,9 +53,17 @@
 
 .date-icon {
     position: absolute;
-    margin-left: 20px;
+    margin-left: 40px;
     color: #888;
     pointer-events: none;
+}
+
+@media screen and (max-width: 1250px) {
+    .date-icon{
+        display: none;
+    }
+
+
 }
 
 .clear-date-btn {

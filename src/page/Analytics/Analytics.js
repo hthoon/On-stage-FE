@@ -13,6 +13,7 @@ import {fetchAnalyticsData} from "../../components/Analytics/AnalyticsApi";
 const Analytics = () => {
     const { profile } = useLink();
     const [analyticsData, setAnalyticsData] = useState(null);
+    const [prevAnalyticsData, setPrevAnalyticsData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [date, setDate] = useState({
@@ -26,7 +27,7 @@ const Analytics = () => {
     const { axiosInstance } = useAxios();
 
 
-    const handleDateChange = async (startDate, endDate) => {
+    const handleDateChange = async (startDate, endDate, now) => {
         setDate({ startDate, endDate });
 
         if (userName && startDate && endDate) {
@@ -54,8 +55,15 @@ const Analytics = () => {
                     .toISOString()
                     .split('T')[0];
 
-                const data = await fetchAnalyticsData(axiosInstance, userName, formattedStartDate, formattedEndDate);
-                setAnalyticsData(data);
+                if (now) {
+                    const data = await fetchAnalyticsData(axiosInstance, userName, formattedStartDate, formattedEndDate);
+
+                    setAnalyticsData(data);
+                }
+                else{
+                    const data = await fetchAnalyticsData(axiosInstance, userName, formattedStartDate, formattedEndDate);
+                    setPrevAnalyticsData(data);
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -70,7 +78,15 @@ const Analytics = () => {
         const startDate = new Date();
         startDate.setDate(endDate.getDate() - days);
         setSelectedButton(buttonIndex);
-        handleDateChange(startDate, endDate);
+        handleDateChange(startDate, endDate, true);
+
+        const prevStartDate = new Date();
+        const prevEndDate = new Date();
+
+        prevStartDate.setDate(startDate.getDate() - days);
+        prevEndDate.setDate(endDate.getDate() - days);
+        handleDateChange(prevStartDate, prevEndDate, false);
+
     };
 
     const handleShowCustomDate = () => {
@@ -81,7 +97,7 @@ const Analytics = () => {
     // 최초 입장 시 첫 번째 버튼 자동 선택
     useEffect(() => {
         if (userName) {
-            handleQuickDateSelect(0, 0);
+            handleQuickDateSelect(1, 0);
         }
     }, [userName]);
 
@@ -96,7 +112,7 @@ const Analytics = () => {
             )}
             <div className="analytics-date-button-container">
                 <button className={selectedButton === 0 ? 'selected' : ''}
-                        onClick={() => handleQuickDateSelect(0, 0)}>24시간
+                        onClick={() => handleQuickDateSelect(1, 0)}>24시간
                 </button>
                 <button className={selectedButton === 1 ? 'selected' : ''}
                         onClick={() => handleQuickDateSelect(7, 1)}>7일
@@ -125,7 +141,7 @@ const Analytics = () => {
             {error && <p className="error">{error}</p>}
             {analyticsData && (
                 <>
-                    <AnalyticsData analyticsData={analyticsData}/>
+                    <AnalyticsData analyticsData={analyticsData} prevAnalyticsData={prevAnalyticsData}/>
                     <AnalyticsGraph analyticsData={analyticsData}/>
                 </>
             )}

@@ -48,7 +48,6 @@
 .statistic-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
     flex-direction: column;
     padding: 10px 0;
@@ -63,56 +62,38 @@
 
 .statistic-content {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
     gap: 0.75rem;
 }
 
 .statistic-icon {
     width: 20px;
-    height: 20px;
 }
 
 .statistic-label {
-    font-weight: 600;
-    color: #34495e;
+    color: #6e79ff;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .statistic-value {
+    margin: 10px;
+    color: #282b5b;
+    font-size: 18px;
     font-weight: bold;
 }
 
-.total-page-views-card {
+.statistic-card {
     background-color: rgba(229, 231, 255, 0.58);
 }
 
-.total-page-views-card .statistic-icon {
+.statistic-icon {
     color: #6e79ff;
 }
 
-.total-page-views-card .statistic-value {
-    color: #6e79ff;
-}
 
-.total-link-clicks-card {
-    background-color: rgba(229, 231, 255, 0.58);
-}
 
-.total-link-clicks-card .statistic-icon {
-    color: #6e79ff;
-}
-
-.total-link-clicks-card .statistic-value {
-    color: #6e79ff;
-}
-
-.total-click-rate-card {
-    background-color: rgba(229, 231, 255, 0.58);
-}
-
-.total-click-rate-card .statistic-icon {
-    color: #6e79ff;
-}
-
-.total-click-rate-card .statistic-value {
-    color: #6e79ff;
-}
