@@ -146,14 +146,16 @@ const LinkDisplay = () => {
                     <h6 className="linktree-description"
                         style={{color: theme.profileColor || 'var(--profileColor)'}}> {profile.description} </h6>
 
-                    <div className="mypage-follower-section">
+                    {!isManagementPage && (
+                        <div className="mypage-follower-section">
                         <GoPeople style={{fontSize: "1.2rem", marginRight: "10px", fontWeight: "bold"}}/>
                         <p className="mypage-follow-number"> {follower.length} </p>
                         <p className="mypage-follow-text">followers</p>
                         <PiDotOutlineFill/>
                         <p className="mypage-follow-number"> {following.length} </p>
                         <p className="mypage-follow-text">following</p>
-                    </div>
+                    </div>)}
+
                     {/*메인 섹션*/}
                     <div className={isManagementPage ? "linktree-content" : "linktree-content-visit"}>
                         <div className={`linktree-links`}>
