@@ -51,7 +51,7 @@ const AnalyticsDate = ({onDateChange}) => {
                         endDate={endDate}
                         locale="ko"
                         dateFormat="yyyy/MM/dd"
-                        placeholderText="시작 날짜 선택"
+                        placeholderText="시작 날짜"
                         className="date-input"
                         wrapperClassName="date-picker-wrapper"
                         calendarClassName="custom-calendar"
@@ -70,7 +70,7 @@ const AnalyticsDate = ({onDateChange}) => {
                         minDate={startDate}
                         locale="ko"
                         dateFormat="yyyy/MM/dd"
-                        placeholderText="끝 날짜 선택"
+                        placeholderText="끝 날짜"
                         className="date-input"
                         wrapperClassName="date-picker-wrapper"
                         calendarClassName="custom-calendar"

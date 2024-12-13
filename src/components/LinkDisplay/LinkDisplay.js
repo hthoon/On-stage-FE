@@ -300,7 +300,7 @@ const LinkDisplay = () => {
                                         alert("URL이 복사되었습니다!");
                                     }}>링크 복사하기
                                     </button>
-                                    <button onClick={() => window.open("/artist-events", "_blank")}>공연 정보</button>
+                                    {/*<button onClick={() => window.open("/artist-events", "_blank")}>공연 정보</button>*/}
                                     <button onClick={() => window.open(`/news/${profile.nickname}`, "_blank")}>아티스트 소식
                                     </button>
                                 </div>

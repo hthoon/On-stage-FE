@@ -35,7 +35,7 @@
 
 .date-input {
     width: 40%;
-    padding: 10px 60px;
+    padding: 10px 40px;
     border: 2px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
@@ -61,6 +61,9 @@
 @media screen and (max-width: 1250px) {
     .date-icon{
         display: none;
+    }
+    .date-input {
+        padding: 10px 10px;
     }
 
 

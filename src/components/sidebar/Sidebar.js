@@ -28,7 +28,6 @@ const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-
     if (whitelistPaths.includes(location.pathname) || isVisitPage) {
         return null;
     }
@@ -149,10 +148,6 @@ const Sidebar = () => {
                     <LuMusic4 />
                     <span>아티스트</span>
                 </a>
-                {/*<a href="/map" className="bottom-nav-item">*/}
-                {/*    <BsSpeaker />*/}
-                {/*    <span>공연정보</span>*/}
-                {/*</a>*/}
                 <a href="/mypage" className="bottom-nav-item">
                     <RiSettings4Fill />
                     <span>마이페이지</span>
