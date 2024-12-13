@@ -12,9 +12,11 @@ import {HiChevronLeft, HiDotsHorizontal} from "react-icons/hi";
 import {IoMdClose} from "react-icons/io";
 import {PuffLoader} from "react-spinners";
 import {useAxios} from "../../context/AxiosContext";
+import {GoPeople} from "react-icons/go";
+import {PiDotOutlineFill} from "react-icons/pi";
 
 const LinkDisplay = () => {
-    const {links, socialLink, theme, profile, isLoading} = useLink();
+    const {links, socialLink, theme, profile, isLoading, follower, following} = useLink();
     const [background, setBackground] = useState("");
     const [isManagementPage, setIsManagementPage] = useState(false);
     const sortedLinks = sortLinksByPrevId(links);
@@ -117,19 +119,19 @@ const LinkDisplay = () => {
                     }}
                 >
                     {isManagementPage ? (<> </>) : (
-                    <div className={isManagementPage ? "linktree-share" : "linktree-share-visit"}>
-                        <button
-                            className="linktree-share-icon-star"
-                            style={{color: theme.iconColor || "var(--iconColor)"}}
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
-                            onClick={() => addSubscribe(profile.nickname)}
-                        >
-                            {isHovered ? <FaStar/> : <FaRegStar/>}
-                        </button>
-                        <h6 className="linktree-share-icon" style={{color: theme.iconColor || 'var(--iconColor)'}}>
-                            <HiDotsHorizontal onClick={toggleModal}/></h6>
-                    </div>
+                        <div className={isManagementPage ? "linktree-share" : "linktree-share-visit"}>
+                            <button
+                                className="linktree-share-icon-star"
+                                style={{color: theme.iconColor || "var(--iconColor)"}}
+                                onMouseEnter={() => setIsHovered(true)}
+                                onMouseLeave={() => setIsHovered(false)}
+                                onClick={() => addSubscribe(profile.nickname)}
+                            >
+                                {isHovered ? <FaStar/> : <FaRegStar/>}
+                            </button>
+                            <h6 className="linktree-share-icon" style={{color: theme.iconColor || 'var(--iconColor)'}}>
+                                <HiDotsHorizontal onClick={toggleModal}/></h6>
+                        </div>
                     )}
 
                     {/*프로필 섹션*/}
@@ -144,6 +146,14 @@ const LinkDisplay = () => {
                     <h6 className="linktree-description"
                         style={{color: theme.profileColor || 'var(--profileColor)'}}> {profile.description} </h6>
 
+                    <div className="mypage-follower-section">
+                        <GoPeople style={{fontSize: "1.2rem", marginRight: "10px", fontWeight: "bold"}}/>
+                        <p className="mypage-follow-number"> {follower.length} </p>
+                        <p className="mypage-follow-text">followers</p>
+                        <PiDotOutlineFill/>
+                        <p className="mypage-follow-number"> {following.length} </p>
+                        <p className="mypage-follow-text">following</p>
+                    </div>
                     {/*메인 섹션*/}
                     <div className={isManagementPage ? "linktree-content" : "linktree-content-visit"}>
                         <div className={`linktree-links`}>

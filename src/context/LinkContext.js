@@ -78,7 +78,14 @@ export const LinkProvider = ({ children }) => {
 
             const profileResponse = await axiosInstance.get(`/api/user/${username}`);
             setProfile(profileResponse.data);
-        } catch (error) {
+
+            const followingResponse = await axiosInstance.get(`/api/user/subscribe/list/${username}`);
+            setFollowing(followingResponse.data);
+
+            const followerResponse = await axiosInstance.get(`/api/user/subscribed/list/${username}`);
+            setFollower(followerResponse.data);
+        }
+        catch (error) {
             console.error("Error fetching visit data:", error);
         }
     };
